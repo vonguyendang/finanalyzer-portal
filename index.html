@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FinAnalyzer Pro – Cổng Thông Tin Kế Toán & Thuế</title>
+<link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
+<link rel="shortcut icon" href="favicon_io/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lexend:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <button class="theme-float" onclick="toggleTheme()" title="Chuyển đổi giao diện sáng/tối">
+    <span id="themeIcon">🌙</span>
+    <span id="themeLabel">Tối</span>
+    <div class="theme-track">
+      <div class="theme-thumb"></div>
+    </div>
+  </button>
+
+  <div class="container">
+    <div class="header">
+      <div class="logo-mark">DV</div>
+      <h1 class="title">Hệ Sinh Thái Tiện Ích Tài Chính</h1>
+      <p class="subtitle">Tổ hợp các công cụ hỗ trợ kế toán, phân tích báo cáo tài chính và tra cứu thông tin doanh
+        nghiệp nhanh chóng, trực quan và chính xác.</p>
+    </div>
+
+    <div class="grid">
+      <!-- App 1: BCTC -->
+      <a href="./bctc/" class="card">
+        <div class="card-icon">📊</div>
+        <div class="card-title">Phân Tích BCTC B01A</div>
+        <div class="card-desc">Tự động bóc tách file XML, cung cấp Dashboard trực quan với 12+ chỉ số tài chính và hỗ
+          trợ AI phân tích chuyên sâu.</div>
+        <div class="card-action">Truy cập ngay <i>→</i></div>
+      </a>
+
+      <!-- App 2: Kiem Tra HKD -->
+      <a href="./kthkd/" class="card">
+        <div class="card-icon">🔍</div>
+        <div class="card-title">Kiểm Tra HKD</div>
+        <div class="card-desc">Kiểm tra thông tin Hộ Kinh Doanh, đối chiếu dữ liệu một cách nhanh chóng và tự động cập
+          nhật từ hệ thống.</div>
+        <div class="card-action">Truy cập ngay <i>→</i></div>
+      </a>
+
+      <!-- App 3: Tra Cuu HKD -->
+      <a href="./tracuu-hkd/" class="card">
+        <div class="card-icon">🏢</div>
+        <div class="card-title">Tra Cứu HKD</div>
+        <div class="card-desc">Hệ thống tra cứu thông tin tổng hợp về Hộ Kinh Doanh, tra cứu lịch sử và báo cáo hoạt
+          động chi tiết.</div>
+        <div class="card-action">Truy cập ngay <i>→</i></div>
+      </a>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sổ Kế Toán HKD – Hộ & Cá Nhân Kinh Doanh</title>
+<link rel="apple-touch-icon" sizes="180x180" href="../favicon_io/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon_io/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon_io/favicon-16x16.png">
+<link rel="shortcut icon" href="../favicon_io/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <a href="../" title="Trở về Trang Chủ" style="position: fixed; top: 20px; left: 24px; z-index: 9999; display: inline-flex; align-items: center; gap: 8px; padding: 7px 13px; border-radius: 20px; cursor: pointer; border: 1.5px solid var(--border2, #253551); background: var(--card2, #141f33); color: var(--text2, #8fa3c0); font-size: 11px; font-weight: 700; font-family: var(--sans, sans-serif); text-decoration: none; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.1);" onmouseover="this.style.borderColor='var(--gold, #f5a623)'; this.style.color='var(--gold, #f5a623)'; this.style.background='rgba(245,166,35,0.06)'" onmouseout="this.style.borderColor='var(--border2, #253551)'; this.style.color='var(--text2, #8fa3c0)'; this.style.background='var(--card2, #141f33)'">
+    <span style="font-size: 13px; line-height: 1;">🏠</span>
+    <span>Trang Chủ</span>
+  </a>
+
+
+<!-- ═══ SETUP SCREEN ═══════════════════════════════════════ -->
+<div id="setup">
+  <div class="setup-logo">📒 Sổ Kế Toán HKD</div>
+  <div class="setup-sub">Hộ Kinh Doanh & Cá Nhân Kinh Doanh · TT 152/2025/TT-BTC</div>
+
+  <div class="setup-card">
+    <!-- Step 1: Chọn nhóm -->
+    <div id="step1" class="setup-step active">
+      <div class="setup-h">Chọn nhóm kế toán phù hợp</div>
+      <div class="setup-p">Dựa theo mức doanh thu và phương pháp nộp thuế của bạn (Điều 4, 5, 6 TT 152/2025/TT-BTC)</div>
+      <div class="group-grid" id="group-grid"></div>
+      <label class="addg4" id="g4-toggle" style="display:none">
+        <input type="checkbox" id="g4-check">
+        <span>📕 <strong>Thêm Nhóm 4:</strong> Có hoạt động chịu thuế TTĐB, thuế tài nguyên, thuế BVMT hoặc thuế sử dụng đất (Điều 7, TT 152/2025)</span>
+      </label>
+      <div style="display:flex;justify-content:flex-end">
+        <button class="btn-primary" onclick="goStep(2)" id="step1-next" disabled>Tiếp theo →</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Hồ sơ kinh doanh -->
+    <div id="step2" class="setup-step">
+      <div class="setup-h">Thông tin hộ / cá nhân kinh doanh</div>
+      <div class="setup-p">Thông tin này sẽ xuất hiện trên các sổ kế toán</div>
+      <div class="form-grid">
+        <div class="fg full"><label>Tên Hộ / Cá Nhân Kinh Doanh *</label><input id="p-name" placeholder="Ví dụ: Hộ kinh doanh Nguyễn Văn A"></div>
+        <div class="fg full"><label>Địa chỉ kinh doanh *</label><input id="p-addr" placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành phố"></div>
+        <div class="fg"><label>Mã số thuế</label><input id="p-mst" placeholder="0123456789"></div>
+        <div class="fg"><label>Điện thoại</label><input id="p-phone" placeholder="0900 000 000"></div>
+        <div class="fg"><label>Ngành nghề kinh doanh chính *</label>
+          <select id="p-industry">
+            <option value="goods">🛒 Phân phối, cung cấp hàng hóa (GTGT 1%, TNCN 0.5%)</option>
+            <option value="service">🔧 Dịch vụ, XD không bao thầu NVL (GTGT 5%, TNCN 2%)</option>
+            <option value="rental">🏠 Cho thuê tài sản trừ BĐS (GTGT 5%, TNCN 2%)</option>
+            <option value="bds">🏢 Cho thuê bất động sản (GTGT 5%, TNCN 5%×(DT-500tr))</option>
+            <option value="production">🏭 Sản xuất, vận tải, XD có bao thầu NVL (GTGT 3%, TNCN 1.5%)</option>
+            <option value="digital">💻 Nội dung số, giải trí, quảng cáo số (GTGT 5%, TNCN 5%)</option>
+            <option value="other">📦 Hoạt động kinh doanh khác (GTGT 2%, TNCN 1%)</option>
+          </select>
+        </div>
+        <div class="fg"><label>Kỳ kế toán đầu tiên</label>
+          <select id="p-period">
+            <option value="Q1/2026">Quý 1/2026</option>
+            <option value="Q2/2026">Quý 2/2026</option>
+            <option value="Q3/2026">Quý 3/2026</option>
+            <option value="Q4/2026">Quý 4/2026</option>
+            <option value="T1/2026">Tháng 1/2026</option>
+            <option value="T2/2026">Tháng 2/2026</option>
+            <option value="T3/2026">Tháng 3/2026</option>
+            <option value="Nam2026">Năm 2026</option>
+          </select>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between">
+        <button class="btn-ghost" onclick="goStep(1)">← Quay lại</button>
+        <button class="btn-primary" onclick="finishSetup()">Bắt đầu ghi sổ 📒</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ APP SCREEN ══════════════════════════════════════════ -->
+<div id="app" style="display:none">
+  <!-- Top bar -->
+  <div class="app-topbar">
+    <div class="brand">📒 Sổ KT HKD</div>
+    <div class="biz-name" id="tb-biz"></div>
+    <div class="topbar-spacer"></div>
+    <select class="period-sel" id="period-sel" onchange="switchPeriod(this.value)"></select>
+    <button class="tb-btn tb-add" onclick="addPeriod()">+ Kỳ mới</button>
+    <button class="tb-btn tb-export" onclick="exportData()">⬇ Backup</button>
+    <button class="tb-btn tb-import" onclick="document.getElementById('file-input').click()">⬆ Restore</button>
+    <input type="file" id="file-input" accept=".json" onchange="importData(this)">
+    <button class="tb-btn tb-excel" onclick="openExcelModal()">📊 Xuất Excel</button>
+    <button class="tb-btn tb-print" onclick="window.print()">🖨</button>
+  </div>
+
+  <!-- Body -->
+  <div class="app-body">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sb-section">
+        <div class="sb-label">Tổng quan</div>
+        <div class="sb-item" id="nav-dash" onclick="switchBook('dash')">
+          <span class="si-ico">📊</span> Bảng tóm tắt
+        </div>
+      </div>
+      <div class="sb-section">
+        <div class="sb-label">Sổ kế toán</div>
+        <div id="nav-books"></div>
+      </div>
+      <div class="sb-divider"></div>
+      <div class="sb-section">
+        <div class="sb-info" id="sb-info-box"></div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content" id="content"></div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="overlay">
+  <div class="modal" id="modal">
+    <div class="modal-hdr">
+      <div class="modal-title" id="modal-title">Thêm bút toán</div>
+      <div style="flex:1"></div>
+      <button class="btn-ghost" style="padding: 4px 8px; font-size: 11px; border: 1px dashed var(--border2); margin-right: 12px; display: none;" id="btn-upload-xml" onclick="document.getElementById('xml-invoice-input').click()">📄 Tải HĐ XML</button>
+      <input type="file" id="xml-invoice-input" accept=".xml" style="display:none" onchange="parseXmlInvoice(this)">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-ftr">
+      <button class="btn-ghost" onclick="closeModal()">Hủy</button>
+      <button class="btn-primary" onclick="saveEntry()">Lưu bút toán</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<!-- Excel Export Modal -->
+<div id="xl-overlay" style="position:fixed;inset:0;background:rgba(15,23,42,.5);z-index:600;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(2px)">
+  <div class="modal" style="max-width:580px">
+    <div class="modal-hdr">
+      <div class="modal-title">📊 Kết xuất Excel – Sổ Kế Toán HKD</div>
+      <button class="modal-close" onclick="closeXlModal()">✕</button>
+    </div>
+    <div class="modal-body" id="xl-modal-body"></div>
+    <div class="modal-ftr">
+      <button class="btn-ghost" onclick="closeXlModal()">Đóng</button>
+      <button class="btn-excel" onclick="runExcelExport()">
+        <span>📥</span><span>Tải xuống Excel</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/state.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/setup.js"></script>
+<script src="js/app-shell.js"></script>
+<script src="js/render.js"></script>
+<script src="js/modal.js"></script>
+<script src="js/data-sync.js"></script>
+<script src="js/export.js"></script>
+</body>
+</html>

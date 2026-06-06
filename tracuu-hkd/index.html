@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tra Cứu Thuế – Hộ Kinh Doanh & Cá Nhân Kinh Doanh</title>
+<link rel="apple-touch-icon" sizes="180x180" href="../favicon_io/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon_io/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon_io/favicon-16x16.png">
+<link rel="shortcut icon" href="../favicon_io/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lexend:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <a href="../" title="Trở về Trang Chủ" style="position: fixed; top: 20px; left: 24px; z-index: 9999; display: inline-flex; align-items: center; gap: 8px; padding: 7px 13px; border-radius: 20px; cursor: pointer; border: 1.5px solid var(--border2, #253551); background: var(--card2, #141f33); color: var(--text2, #8fa3c0); font-size: 11px; font-weight: 700; font-family: var(--sans, sans-serif); text-decoration: none; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.1);" onmouseover="this.style.borderColor='var(--gold, #f5a623)'; this.style.color='var(--gold, #f5a623)'; this.style.background='rgba(245,166,35,0.06)'" onmouseout="this.style.borderColor='var(--border2, #253551)'; this.style.color='var(--text2, #8fa3c0)'; this.style.background='var(--card2, #141f33)'">
+    <span style="font-size: 13px; line-height: 1;">🏠</span>
+    <span>Trang Chủ</span>
+  </a>
+
+
+<div class="hdr">
+  <div class="hdr-eye">Công cụ tra cứu chính sách thuế</div>
+  <h1>Thuế Hộ Kinh Doanh &amp; Cá Nhân Kinh Doanh</h1>
+  <p class="hdr-desc">Nhập doanh thu dự kiến để tra cứu nghĩa vụ thuế, phương pháp tính thuế, hóa đơn điện tử và mẫu biểu cần nộp.</p>
+  <div class="badge">📋 NĐ 68/2026/NĐ-CP &nbsp;·&nbsp; NĐ 141/2026/NĐ-CP &nbsp;·&nbsp; TT 18/2026/TT-BTC </div>
+</div>
+
+<div class="wrap">
+
+  <!-- INPUT CARD -->
+  <div class="ic">
+    <h2>Nhập thông tin kinh doanh</h2>
+    <p>Điền doanh thu năm dự kiến và loại hoạt động để tra cứu đầy đủ nghĩa vụ thuế.</p>
+    <div class="ir">
+      <div class="f">
+        <label>Doanh thu năm dự kiến (đồng)</label>
+        <input type="number" id="revenue" placeholder="Ví dụ: 600000000" min="0" step="1000000">
+        <div class="uhint" id="unitHint"></div>
+      </div>
+      <div class="f fs">
+        <label>Loại hoạt động chính</label>
+        <select id="bizType" onchange="onBizChange()">
+          <option value="goods">🛒 Phân phối, cung cấp hàng hóa</option>
+          <option value="service">🔧 Dịch vụ, xây dựng không bao thầu NVL</option>
+          <option value="rental">🏠 Cho thuê tài sản (trừ BĐS)</option>
+          <option value="realestate">🏢 Cho thuê bất động sản</option>
+          <option value="production">🏭 Sản xuất, vận tải, dịch vụ có gắn vói hàng hóa, xây dựng có bao thầu NVL</option>
+          <option value="digital">💻 Nội dung số, giải trí, quảng cáo số</option>
+          <option value="other">📦 Hoạt động kinh doanh khác</option>
+        </select>
+      </div>
+      <button class="btn" onclick="lookup()">🔍 Tra cứu</button>
+    </div>
+    <div class="dvl" id="displayVal">Doanh thu nhập: <span id="displayNum">—</span></div>
+  </div>
+
+  <!-- BDS DEDICATED PANEL (shown when BDS selected) -->
+  <div id="bds-panel">
+    <div class="bds-header">
+      <div class="bds-header-icon">🏢</div>
+      <div class="bds-header-text">
+        <h3>Hệ thống thông tin – Cho thuê Bất động sản</h3>
+        <p>Quy định đặc thù theo NĐ 68/2026/NĐ-CP &amp; Khoản 4 Điều 7 Luật TNCN 109/2025/QH15</p>
+      </div>
+    </div>
+    <div class="bds-body">
+      <div class="bds-tabs">
+        <div class="bds-tab active" onclick="showTab('tab-rules')">📋 Quy định thuế</div>
+        <div class="bds-tab" onclick="showTab('tab-calc')">🧮 Tính thuế BĐS</div>
+        <div class="bds-tab" onclick="showTab('tab-proc')">📅 Thủ tục kê khai</div>
+        <div class="bds-tab" onclick="showTab('tab-forms')">📂 Mẫu biểu</div>
+        <div class="bds-tab" onclick="showTab('tab-acc')">📒 Sổ kế toán</div>
+      </div>
+
+      <!-- TAB 1: QUY ĐỊNH THUẾ -->
+      <div id="tab-rules" class="bds-pane active">
+        <div class="fbox">
+          <div class="fbox-row">
+            <span class="fbox-label">Thuế GTGT</span>
+            <div>
+              <div class="fbox-formula">= <span class="fbox-highlight">5%</span> × Toàn bộ doanh thu cho thuê BĐS</div>
+              <div class="fbox-note">Áp dụng khi doanh thu &gt; 1 tỷ đồng/năm (Điều 3, NĐ 68/2026 sửa đổi bởi NĐ 141/2026)</div>
+            </div>
+          </div>
+          <div class="fbox-row">
+            <span class="fbox-label">Thuế TNCN</span>
+            <div>
+              <div class="fbox-formula">= <span class="fbox-highlight">5%</span> × (Doanh thu − <span class="fbox-highlight">1 tỷ</span> đồng miễn thuế/năm)</div>
+              <div class="fbox-note">Căn cứ: Khoản 4 Điều 7 Luật TNCN số 109/2025/QH15 &amp; Điều 4 khoản 4, NĐ 68/2026 (sửa đổi bởi NĐ 141/2026)</div>
+            </div>
+          </div>
+          <div class="fbox-row">
+            <span class="fbox-label">Tiền phạt/Bồi thường</span>
+            <div>
+              <div class="fbox-formula">TNCN = <span class="fbox-highlight">5%</span> × Toàn bộ khoản tiền phạt/bồi thường nhận từ bên thuê</div>
+              <div class="fbox-note">Không được trừ 1 tỷ đồng miễn thuế — kê khai riêng tại Mẫu 01/BĐS chỉ tiêu [13],[14]</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rc-grid">
+          <div class="rc-mini rc-teal">
+            <strong>Ngưỡng miễn thuế</strong>
+            Doanh thu ≤ 1 tỷ đồng/năm → <strong>Không nộp GTGT &amp; TNCN</strong>. Chỉ thông báo doanh thu thực tế.
+          </div>
+          <div class="rc-mini rc-blue">
+            <strong>Hóa đơn điện tử</strong>
+            <strong>Không có quy định cụ thể</strong> về ngưỡng bắt buộc HĐĐT đối với hoạt động cho thuê BĐS. HKD/CNKD vui lòng liên hệ CQT quản lý trực tiếp <strong>nơi có BĐS cho thuê</strong> để được hướng dẫn.
+          </div>
+          <div class="rc-mini rc-rose">
+            <strong>Đặc điểm riêng</strong>
+            Không áp dụng PP1 hay PP2 như CNKD thông thường. Chỉ có một phương pháp duy nhất: <strong>5% × (DT − 1 tỷ)</strong>.
+          </div>
+          <div class="rc-mini rc-blue">
+            <strong>Xác định doanh thu</strong>
+            Trả theo kỳ: tính từng kỳ. Trả trước nhiều năm: phân bổ đều hoặc tính 1 lần — cá nhân tự chọn (Điều 5.2đ, NĐ 68/2026).
+          </div>
+          <div class="rc-mini rc-green">
+            <strong>Nhiều BĐS cho thuê</strong>
+            Tổng mức trừ ≤ 1 tỷ/năm. Cá nhân chọn HĐ nào được trừ theo phương án lợi nhất. Nếu HĐ đã chọn chưa trừ đủ, tiếp tục chọn HĐ khác (Điều 4.4a, NĐ 68/2026 sửa đổi bởi NĐ 141/2026).
+          </div>
+          <div class="rc-mini rc-slate">
+            <strong>Tổ chức khai thay</strong>
+            Phải ghi rõ trong HĐ: nội dung khai thay &amp; số tiền được trừ. Nếu HĐ chưa trừ đủ 1 tỷ, cá nhân tiếp tục chọn HĐ khác để trừ thêm (Điều 4.4b, NĐ 68/2026 sửa đổi bởi NĐ 141/2026).
+          </div>
+        </div>
+
+        <div class="alert a-teal">
+          <span class="a-icon">🔄</span>
+          <span><strong>Điều khoản chuyển tiếp (Điều 18.3, NĐ 68/2026 sửa đổi bởi NĐ 141/2026):</strong> Hợp đồng ký <strong>trước 01/01/2026</strong>, thời hạn còn lại &gt; 6 tháng: được điều chỉnh lại mức miễn 1 tỷ. Nếu DT còn lại &gt; 1 tỷ → nộp thuế theo NĐ 68/2026. Thuế đã nộp thừa được hoàn trả/bù trừ theo Điều 12.</span>
+        </div>
+      </div>
+
+      <!-- TAB 2: TÍNH THUẾ NHIỀU BĐS -->
+      <div id="tab-calc" class="bds-pane">
+        <p style="font-size:12.5px;color:var(--s600);margin-bottom:14px">Nhập doanh thu từng bất động sản cho thuê. Hệ thống sẽ tính thuế GTGT, TNCN và phân bổ tối ưu mức trừ 1 tỷ đồng miễn thuế.</p>
+        <div id="prop-list">
+          <div class="prop-row" data-idx="0">
+            <span class="prop-label">BĐS 1</span>
+            <input type="number" placeholder="Doanh thu (đồng)" min="0" step="1000000" oninput="propHint(this)">
+            <span class="prop-hint" id="ph-0"></span>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:4px;margin-bottom:16px;flex-wrap:wrap">
+          <button class="btn-add" onclick="addProp()">＋ Thêm BĐS</button>
+          <button class="btn-calc" onclick="calcBDS()">Tính thuế</button>
+        </div>
+        <div id="bds-calc-result"></div>
+      </div>
+
+      <!-- TAB 3: THỦ TỤC KÊ KHAI -->
+      <div id="tab-proc" class="bds-pane">
+        <div class="rc-grid">
+          <div>
+            <div class="ss-head" style="color:var(--teal)">Cá nhân trực tiếp khai thuế</div>
+            <div class="ss-body ss-teal" style="background:var(--teal-lt);border-color:#99f6e4">
+              <strong>Tự chọn kỳ khai (Điều 8.3d, NĐ 68/2026):</strong><br>
+              <strong>• Khai 2 lần/năm:</strong><br>
+              &nbsp;&nbsp;— Lần 1: chậm nhất <strong>31/7</strong> năm tính thuế<br>
+              &nbsp;&nbsp;— Lần 2: chậm nhất <strong>31/01</strong> năm dương lịch tiếp theo<br>
+              <strong>• Khai 1 lần/năm:</strong><br>
+              &nbsp;&nbsp;— Chậm nhất <strong>31/01</strong> năm dương lịch tiếp theo<br>
+              <em style="font-size:11px;color:var(--s400);margin-top:4px;display:block">Cá nhân tự chọn phương án phù hợp nhất.</em>
+            </div>
+          </div>
+          <div>
+            <div class="ss-head" style="color:var(--amber)">Tổ chức thuê khai thay (Điều 8.3đ)</div>
+            <div class="ss-body ss-amber">
+              <strong>Điều kiện:</strong> HĐ thuê có thỏa thuận bên đi thuê là người khai thay, nộp thay.<br>
+              <strong>Thời hạn:</strong> Theo <em>kỳ thanh toán</em> tiền thuê BĐS trong hợp đồng.<br>
+              <strong>Lưu ý:</strong> Phải ghi rõ trong HĐ nội dung khai thay &amp; số tiền được trừ 1 tỷ.<br>
+              <em style="font-size:11px;color:var(--s400);display:block;margin-top:4px">Sử dụng Mẫu 01/TCKT + Phụ lục 02/BK-KTBĐS.</em>
+            </div>
+          </div>
+        </div>
+        <div class="ss-head" style="color:var(--rose)">Cá nhân cho cá nhân thuê (Điều 8.3đ)</div>
+        <div class="ss-body ss-rose">Bên cho thuê phải <strong>trực tiếp khai thuế</strong>, <em>không được ủy quyền</em> cho bên thuê khai thay. Áp dụng kỳ khai và nộp thuế như cá nhân trực tiếp khai ở trên.
+        </div>
+        <div class="ss-head" style="color:var(--p)">Địa điểm nộp hồ sơ khai thuế (Điều 8.4d)</div>
+        <div class="ss-body ss-blue">
+          <strong>Quy tắc chính:</strong> Nộp tại CQT <strong>nơi có bất động sản cho thuê</strong> — không phải nơi cư trú.<br>
+          <strong>Nhiều BĐS cùng/khác tỉnh:</strong> Tổng hợp trên <strong>1 hồ sơ khai thuế</strong>, chọn <strong>1 CQT</strong> nơi có BĐS để nộp.<br>
+          <strong>Nộp thuế:</strong> Nộp riêng <strong>theo từng địa điểm</strong> nơi có BĐS cho thuê.<br>
+          <em style="font-size:11px;color:var(--s400);display:block;margin-top:4px">Trường hợp tổ chức khai thay: nộp hồ sơ tại CQT nơi có BĐS tương ứng.</em>
+        </div>
+        <div class="alert a-warn">
+          <span class="a-icon">⏱️</span>
+          <span><strong>Thời hạn nộp thuế</strong> = thời hạn nộp hồ sơ khai thuế của cùng kỳ đó. Khai bổ sung: thời hạn nộp thuế là thời hạn nộp hồ sơ khai thuế kỳ có sai sót. (Điều 8.3e, NĐ 68/2026)</span>
+        </div>
+      </div>
+
+      <!-- TAB 4: MẪU BIỂU -->
+      <div id="tab-forms" class="bds-pane">
+        <ul class="form-list">
+          <li class="form-item">
+            <div class="form-code" style="background:var(--teal)">01/BĐS</div>
+            <div class="form-info">
+              <div class="fn">Thông báo doanh thu / Tờ khai thuế đối với hoạt động cho thuê bất động sản</div>
+              <div class="ft">Mẫu chính dùng cho cá nhân tự khai. Khai 2 lần (31/7 &amp; 31/1) hoặc 1 lần/năm (31/1). Nộp tại CQT nơi có BĐS. Kê khai tổng DT, GTGT, TNCN từng BĐS, mức trừ 1 tỷ, tiền phạt/bồi thường (nếu có).</div>
+            </div>
+          </li>
+          <li class="form-item">
+            <div class="form-code" style="background:var(--teal)">01/BK-BĐS</div>
+            <div class="form-info">
+              <div class="fn">Phụ lục Bảng kê chi tiết bất động sản cho thuê</div>
+              <div class="ft">Kèm Mẫu 01/BĐS. Kê khai từng BĐS: địa chỉ, tổng giá trị HĐ, thời gian thuê, DT phát sinh, mức trừ để xác định DT tính thuế TNCN, GTGT = DT × 5%, TNCN = (DT − mức trừ) × 5%, tiền phạt/bồi thường (nếu có).</div>
+            </div>
+          </li>
+          <li class="form-item">
+            <div class="form-code" style="background:var(--amber)">01/TCKT</div>
+            <div class="form-info">
+              <div class="fn">Tờ khai thuế của Tổ chức khai thay, nộp thay</div>
+              <div class="ft">Tổ chức là bên đi thuê BĐS khai thay theo thỏa thuận trong HĐ. Nộp tại CQT nơi có BĐS. Mã số thuế dùng của tổ chức khai thay. Thời hạn theo kỳ thanh toán tiền thuê.</div>
+            </div>
+          </li>
+          <li class="form-item">
+            <div class="form-code" style="background:var(--amber)">02/BK-KTBĐS</div>
+            <div class="form-info">
+              <div class="fn">Phụ lục Bảng kê chi tiết cá nhân cho thuê bất động sản</div>
+              <div class="ft">Kèm Mẫu 01/TCKT. Liệt kê: tên/MST bên cho thuê, địa chỉ BĐS, tổng DT, mức trừ áp dụng theo HĐ, thuế GTGT = DT × 5%, thuế TNCN = (DT − mức trừ) × 5%.</div>
+            </div>
+          </li>
+          <li class="form-item">
+            <div class="form-code">01/BK-STK</div>
+            <div class="form-info">
+              <div class="fn">Thông báo số tài khoản / số hiệu ví điện tử</div>
+              <div class="ft">Nộp kèm tờ khai đầu tiên hoặc khi thay đổi thông tin tài khoản.</div>
+            </div>
+          </li>
+        </ul>
+        <div class="alert a-info" style="margin-top:12px">
+          <span class="a-icon">ℹ️</span>
+          <span>Tất cả hồ sơ khai thuế BĐS phải nộp bằng <strong>phương thức điện tử</strong>. Trường hợp đặc biệt (người cao tuổi, khuyết tật, vùng khó khăn) được nộp hồ sơ giấy tại Trung tâm phục vụ hành chính công cấp xã.</span>
+        </div>
+      </div>
+
+      <!-- TAB 5: SỔ KẾ TOÁN BĐS -->
+      <div id="tab-acc" class="bds-pane">
+        <p style="font-size:12.5px;color:var(--s600);margin-bottom:14px">Căn cứ <strong>TT 152/2025/TT-BTC</strong> ngày 31/12/2025, hiệu lực từ 01/01/2026. Sổ kế toán áp dụng theo mức doanh thu và phương pháp nộp thuế.</p>
+
+        <!-- DT ≤ 1 tỷ -->
+        <div class="acc-group">
+          <div class="acc-gtitle">Trường hợp 1: Doanh thu cho thuê BĐS ≤ 1 tỷ đồng/năm (Điều 4, TT 152/2025)</div>
+          <div class="book-grid">
+            <div class="book-item">
+              <div class="book-code">S1a-HKD</div>
+              <div class="book-name">Sổ doanh thu bán hàng hóa, dịch vụ</div>
+              <div class="book-desc">Ghi doanh thu cho thuê BĐS theo từng kỳ. Làm căn cứ xác định có thuộc đối tượng chịu thuế hay không.</div>
+              <span class="book-badge bb-req">Bắt buộc</span>
+            </div>
+          </div>
+          <div class="acc-note">📌 Chỉ cần 1 sổ duy nhất. Có thể ghi theo từng nghiệp vụ phát sinh hoặc theo định kỳ.</div>
+        </div>
+
+        <!-- DT > 1 tỷ -->
+        <div class="acc-group">
+          <div class="acc-gtitle">Trường hợp 2: Doanh thu cho thuê BĐS &gt; 1 tỷ đồng/năm (Điều 5, TT 152/2025)</div>
+          <div class="book-grid">
+            <div class="book-item">
+              <div class="book-code">S2a-HKD</div>
+              <div class="book-name">Sổ doanh thu bán hàng hóa, dịch vụ</div>
+              <div class="book-desc">Ghi DT cho thuê BĐS kèm tính thuế GTGT (5% × DT) và thuế TNCN (5% × (DT − 1 tỷ)) theo từng nghiệp vụ.</div>
+              <span class="book-badge bb-req">Bắt buộc</span>
+            </div>
+          </div>
+          <div class="acc-note">📌 Hoạt động cho thuê BĐS tính thuế TNCN theo tỷ lệ % trên DT (khoản 4 Điều 7 Luật TNCN 109/2025) → áp dụng Mẫu S2a-HKD dùng chung cho cả GTGT lẫn TNCN. Cơ quan thuế có thể cung cấp dữ liệu để đối chiếu.<br><br>Nếu cá nhân cho thuê BĐS <strong>đồng thời</strong> có hoạt động SXKD khác theo PP2 (thu nhập tính thuế) → phải mở thêm sổ S2b/S2c/S2d/S2e cho hoạt động đó.</div>
+        </div>
+
+        <!-- Quy định chung -->
+        <div class="acc-group">
+          <div class="acc-gtitle">Quy định chung về sổ sách (Điều 2 &amp; 3, TT 152/2025)</div>
+          <div class="acc-rule-grid">
+            <div class="acc-rule"><strong>Người thực hiện</strong>Tự ghi sổ, bố trí người thân làm kế toán, hoặc <strong>thuê dịch vụ kế toán</strong>. Được phép kiêm nhiệm.</div>
+            <div class="acc-rule"><strong>Lưu trữ tài liệu</strong>Tối thiểu <strong>5 năm</strong>. Được lưu trữ điện tử hoặc bản giấy. Riêng hóa đơn theo quy định pháp luật thuế.</div>
+            <div class="acc-rule"><strong>Tùy chỉnh sổ</strong>Có thể <strong>bổ sung thêm sổ</strong> hoặc sửa biểu mẫu cho phù hợp nhu cầu. Sổ phải ghi rõ tên, ngày lập, chữ ký người đại diện.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTS (general lookup) -->
+  <div id="results">
+    <div class="empty">
+      <div class="empty-ico">🧾</div>
+      <p>Nhập doanh thu và nhấn <strong>Tra cứu</strong> để xem kết quả.</p>
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="bds-calc.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

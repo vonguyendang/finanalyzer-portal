@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FinAnalyzer – Phân Tích BCTC B01A · TT133</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="../favicon_io/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon_io/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon_io/favicon-16x16.png">
+  <link rel="shortcut icon" href="../favicon_io/favicon.ico">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <a href="../" title="Trở về Trang Chủ"
+    style="position: fixed; top: 20px; left: 24px; z-index: 9999; display: inline-flex; align-items: center; gap: 8px; padding: 7px 13px; border-radius: 20px; cursor: pointer; border: 1.5px solid var(--border2, #253551); background: var(--card2, #141f33); color: var(--text2, #8fa3c0); font-size: 11px; font-weight: 700; font-family: var(--sans, sans-serif); text-decoration: none; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
+    onmouseover="this.style.borderColor='var(--gold, #f5a623)'; this.style.color='var(--gold, #f5a623)'; this.style.background='rgba(245,166,35,0.06)'"
+    onmouseout="this.style.borderColor='var(--border2, #253551)'; this.style.color='var(--text2, #8fa3c0)'; this.style.background='var(--card2, #141f33)'">
+    <span style="font-size: 13px; line-height: 1;">🏠</span>
+    <span>Trang Chủ</span>
+  </a>
+
+
+  <!-- ════ UPLOAD SCREEN ════ -->
+  <div id="uploadScreen">
+
+    <!-- Floating theme toggle (visible on all screens) -->
+    <button class="theme-btn theme-float" id="themeFloatBtn" onclick="toggleTheme()"
+      title="Chuyển đổi giao diện sáng/tối">
+      <span class="theme-icon" id="themeFloatIcon">🌙</span>
+      <span id="themeFloatLabel">Tối</span>
+      <div class="theme-track">
+        <div class="theme-thumb"></div>
+      </div>
+    </button>
+    <div class="up-logo">
+      <div class="up-logo-mark">FA</div>
+      <div class="up-logo-text">
+        <div class="t1">FinAnalyzer <span style="color:var(--gold)">Pro</span></div>
+        <div class="t2">Phân Tích Báo Cáo Tài Chính · B01A · TT133/2016</div>
+      </div>
+    </div>
+
+    <div class="drop-zone" id="dropZone">
+      <span class="drop-icon">📂</span>
+      <div class="drop-title">Tải lên file BCTC XML</div>
+      <div class="drop-sub">
+        Kéo &amp; thả hoặc nhấn để chọn file hồ sơ kê khai điện tử<br>
+        Hỗ trợ: <strong>Bộ BCTC B01A – TT133/2016/TT-BTC</strong> (*.xml)
+      </div>
+      <div style="display:flex; justify-content:center; gap:12px; margin-top: 10px; flex-wrap:wrap;">
+        <button class="drop-btn" id="pickFileBtn">⬆ Chọn File XML</button>
+        <button class="drop-btn" onclick="document.getElementById('manualEntryModal').style.display='flex';" style="background:var(--blue);color:#fff;">✍ Nhập tay số liệu</button>
+      </div>
+      <div class="drop-hint">
+        File được xử lý <span>100% trên trình duyệt</span> · Không lưu trữ dữ liệu
+      </div>
+      <input type="file" id="fileInput" accept=".xml,text/xml,application/xml">
+      <div style="margin-top: 16px; font-size: 13px;">
+        <a href="#" onclick="document.getElementById('promptModal').style.display='flex'; return false;"
+          style="color: var(--cyan); text-decoration: underline;">Không có file XML? Lấy Prompt phân tích thủ công</a>
+      </div>
+    </div>
+
+    <div class="up-features">
+      <div class="feat-chip">
+        <div class="dot" style="background:var(--green)"></div>Tự động bóc tách XML
+      </div>
+      <div class="feat-chip">
+        <div class="dot" style="background:var(--blue)"></div>Dashboard trực quan
+      </div>
+      <div class="feat-chip">
+        <div class="dot" style="background:var(--gold)"></div>12+ chỉ số tài chính
+      </div>
+      <div class="feat-chip">
+        <div class="dot" style="background:var(--cyan)"></div>AI Phân tích chuyên sâu
+      </div>
+      <div class="feat-chip">
+        <div class="dot" style="background:var(--purple)"></div>So sánh 2 năm
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ LOADING SCREEN ════ -->
+  <div id="loadingScreen"
+    style="display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;gap:28px;">
+    <div class="spinner-wrap">
+      <div class="spinner"></div>
+      <div class="spinner-inner"></div>
+    </div>
+    <div style="text-align:center">
+      <div class="loading-text" id="loadingMsg">Đang xử lý file XML…</div>
+      <div class="loading-steps" id="loadingSteps">
+        <div class="loading-step" id="step1"><span class="licon">⟳</span> Đọc &amp; phân tích cấu trúc XML</div>
+        <div class="loading-step" id="step2"><span class="licon">⟳</span> Bóc tách chỉ tiêu BCĐKT (B01A)</div>
+        <div class="loading-step" id="step3"><span class="licon">⟳</span> Bóc tách KQHĐKD &amp; Lưu chuyển tiền</div>
+        <div class="loading-step" id="step4"><span class="licon">⟳</span> Tính toán các chỉ số tài chính</div>
+        <div class="loading-step" id="step5"><span class="licon">⟳</span> Xây dựng Dashboard &amp; biểu đồ</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ DASHBOARD ════ -->
+  <div id="dashboard">
+    <!-- HEADER -->
+    <div class="dsh-header">
+      <div class="dsh-header-inner">
+        <div class="dsh-logo">
+          <div class="dsh-logo-mark">FA</div>
+          <div class="dsh-logo-text">FinAnalyzer Pro</div>
+        </div>
+        <div class="cmp-info">
+          <div class="cmp-name" id="dshCmpName">–</div>
+          <div class="cmp-meta" id="dshCmpMeta">–</div>
+        </div>
+        <div class="dsh-actions">
+          <div class="period-badge" id="dshPeriod">–</div>
+
+          <!-- THEME TOGGLE -->
+          <button class="theme-btn" id="themeDashBtn" onclick="toggleTheme()" title="Chuyển đổi giao diện sáng/tối">
+            <span class="theme-icon" id="themeDashIcon">🌙</span>
+            <span id="themeDashLabel">Tối</span>
+            <div class="theme-track">
+              <div class="theme-thumb"></div>
+            </div>
+          </button>
+
+          <!-- EXPORT DROPDOWN -->
+          <div class="export-wrap" id="exportWrap">
+            <button class="btn-export" id="btnExport" onclick="toggleExportMenu()">
+              ⬇ Xuất File <span class="exp-arrow">▼</span>
+            </button>
+            <div class="export-menu" id="exportMenu">
+              <div class="exp-menu-header">Chọn định dạng xuất</div>
+              <button class="exp-item" onclick="exportPDF()">
+                <div class="exp-icon pdf">📄</div>
+                <div>
+                  <div class="exp-label">Xuất PDF</div>
+                  <div class="exp-desc">Toàn bộ dashboard · A4 · In màu</div>
+                </div>
+              </button>
+              <button class="exp-item" onclick="exportXLSX()">
+                <div class="exp-icon xlsx">📊</div>
+                <div>
+                  <div class="exp-label">Xuất Excel (.xlsx)</div>
+                  <div class="exp-desc">5 sheet: CĐKT · KQKD · LCTT · Chỉ số · KPI</div>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <button class="btn-reset" onclick="resetApp()">⟳ Tải file mới</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- NAV -->
+    <div class="dsh-nav">
+      <div class="dsh-nav-inner">
+        <button class="nav-tab active" onclick="switchTab('overview',this)">📊 Tổng Quan</button>
+        <button class="nav-tab" onclick="switchTab('bs',this)">🏦 Bảng CĐKT</button>
+        <button class="nav-tab" onclick="switchTab('pl',this)">📈 Kết Quả KD</button>
+        <button class="nav-tab" onclick="switchTab('cf',this)">💧 Lưu Chuyển Tiền</button>
+        <button class="nav-tab" onclick="switchTab('ratios',this)">🔢 Chỉ Số TC</button>
+        <button class="nav-tab" onclick="switchTab('ai',this)">🤖 AI Phân Tích</button>
+      </div>
+    </div>
+
+    <div class="dsh-body">
+
+      <!-- PRINT HEADER (hidden on screen, shown when printing) -->
+      <div class="print-header" id="printHeader">
+        <div class="ph-company" id="phCmpName">–</div>
+        <div class="ph-meta" id="phCmpMeta">–</div>
+        <div class="ph-title">Báo Cáo Tài Chính · Mẫu B01A – TT133/2016/TT-BTC</div>
+      </div>
+
+      <!-- ═══ OVERVIEW ═══ -->
+      <div class="panel-section active" id="tab-overview">
+        <div id="alertBanner"></div>
+
+        <div class="sec-title">
+          <div class="sec-num">01</div>Chỉ Tiêu Tổng Quan
+        </div>
+        <div class="kpi-grid" id="kpiGrid"></div>
+
+        <div class="sec-title" style="margin-top:28px">
+          <div class="sec-num">02</div>Cơ Cấu Tài Sản &amp; Nguồn Vốn
+        </div>
+        <div class="g3">
+          <div class="card">
+            <div class="card-hd">
+              <div>
+                <div class="card-title">So Sánh Đầu – Cuối Năm</div>
+                <div class="card-sub">Triệu đồng</div>
+              </div>
+              <span class="badge bb">BCĐKT</span>
+            </div>
+            <div class="chart-box" style="height:300px"><canvas id="bsBarChart"></canvas></div>
+          </div>
+          <div class="card">
+            <div class="card-hd">
+              <div>
+                <div class="card-title">Nguồn Vốn</div>
+                <div class="card-sub">Cuối năm</div>
+              </div>
+            </div>
+            <div class="chart-box" style="height:140px"><canvas id="capDoughnut"></canvas></div>
+            <div style="border-top:1px solid var(--border);margin-top:14px;padding-top:14px">
+              <div
+                style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px">
+                Cơ Cấu Tài Sản</div>
+              <div class="chart-box" style="height:130px"><canvas id="assetDoughnut"></canvas></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sec-title">
+          <div class="sec-num">03</div>Tín Hiệu Rủi Ro &amp; Cơ Hội
+        </div>
+        <div class="sig-grid" id="signalGrid"></div>
+      </div>
+
+      <!-- ═══ BALANCE SHEET ═══ -->
+      <div class="panel-section" id="tab-bs">
+        <div class="sec-title">
+          <div class="sec-num">A</div>Bảng Cân Đối Kế Toán – B01A (TT133)
+        </div>
+        <div class="card">
+          <div class="tbl-wrap" id="bsTable"></div>
+        </div>
+      </div>
+
+      <!-- ═══ P&L ═══ -->
+      <div class="panel-section" id="tab-pl">
+        <div class="sec-title">
+          <div class="sec-num">B</div>Kết Quả Hoạt Động Sản Xuất Kinh Doanh
+        </div>
+        <div class="g2">
+          <div class="card">
+            <div class="card-hd">
+              <div>
+                <div class="card-title">Doanh Thu &amp; Chi Phí</div>
+                <div class="card-sub">Triệu đồng</div>
+              </div>
+              <span class="badge by">So sánh 2 năm</span>
+            </div>
+            <div class="chart-box" style="height:280px"><canvas id="plBarChart"></canvas></div>
+          </div>
+          <div class="card">
+            <div class="card-hd">
+              <div>
+                <div class="card-title">Các Tầng Lợi Nhuận</div>
+                <div class="card-sub">Triệu đồng</div>
+              </div>
+              <span class="badge bg">Margin</span>
+            </div>
+            <div class="chart-box" style="height:280px"><canvas id="profitLayerChart"></canvas></div>
+          </div>
+        </div>
+        <div class="card" style="margin-top:14px">
+          <div class="tbl-wrap" id="plTable"></div>
+        </div>
+      </div>
+
+      <!-- ═══ CASH FLOW ═══ -->
+      <div class="panel-section" id="tab-cf">
+        <div class="sec-title">
+          <div class="sec-num">C</div>Lưu Chuyển Tiền Tệ (Phương Pháp Trực Tiếp)
+        </div>
+        <div class="g2">
+          <div class="card">
+            <div class="card-hd">
+              <div>
+                <div class="card-title">Chi Tiết Lưu Chuyển Tiền</div>
+                <div class="card-sub">Triệu đồng</div>
+              </div>
+              <span class="badge bb">LCTT</span>
+            </div>
+            <div class="tbl-wrap" id="cfTable"></div>
+          </div>
+          <div class="card">
+            <div class="card-hd">
+              <div>
+                <div class="card-title">Phân Tích Dòng Tiền</div>
+                <div class="card-sub">Năm hiện tại</div>
+              </div>
+            </div>
+            <div class="chart-box" style="height:220px"><canvas id="cfBarChart"></canvas></div>
+            <div id="cfWaterfall" style="margin-top:20px;border-top:1px solid var(--border);padding-top:16px"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ RATIOS ═══ -->
+      <div class="panel-section" id="tab-ratios">
+        <div class="sec-title">
+          <div class="sec-num">D</div>Nhóm Chỉ Số Thanh Khoản &amp; Cơ Cấu Vốn
+        </div>
+        <div class="g2">
+          <div class="card">
+            <div class="ratio-grid" id="liqRatioGrid"></div>
+          </div>
+          <div class="card">
+            <div class="card-hd">
+              <div class="card-title">Nhóm Chỉ Số Sinh Lời &amp; Hiệu Quả</div>
+            </div>
+            <div class="ratio-grid" id="profRatioGrid"></div>
+          </div>
+        </div>
+        <div class="sec-title">
+          <div class="sec-num">E</div>So Sánh Chỉ Số Sinh Lời 2 Năm
+        </div>
+        <div class="card">
+          <div class="chart-box" style="height:240px"><canvas id="ratioChart"></canvas></div>
+        </div>
+      </div>
+
+      <!-- ═══ AI ═══ -->
+      <div class="panel-section" id="tab-ai">
+        <div class="sec-title">
+          <div class="sec-num">🤖</div>Phân Tích Chuyên Sâu bởi AI
+        </div>
+        <div class="ai-box" id="aiBox">
+          <div class="ai-header">
+            <div class="ai-icon">🧠</div>
+            <div>
+              <div class="ai-title">DNT & AI – Chuyên gia Tài chính Doanh nghiệp</div>
+              <div class="ai-sub">Phân tích dựa trên số liệu BCTC thực tế trích xuất từ file XML</div>
+            </div>
+          </div>
+          <div id="aiContent" class="ai-content" style="max-height: 500px; overflow-y: auto;">
+            <div class="ai-loading">
+              <span>Đang phân tích số liệu</span>
+              <div class="ai-dots"><span>.</span><span>.</span><span>.</span></div>
+            </div>
+          </div>
+          <div id="aiChatBox" style="display:none; margin-top:20px; border-top:1px solid var(--border2); padding-top:16px; display:flex; gap:10px;">
+            <input type="text" id="aiChatInput" placeholder="Bạn muốn hỏi thêm gì về Báo cáo tài chính này?" style="flex:1; padding:12px; border-radius:8px; border:1px solid var(--border); background:var(--bg); color:var(--text); font-family:var(--sans); outline:none;" />
+            <button onclick="sendAiChat()" style="padding:0 20px; border-radius:8px; background:var(--blue); color:#fff; border:none; cursor:pointer; font-weight:700;">Gửi</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end dsh-body -->
+
+    <div class="dsh-footer">
+      <span>Phân tích theo mẫu B01A – TT133/2016/TT-BTC &nbsp;|&nbsp; Đơn vị: VNĐ &nbsp;|&nbsp; Nguồn: LyVu</span>
+      <span id="dshFooterDate">–</span>
+    </div>
+  </div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/chart-config.js"></script>
+  <script src="js/xml-parser.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/ai-analysis.js"></script>
+  <script src="js/export.js"></script>
+  <script src="js/main.js"></script>
+  <!-- ════ PROMPT MODAL ════ -->
+  <div id="promptModal"
+    style="display:none; position:fixed; inset:0; background:rgba(6,12,24,0.8); z-index:99999; align-items:center; justify-content:center; backdrop-filter:blur(5px); padding: 20px;">
+    <div
+      style="background:var(--card); border:1px solid var(--border); border-radius:16px; width:100%; max-width:700px; max-height:90vh; display:flex; flex-direction:column; box-shadow:0 10px 40px rgba(0,0,0,0.5);">
+      <div
+        style="padding:16px 24px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
+        <div style="font-size:16px; font-weight:700; color:var(--text);">Prompt Phân Tích BCTC Thủ Công</div>
+        <button onclick="document.getElementById('promptModal').style.display='none'"
+          style="background:none; border:none; color:var(--text3); font-size:24px; cursor:pointer; line-height:1;">&times;</button>
+      </div>
+      <div style="padding:24px; overflow-y:auto; flex:1;">
+        <p style="font-size:13px; color:var(--text2); margin-bottom:16px;">Copy nội dung bên dưới, <strong>đính kèm file
+            Báo cáo tài chính (PDF/Excel/Ảnh)</strong> và gửi cho ChatGPT hoặc Gemini hoặc Claude để AI tự động trích
+          xuất & phân tích.</p>
+        <textarea id="promptTemplate" readonly
+          style="width:100%; height:300px; background:var(--bg); color:var(--text); border:1px solid var(--border2); border-radius:8px; padding:12px; font-family:var(--mono, 'IBM Plex Mono', monospace); font-size:12px; line-height:1.5; resize:none;">
+Bạn là chuyên gia tài chính doanh nghiệp với hơn 15 năm kinh nghiệm tại Việt Nam. Tôi có đính kèm file Báo Cáo Tài Chính (hình ảnh / PDF / Excel) của một doanh nghiệp. Vui lòng tự động đọc, trích xuất các số liệu từ file đính kèm và thực hiện phân tích chuyên sâu Báo Cáo Tài Chính này.
+
+YÊU CẦU ĐỌC VÀ XỬ LÝ DỮ LIỆU TỪ FILE ĐÍNH KÈM:
+1. Hãy tìm và lập một BẢNG TÓM TẮT SỐ LIỆU (Đầu kỳ & Cuối kỳ / Năm nay & Năm trước) cho các chỉ tiêu quan trọng sau để tôi đối chiếu:
+   - Bảng Cân đối kế toán: Tiền, Phải thu, Hàng tồn kho, Tổng tài sản, Nợ phải trả (Vay ngắn/dài hạn), Vốn chủ sở hữu.
+   - Kết quả kinh doanh: Doanh thu thuần, Giá vốn, Lợi nhuận gộp, Chi phí tài chính, Chi phí QLDN, Lợi nhuận thuần, Lợi nhuận sau thuế.
+   - Lưu chuyển tiền tệ (nếu có): Dòng tiền thuần từ HĐ Kinh doanh, HĐ Đầu tư, HĐ Tài chính.
+2. Nếu có số liệu nào bị mờ, không rõ ràng hoặc không có trong báo cáo, hãy ghi chú rõ "Không có dữ liệu", tuyệt đối không tự bịa số liệu.
+
+YÊU CẦU PHÂN TÍCH CHUYÊN SÂU (Bằng tiếng Việt):
+
+1. NHẬN XÉT TỔNG QUAN (2-3 câu tóm tắt bức tranh tài chính chung)
+2. PHÂN TÍCH KẾT QUẢ KINH DOANH:
+   - Đánh giá biến động doanh thu và nguyên nhân.
+   - Hiệu quả kiểm soát chi phí (so sánh tốc độ tăng chi phí với tốc độ tăng doanh thu).
+   - Xu hướng lợi nhuận và sự thay đổi của biên lợi nhuận gộp/ròng.
+3. PHÂN TÍCH CƠ CẤU TÀI SẢN VÀ NGUỒN VỐN:
+   - Cơ cấu tài sản có hợp lý với ngành nghề không (tỷ trọng HTK, Phải thu).
+   - Rủi ro từ cơ cấu nợ (Đánh giá mức độ sử dụng đòn bẩy tài chính, áp lực trả nợ).
+4. PHÂN TÍCH KHẢ NĂNG THANH KHOẢN VÀ DÒNG TIỀN:
+   - Đánh giá khả năng thanh toán hiện hành và thanh toán nhanh.
+   - Chất lượng lợi nhuận (đối chiếu Lợi nhuận kế toán với Dòng tiền thuần từ HĐKD).
+5. ĐÁNH GIÁ RỦI RO TRỌNG YẾU (Xác định Top 3 rủi ro tài chính hoặc hoạt động lớn nhất).
+6. KHUYẾN NGHỊ (Đưa ra 3-4 hành động cụ thể, mang tính thực tế để ban giám đốc cải thiện tình hình).
+
+Lưu ý: BẮT BUỘC trích dẫn số liệu cụ thể (số tuyệt đối hoặc tỷ lệ %) từ bảng tóm tắt vào từng luận điểm phân tích. Trình bày chuyên nghiệp, rõ ràng theo từng gạch đầu dòng. Tổng bài viết khoảng 600-800 từ.
+</textarea>
+      </div>
+      <div
+        style="padding:16px 24px; border-top:1px solid var(--border); display:flex; justify-content:flex-end; gap:12px;">
+        <button onclick="document.getElementById('promptModal').style.display='none'"
+          style="padding:8px 16px; border-radius:8px; background:transparent; border:1px solid var(--border2); color:var(--text); cursor:pointer;">Đóng</button>
+        <button onclick="copyPromptText(this)"
+          style="padding:8px 16px; border-radius:8px; background:var(--blue); border:none; color:#fff; cursor:pointer; font-weight:700;">📋
+          Copy Prompt</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ MANUAL ENTRY MODAL ════ -->
+  <div id="manualEntryModal"
+    style="display:none; position:fixed; inset:0; background:rgba(6,12,24,0.8); z-index:99999; align-items:center; justify-content:center; backdrop-filter:blur(5px); padding: 20px;">
+    <div style="background:var(--card); border:1px solid var(--border); border-radius:16px; width:100%; max-width:800px; max-height:90vh; display:flex; flex-direction:column; box-shadow:0 10px 40px rgba(0,0,0,0.5);">
+      <div style="padding:16px 24px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
+        <div style="font-size:16px; font-weight:700; color:var(--text);">✍ Nhập Tay Số Liệu BCTC (Triệu Đồng)</div>
+        <button onclick="document.getElementById('manualEntryModal').style.display='none'"
+          style="background:none; border:none; color:var(--text3); font-size:24px; cursor:pointer; line-height:1;">&times;</button>
+      </div>
+      <div style="padding:24px; overflow-y:auto; flex:1;" id="manualEntryForm">
+        <p style="font-size:13px; color:var(--text2); margin-bottom:20px;">Vui lòng điền các thông số cơ bản (đơn vị: <strong>Triệu đồng</strong>). Để trống sẽ mặc định là 0.</p>
+        
+        <div class="g2" style="gap:24px;">
+          <!-- Cột BCĐKT -->
+          <div>
+            <div class="sec-title" style="margin-top:0"><div class="sec-num">1</div>Bảng CĐKT</div>
+            <div style="display:grid; grid-template-columns: 2fr 1fr 1fr; gap:8px; margin-bottom:8px; font-size:11px; font-weight:bold; color:var(--text3);">
+              <div>Chỉ tiêu</div><div>Đầu năm</div><div>Cuối năm</div>
+            </div>
+            
+            <div class="manual-row"><div class="mlbl">Tiền & TĐT</div><input type="number" id="m_py_110" placeholder="Đầu năm"><input type="number" id="m_cy_110" placeholder="Cuối năm"></div>
+            <div class="manual-row"><div class="mlbl">Phải thu NH</div><input type="number" id="m_py_130" placeholder="Đầu năm"><input type="number" id="m_cy_130" placeholder="Cuối năm"></div>
+            <div class="manual-row"><div class="mlbl">Hàng tồn kho</div><input type="number" id="m_py_140" placeholder="Đầu năm"><input type="number" id="m_cy_140" placeholder="Cuối năm"></div>
+            <div class="manual-row"><div class="mlbl">Tổng Tài Sản</div><input type="number" id="m_py_200" placeholder="Đầu năm"><input type="number" id="m_cy_200" placeholder="Cuối năm"></div>
+            <hr style="border:0; border-top:1px solid var(--border); margin:12px 0;">
+            <div class="manual-row"><div class="mlbl">Nợ Phải Trả</div><input type="number" id="m_py_300" placeholder="Đầu năm"><input type="number" id="m_cy_300" placeholder="Cuối năm"></div>
+            <div class="manual-row"><div class="mlbl">Vay Nợ (Ngắn+Dài)</div><input type="number" id="m_py_312" placeholder="Đầu năm"><input type="number" id="m_cy_312" placeholder="Cuối năm"></div>
+            <div class="manual-row"><div class="mlbl">Vốn CSH</div><input type="number" id="m_py_400" placeholder="Đầu năm"><input type="number" id="m_cy_400" placeholder="Cuối năm"></div>
+            <div class="manual-row"><div class="mlbl">LN chưa PP</div><input type="number" id="m_py_417" placeholder="Đầu năm"><input type="number" id="m_cy_417" placeholder="Cuối năm"></div>
+          </div>
+          
+          <!-- Cột KQKD -->
+          <div>
+            <div class="sec-title" style="margin-top:0"><div class="sec-num">2</div>Kết Quả Kinh Doanh</div>
+            <div style="display:grid; grid-template-columns: 2fr 1fr 1fr; gap:8px; margin-bottom:8px; font-size:11px; font-weight:bold; color:var(--text3);">
+              <div>Chỉ tiêu</div><div>Năm trước</div><div>Năm nay</div>
+            </div>
+            <div class="manual-row"><div class="mlbl">Doanh Thu</div><input type="number" id="m_py_l10" placeholder="Năm trước"><input type="number" id="m_cy_l10" placeholder="Năm nay"></div>
+            <div class="manual-row"><div class="mlbl">Giá Vốn</div><input type="number" id="m_py_l11" placeholder="Năm trước"><input type="number" id="m_cy_l11" placeholder="Năm nay"></div>
+            <div class="manual-row"><div class="mlbl">LN Gộp</div><input type="number" id="m_py_l20" placeholder="Năm trước"><input type="number" id="m_cy_l20" placeholder="Năm nay"></div>
+            <div class="manual-row"><div class="mlbl">CP Bán hàng & QLDN</div><input type="number" id="m_py_l24" placeholder="Năm trước"><input type="number" id="m_cy_l24" placeholder="Năm nay"></div>
+            <div class="manual-row"><div class="mlbl">LN HĐKD</div><input type="number" id="m_py_l30" placeholder="Năm trước"><input type="number" id="m_cy_l30" placeholder="Năm nay"></div>
+            <div class="manual-row"><div class="mlbl">LN Trước Thuế</div><input type="number" id="m_py_l50" placeholder="Năm trước"><input type="number" id="m_cy_l50" placeholder="Năm nay"></div>
+            <div class="manual-row"><div class="mlbl">LN Sau Thuế</div><input type="number" id="m_py_l60" placeholder="Năm trước"><input type="number" id="m_cy_l60" placeholder="Năm nay"></div>
+            
+            <div class="sec-title" style="margin-top:16px"><div class="sec-num">3</div>Lưu Chuyển Tiền</div>
+            <div class="manual-row"><div class="mlbl">LCT HĐ Kinh Doanh</div><input type="number" id="m_py_c20" placeholder="Năm trước"><input type="number" id="m_cy_c20" placeholder="Năm nay"></div>
+          </div>
+        </div>
+      </div>
+      <div style="padding:16px 24px; border-top:1px solid var(--border); display:flex; justify-content:flex-end; gap:12px;">
+        <button onclick="document.getElementById('manualEntryModal').style.display='none'"
+          style="padding:8px 16px; border-radius:8px; background:transparent; border:1px solid var(--border2); color:var(--text); cursor:pointer;">Hủy</button>
+        <button onclick="processManualEntry()"
+          style="padding:8px 16px; border-radius:8px; background:var(--gold); border:none; color:#000; cursor:pointer; font-weight:700;">🚀 Xử Lý Dữ Liệu</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function copyPromptText(btn) {
+      const ta = document.getElementById('promptTemplate');
+      ta.select();
+      document.execCommand('copy');
+      const oldText = btn.innerHTML;
+      btn.innerHTML = '✅ Đã Copy!';
+      setTimeout(() => { btn.innerHTML = oldText; }, 2000);
+    }
+  </script>
+</body>
+
+</html>
