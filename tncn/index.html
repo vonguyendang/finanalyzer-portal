@@ -144,6 +144,11 @@
             </div>
           </div>
 
+          <div id="gross-extra-sources"></div>
+          <button class="add-source-btn" id="btn-add-gross-source">
+            <span>+</span> Thêm thu nhập vãng lai
+          </button>
+
           <div class="form-row result-row">
             <div class="form-label">
               <span class="icon">📉</span> Số thuế thu nhập cá nhân cần nộp
@@ -165,25 +170,41 @@
         <div class="calc-block">
           <h3 class="block-title">Bảng tính số tiền thuế thu nhập cá nhân được hoàn (Theo năm)</h3>
           
-          <div class="form-row">
-            <div class="form-label">
-              <span class="icon">💵</span> Tổng thu nhập (GROSS) <span class="required">*</span> <span class="info-icon" title="Là tổng thu nhập phải chịu thuế bao gồm lương tháng từ tiền công/tiền lương và thưởng (Chưa tính trừ các khoản bảo hiểm và các khoản miễn thuế khác).">ⓘ</span>
-            </div>
-            <div class="form-input">
-              <input type="text" id="refund-gross" class="number-format" placeholder="Nhập tổng thu nhập">
+          <div id="refund-sources-container">
+            <div class="source-block" data-id="1">
+              <div class="block-title-small">Nơi có thu nhập 1 (Công ty chính)</div>
+              <div class="form-row">
+                <div class="form-label">
+                  <span class="icon">💵</span> Tổng thu nhập (GROSS) năm <span class="required">*</span> <span class="info-icon" title="Là tổng thu nhập chịu thuế trong năm (chưa trừ bảo hiểm).">ⓘ</span>
+                </div>
+                <div class="form-input">
+                  <input type="text" class="number-format refund-gross-input" placeholder="Nhập tổng thu nhập">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-label">
+                  <span class="icon">🛡️</span> Bảo hiểm bắt buộc đã đóng <span class="required">*</span>
+                </div>
+                <div class="form-input">
+                  <input type="text" class="number-format refund-ins-input" placeholder="Nhập tổng tiền bảo hiểm">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-label">
+                  <span class="icon">📉</span> Thuế TNCN đã bị khấu trừ <span class="required">*</span>
+                </div>
+                <div class="form-input">
+                  <input type="text" class="number-format refund-deducted-input" placeholder="Nhập số thuế đã khấu trừ">
+                </div>
+              </div>
             </div>
           </div>
+          
+          <button class="add-source-btn" id="btn-add-refund-source">
+            <span>+</span> Thêm nơi có thu nhập
+          </button>
 
-          <div class="form-row">
-            <div class="form-label">
-              <span class="icon">🛡️</span> Tổng tiền bảo hiểm bắt buộc đã đóng <span class="required">*</span>
-            </div>
-            <div class="form-input">
-              <input type="text" id="refund-insurance" class="number-format" placeholder="Nhập tổng tiền bảo hiểm">
-            </div>
-          </div>
-
-          <div class="form-row">
+          <div class="form-row mt-24">
             <div class="form-label">
               <span class="icon">👨‍👩‍👧‍👦</span> Số lượng người phụ thuộc <span class="required">*</span>
             </div>
@@ -198,15 +219,6 @@
             </div>
             <div class="form-input">
               <input type="number" id="refund-months" min="1" max="12" value="12" placeholder="Nhập số tháng phụ thuộc">
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-label">
-              <span class="icon">📉</span> Số thuế thu nhập cá nhân đã khấu trừ <span class="required">*</span>
-            </div>
-            <div class="form-input">
-              <input type="text" id="refund-deducted" class="number-format" placeholder="Nhập số thuế đã khấu trừ">
             </div>
           </div>
 

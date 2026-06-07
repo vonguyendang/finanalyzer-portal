@@ -78,17 +78,102 @@ function parseCurrency(str) {
 }
 
 // Input formatting
-document.querySelectorAll('.number-format').forEach(input => {
-  input.addEventListener('input', function(e) {
-    let val = parseCurrency(this.value);
-    if (val === 0 && this.value.trim() === '') {
-      this.value = '';
-    } else {
-      this.value = formatCurrency(val);
-    }
+function initNumberFormat(input) {
+  input.removeEventListener('input', handleNumberFormat);
+  input.addEventListener('input', handleNumberFormat);
+}
+
+function handleNumberFormat(e) {
+  let val = parseCurrency(this.value);
+  if (val === 0 && this.value.trim() === '') {
+    this.value = '';
+  } else {
+    this.value = formatCurrency(val);
+  }
+  triggerCalculations();
+}
+
+document.querySelectorAll('.number-format').forEach(initNumberFormat);
+
+// Extra sources logic for Cần nộp (GROSS)
+let grossSourceCount = 0;
+const btnAddGrossSource = document.getElementById('btn-add-gross-source');
+const grossExtraSources = document.getElementById('gross-extra-sources');
+
+if (btnAddGrossSource) {
+  btnAddGrossSource.addEventListener('click', () => {
+    grossSourceCount++;
+    const div = document.createElement('div');
+    div.className = 'source-block';
+    div.innerHTML = `
+      <div class="block-title-small">
+        Nguồn thu nhập vãng lai ${grossSourceCount}
+        <button class="remove-source-btn" onclick="this.parentElement.parentElement.remove(); triggerCalculations()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg> Xóa
+        </button>
+      </div>
+      <div class="form-row">
+        <div class="form-label">
+          <span class="icon">💵</span> Thu nhập (GROSS) <span class="required">*</span> <span class="info-icon" title="Sẽ khấu trừ 10% nếu từ 2 triệu trở lên">ⓘ</span>
+        </div>
+        <div class="form-input">
+          <input type="text" class="number-format gross-extra-input" placeholder="Nhập thu nhập vãng lai">
+        </div>
+      </div>
+    `;
+    grossExtraSources.appendChild(div);
+    initNumberFormat(div.querySelector('.number-format'));
     triggerCalculations();
   });
-});
+}
+
+// Extra sources logic for Hoàn thuế
+let refundSourceCount = 1;
+const btnAddRefundSource = document.getElementById('btn-add-refund-source');
+const refundSourcesContainer = document.getElementById('refund-sources-container');
+
+if (btnAddRefundSource) {
+  btnAddRefundSource.addEventListener('click', () => {
+    refundSourceCount++;
+    const div = document.createElement('div');
+    div.className = 'source-block';
+    div.innerHTML = `
+      <div class="block-title-small">
+        Nơi có thu nhập ${refundSourceCount}
+        <button class="remove-source-btn" onclick="this.parentElement.parentElement.remove(); triggerCalculations()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg> Xóa
+        </button>
+      </div>
+      <div class="form-row">
+        <div class="form-label">
+          <span class="icon">💵</span> Tổng thu nhập (GROSS) năm <span class="required">*</span>
+        </div>
+        <div class="form-input">
+          <input type="text" class="number-format refund-gross-input" placeholder="Nhập tổng thu nhập">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-label">
+          <span class="icon">🛡️</span> Bảo hiểm bắt buộc đã đóng <span class="required">*</span>
+        </div>
+        <div class="form-input">
+          <input type="text" class="number-format refund-ins-input" placeholder="Nhập tổng tiền bảo hiểm">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-label">
+          <span class="icon">📉</span> Thuế TNCN đã bị khấu trừ <span class="required">*</span>
+        </div>
+        <div class="form-input">
+          <input type="text" class="number-format refund-deducted-input" placeholder="Nhập số thuế đã khấu trừ">
+        </div>
+      </div>
+    `;
+    refundSourcesContainer.appendChild(div);
+    div.querySelectorAll('.number-format').forEach(initNumberFormat);
+    triggerCalculations();
+  });
+}
 
 document.querySelectorAll('input[type="number"], select').forEach(input => {
   input.addEventListener('input', triggerCalculations);
@@ -242,17 +327,36 @@ function calculateGrossToNet() {
   let taxableIncome = Math.max(0, gross - totalIns - deductions);
   
   let taxData = calculateMonthlyTaxDetailed(taxableIncome);
-  let tax = taxData.totalTax;
+  let mainTax = taxData.totalTax;
   
-  let takeHomePay = gross - totalIns - tax;
+  // Calculate extra taxes
+  let extraTax = 0;
+  let extraGross = 0;
+  let extraIncomesDetails = [];
+  document.querySelectorAll('.gross-extra-input').forEach((input) => {
+    let val = parseCurrency(input.value);
+    if (val > 0) {
+      extraGross += val;
+      let t = val >= 2000000 ? val * 0.1 : 0;
+      extraTax += t;
+      extraIncomesDetails.push({ amount: val, tax: t });
+    }
+  });
 
-  resultEl.innerHTML = formatCurrency(Math.round(tax)) + ' VNĐ';
+  let totalTax = mainTax + extraTax;
+  let takeHomePay = gross - totalIns - mainTax + extraGross - extraTax;
+
+  resultEl.innerHTML = formatCurrency(Math.round(totalTax)) + ' VNĐ';
   resultEl.className = 'form-input result-value highlight';
 
   renderReport(reportEl, {
     gross: gross,
     net: takeHomePay,
-    tax: tax,
+    tax: mainTax,
+    totalTax: totalTax,
+    extraGross: extraGross,
+    extraTax: extraTax,
+    extraIncomesDetails: extraIncomesDetails,
     insurance: totalIns,
     bhxhCapApplied: insSalary > bhxh_bhyt_cap,
     bhxhCapValue: bhxh_bhyt_cap,
@@ -268,22 +372,34 @@ function calculateGrossToNet() {
 
 // 3. Tính Hoàn Thuế
 function calculateRefund() {
-  let grossInput = document.getElementById('refund-gross').value;
-  let insInput = document.getElementById('refund-insurance').value;
   let deps = parseInt(document.getElementById('refund-dependents').value) || 0;
   let months = parseInt(document.getElementById('refund-months').value) || 12;
-  let deductedInput = document.getElementById('refund-deducted').value;
   let resultEl = document.getElementById('refund-result');
 
-  if (!grossInput || !insInput || !deductedInput) {
-    resultEl.innerHTML = 'Vui lòng nhập đầy đủ các ô bắt buộc';
+  let gross = 0;
+  let ins = 0;
+  let deducted = 0;
+  let hasValidSource = false;
+  
+  document.querySelectorAll('#refund-sources-container .source-block').forEach(block => {
+    let gStr = block.querySelector('.refund-gross-input').value;
+    let iStr = block.querySelector('.refund-ins-input').value;
+    let dStr = block.querySelector('.refund-deducted-input').value;
+    
+    if (gStr || iStr || dStr) {
+      hasValidSource = true;
+      gross += parseCurrency(gStr);
+      ins += parseCurrency(iStr);
+      deducted += parseCurrency(dStr);
+    }
+  });
+
+  if (!hasValidSource) {
+    resultEl.innerHTML = 'Vui lòng nhập thu nhập cho ít nhất 1 nguồn';
     resultEl.className = 'form-input result-value';
+    document.getElementById('refund-report').style.display = 'none';
     return;
   }
-
-  let gross = parseCurrency(grossInput);
-  let ins = parseCurrency(insInput);
-  let deducted = parseCurrency(deductedInput);
 
   let deductions = (PERSONAL_DEDUCTION * 12) + (deps * months * DEPENDENT_DEDUCTION);
   let taxableIncome = gross - ins - deductions;
@@ -374,9 +490,11 @@ function renderReport(container, data) {
   }
 
   // Tiền tính % Progress Bar
-  let grossForProgress = data.gross > 0 ? data.gross : 1; // tránh chia 0
+  let totalGross = data.gross + (data.extraGross || 0);
+  let totalTax = data.totalTax !== undefined ? data.totalTax : data.tax;
+  let grossForProgress = totalGross > 0 ? totalGross : 1; // tránh chia 0
   let netPct = (data.net / grossForProgress) * 100;
-  let taxPct = (data.tax / grossForProgress) * 100;
+  let taxPct = (totalTax / grossForProgress) * 100;
   let insPct = (data.insurance / grossForProgress) * 100;
 
   html += `
@@ -402,7 +520,8 @@ function renderReport(container, data) {
       ${data.isFromNet ? `
         <tr><td>Thu nhập trước thuế (Lương NET đã nhập)</td><td class="amount">${formatCurrency(Math.round(data.inputNet))}</td></tr>
       ` : `
-        <tr><td>Lương GROSS</td><td class="amount">${formatCurrency(Math.round(data.gross))}</td></tr>
+        <tr><td>Lương GROSS (Công ty chính)</td><td class="amount">${formatCurrency(Math.round(data.gross))}</td></tr>
+        ${data.extraGross ? `<tr><td>Tổng thu nhập vãng lai</td><td class="amount">${formatCurrency(Math.round(data.extraGross))}</td></tr>` : ''}
         <tr><td>Bảo hiểm bắt buộc (BHXH, BHYT, BHTN)</td><td class="amount">-${formatCurrency(Math.round(data.insurance))}</td></tr>
       `}
       <tr><td>Giảm trừ bản thân</td><td class="amount">-${formatCurrency(data.personalDeduction)}</td></tr>
@@ -414,7 +533,7 @@ function renderReport(container, data) {
   // Bảng phân tích thuế từng bậc
   if (data.taxDetails && data.taxDetails.length > 0) {
     html += `
-      <div class="table-title mt-24">Chi tiết thuế TNCN theo từng bậc</div>
+      <div class="table-title mt-24">Chi tiết thuế TNCN theo từng bậc (Nguồn chính)</div>
       <table class="tax-breakdown-table">
         <tr><th>Bậc thuế</th><th>Thu nhập tính thuế</th><th>Mức thuế</th></tr>
         ${data.taxDetails.map(d => `
@@ -425,9 +544,43 @@ function renderReport(container, data) {
           </tr>
         `).join('')}
         <tr>
-          <td><b>Tổng thuế TNCN phải nộp</b></td>
+          <td><b>Thuế TNCN nguồn chính</b></td>
           <td></td>
           <td class="amount"><b>${formatCurrency(Math.round(data.tax))}</b></td>
+        </tr>
+      </table>
+    `;
+  }
+
+  // Bảng thuế vãng lai
+  if (data.extraIncomesDetails && data.extraIncomesDetails.length > 0) {
+    html += `
+      <div class="table-title mt-24">Chi tiết thuế các nguồn vãng lai (Khấu trừ 10%)</div>
+      <table class="tax-breakdown-table">
+        <tr><th>Nguồn vãng lai</th><th>Thu nhập GROSS</th><th>Thuế khấu trừ (10%)</th></tr>
+        ${data.extraIncomesDetails.map((d, idx) => `
+          <tr>
+            <td>Nguồn ${idx + 1}</td>
+            <td class="amount">${formatCurrency(Math.round(d.amount))}</td>
+            <td class="amount">${formatCurrency(Math.round(d.tax))}</td>
+          </tr>
+        `).join('')}
+        <tr>
+          <td><b>Tổng thuế vãng lai</b></td>
+          <td></td>
+          <td class="amount"><b>${formatCurrency(Math.round(data.extraTax))}</b></td>
+        </tr>
+      </table>
+    `;
+  }
+
+  // Tổng hợp thuế
+  if (totalTax > 0) {
+    html += `
+      <table class="tax-breakdown-table" style="margin-top: 16px;">
+        <tr>
+          <td style="font-size: 14px; color: #ff4757;"><b>TỔNG THUẾ TNCN PHẢI NỘP</b></td>
+          <td class="amount" style="font-size: 16px; color: #ff4757;"><b>${formatCurrency(Math.round(totalTax))}</b></td>
         </tr>
       </table>
     `;
