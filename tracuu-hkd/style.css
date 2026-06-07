@@ -44,7 +44,7 @@ body{font-family:'Inter',sans-serif;background:var(--s50);color:var(--s600);min-
 .ir{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-bottom:20px}
 .f{flex:1;min-width:190px;position:relative}
 .f label{display:block;font-size:11.5px;font-weight:600;color:var(--s600);margin-bottom:5px}
-.f input[type=number]{width:100%;padding:10px 13px;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;border:1.5px solid var(--s200);border-radius:8px;color:var(--s800);background:var(--s50);outline:none;transition:border-color var(--t),background var(--t);-moz-appearance:textfield}
+.f input[type=number]{width:100%;padding:10px 13px;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;border:1.5px solid var(--s200);border-radius:8px;color:var(--s800);background:var(--s50);outline:none;transition:border-color var(--t),background var(--t);-moz-appearance:textfield;appearance:textfield}
 .f input[type=number]::-webkit-outer-spin-button,.f input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
 .f input[type=number]:focus{border-color:var(--p);background:var(--white);box-shadow:0 0 0 3px var(--p-lt)}
 .uhint{font-size:11px;color:var(--s400);position:absolute;top:100%;left:0;margin-top:4px;white-space:nowrap}
@@ -95,7 +95,7 @@ body{font-family:'Inter',sans-serif;background:var(--s50);color:var(--s600);min-
 
 /* multi-BDS calculator */
 .prop-row{display:flex;gap:8px;align-items:center;margin-bottom:8px;background:var(--s50);border:1px solid var(--s200);border-radius:8px;padding:10px 12px}
-.prop-row input{flex:1;padding:8px 10px;border:1.5px solid var(--s200);border-radius:6px;font-family:'Inter',sans-serif;font-size:13.5px;font-weight:600;color:var(--s800);background:var(--white);outline:none;-moz-appearance:textfield}
+.prop-row input{flex:1;padding:8px 10px;border:1.5px solid var(--s200);border-radius:6px;font-family:'Inter',sans-serif;font-size:13.5px;font-weight:600;color:var(--s800);background:var(--white);outline:none;-moz-appearance:textfield;appearance:textfield}
 .prop-row input::-webkit-outer-spin-button,.prop-row input::-webkit-inner-spin-button{-webkit-appearance:none}
 .prop-row input:focus{border-color:var(--teal);box-shadow:0 0 0 2px var(--teal-lt)}
 .prop-row .prop-label{font-size:11.5px;font-weight:600;color:var(--s600);min-width:60px}
