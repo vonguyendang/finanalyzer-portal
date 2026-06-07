@@ -1,0 +1,329 @@
+/* Style riêng cho VAT Tool - Đồng bộ với Theme hệ thống */
+.vat-container {
+  max-width: 800px; /* Nhỏ hơn TNCN 1 chút để tập trung form */
+}
+
+.vat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+}
+
+.card-header {
+  padding: 20px 30px;
+  border-bottom: 1px solid var(--border);
+}
+
+.main-header {
+  background: rgba(61, 142, 248, 0.05);
+}
+
+.card-header h2 {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--blue);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.card-body {
+  padding: 30px;
+}
+
+.input-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+}
+
+.input-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.input-group input[type="text"],
+.input-group select {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border2);
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 600;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(61,142,248,0.2);
+}
+
+.mt-20 { margin-top: 20px; }
+
+/* Radio Options like the image */
+.radio-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.radio-card {
+  display: block;
+  cursor: pointer;
+}
+
+.radio-card input[type="radio"] {
+  display: none;
+}
+
+.radio-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  background: var(--bg2);
+  transition: all 0.2s;
+}
+
+.radio-icon {
+  font-size: 18px;
+}
+
+.radio-text {
+  font-size: 14px;
+  color: var(--text2);
+}
+
+.radio-text b {
+  color: var(--text);
+}
+
+.radio-card input[type="radio"]:checked + .radio-content {
+  border-color: var(--blue);
+  background: rgba(61, 142, 248, 0.05);
+}
+
+.radio-card input[type="radio"]:checked + .radio-content .radio-text {
+  color: var(--blue);
+}
+
+/* Result Section */
+.result-section {
+  background: var(--bg2);
+  border-top: 1px dashed var(--border2);
+}
+
+.result-header {
+  padding: 15px 30px;
+  background: var(--blue);
+  color: #fff;
+  text-align: center;
+}
+
+.result-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.result-body {
+  padding: 30px;
+}
+
+.result-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.result-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text2);
+}
+
+.result-value-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.result-number {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.highlight-number {
+  color: var(--blue);
+  font-size: 24px;
+}
+
+.copy-btn {
+  background: none;
+  border: none;
+  color: var(--text3);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.copy-btn:hover {
+  color: var(--blue);
+  background: rgba(61, 142, 248, 0.1);
+}
+
+.result-words {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--text3);
+  text-align: right;
+  margin-bottom: 20px;
+  padding-right: 34px; /* Align with text, skipping the copy btn space */
+}
+
+.highlight-row {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border2);
+}
+
+.copy-all-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.copy-all-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--green);
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(46, 213, 115, 0.3);
+}
+
+.copy-all-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(46, 213, 115, 0.4);
+}
+
+/* Guide Card */
+.vat-guide-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.guide-header {
+  background: rgba(245, 166, 35, 0.1);
+}
+
+.guide-header h2 {
+  color: var(--gold);
+}
+
+.guide-body {
+  padding: 30px;
+}
+
+.guide-item h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.guide-item p {
+  font-size: 14px;
+  color: var(--text2);
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.formula-box {
+  background: var(--bg);
+  border: 1px dashed var(--border2);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.box-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.formula-box ul {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--text2);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.formula-box b {
+  color: var(--text);
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--green);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 600;
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 10000;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .input-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .card-body, .result-body, .guide-body {
+    padding: 20px;
+  }
+}

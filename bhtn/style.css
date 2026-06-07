@@ -1,0 +1,88 @@
+/* Style riêng cho BHTN Tool */
+
+.bhtn-layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.bhtn-form-card {
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.salary-6-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.support-box {
+  max-width: 900px;
+  margin: 20px auto 0;
+  background: rgba(245, 166, 35, 0.1);
+  border: 1px solid rgba(245, 166, 35, 0.3);
+  border-radius: 12px;
+  padding: 25px 30px;
+}
+
+.support-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 15px;
+}
+
+.support-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+
+.support-list li {
+  font-size: 14px;
+  color: var(--text2);
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.support-contact {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.hotline {
+  color: #e74c3c;
+  font-size: 18px;
+  font-weight: 800;
+  margin-left: 5px;
+}
+
+.bhtn-seo-text {
+  height: 280px; /* Tùy chỉnh chiều cao thu gọn */
+}
+
+.bhtn-seo-text ul {
+  padding-left: 20px;
+  margin-bottom: 15px;
+}
+
+.bhtn-seo-text li {
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+/* Các classes kế thừa từ gross-net: gn-card, gn-form, radio-grid-4, radio-group-vertical, input-with-suffix, btn-action... */
+
+@media (max-width: 768px) {
+  .salary-6-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .salary-6-grid {
+    grid-template-columns: 1fr;
+  }
+}

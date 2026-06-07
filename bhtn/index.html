@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Công cụ tính mức hưởng Bảo hiểm thất nghiệp chính xác nhất 2026</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="../favicon_io/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon_io/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon_io/favicon-16x16.png">
+  <link rel="shortcut icon" href="../favicon_io/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lexend:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../gross-net/style.css"> <!-- Tái sử dụng CSS chung form & seo -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <a href="../" title="Trở về Trang Chủ" class="float-home-btn">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+    <span>Trang Chủ</span>
+  </a>
+
+  <button class="theme-float" onclick="toggleTheme()" title="Chuyển đổi giao diện sáng/tối">
+    <span id="themeIcon">🌙</span>
+    <span id="themeLabel">Tối</span>
+    <div class="theme-track">
+      <div class="theme-thumb"></div>
+    </div>
+  </button>
+
+  <div class="container main-container">
+    
+    <div class="header">
+      <h1 class="title" style="max-width: 800px; margin: 0 auto; text-align: center;">CÔNG CỤ TÍNH MỨC HƯỞNG BẢO HIỂM THẤT NGHIỆP CHÍNH XÁC NHẤT 2026</h1>
+      <p class="subtitle mt-20" style="font-style: italic; max-width: 900px; margin: 20px auto 0;">Bảo hiểm thất nghiệp (BHTN) được tính dựa trên thời gian đã đóng BHXH để xác định số tiền mà người lao động sẽ nhận được khi thất nghiệp. Việc hiểu rõ cách tính BHTN là rất quan trọng để người lao động có thể dự kiểm được số tiền mà mình nhận được. Công cụ tính BHTN của FinAnalyzer sẽ giúp bạn nhanh chóng tính toán được khoản trợ cấp BHTN của mình.</p>
+    </div>
+
+    <div class="bhtn-layout">
+      <!-- Khối Form nhập liệu -->
+      <div class="gn-card bhtn-form-card" style="margin-bottom: 20px;">
+        <div class="gn-form" style="background: rgba(0,0,0,0.02);">
+          
+          <!-- Áp dụng quy định -->
+          <div class="form-row">
+            <div class="form-label">Áp dụng quy định:</div>
+            <div class="form-input">
+              <div class="radio-grid-4">
+                <label class="radio-item"><input type="radio" name="rule-period" value="2026" checked><span>Từ 01/01/2026 <b style="color:#ff4757">(Mới nhất)</b></span></label>
+                <label class="radio-item"><input type="radio" name="rule-period" value="2025_2"><span>Từ 01/7/2025 - 31/12/2025</span></label>
+                <label class="radio-item"><input type="radio" name="rule-period" value="2025_1"><span>Trước 30/6/2025</span></label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Loại lương BHTN -->
+          <div class="form-row mt-30">
+            <div class="form-label">Lương đóng bảo hiểm</div>
+            <div class="form-input">
+              <div class="radio-group-vertical">
+                <label class="radio-item">
+                  <input type="radio" name="salary-type" value="unchanged" checked>
+                  <span>Lương đóng bảo hiểm không thay đổi trong 6 tháng gần nhất trước khi thất nghiệp</span>
+                </label>
+                <label class="radio-item mt-10">
+                  <input type="radio" name="salary-type" value="changed">
+                  <span>Lương đóng bảo hiểm thay đổi trong 6 tháng gần nhất trước khi thất nghiệp</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Nhập lương 1 tháng (Unchanged) -->
+          <div class="form-row mt-20" id="row-salary-1">
+            <div class="form-label">Tiền lương đóng BHTN ⓘ</div>
+            <div class="form-input">
+              <div class="input-with-suffix">
+                <input type="text" id="salary-avg" class="number-format" placeholder="Nhập số tiền...">
+                <span class="suffix">VNĐ</span>
+              </div>
+              <div class="text-mute mt-10" style="font-size: 12px; color: var(--text3);">(Bình quân tiền lương đóng BHTN của 06 tháng liền kề trước khi thất nghiệp)</div>
+            </div>
+          </div>
+
+          <!-- Nhập lương 6 tháng (Changed) -->
+          <div class="form-row mt-20" id="row-salary-6" style="display:none;">
+            <div class="form-label">Tiền lương 6 tháng liền kề</div>
+            <div class="form-input">
+              <div class="salary-6-grid">
+                <div class="input-with-suffix"><input type="text" id="sal-1" class="number-format" placeholder="Tháng 1"><span class="suffix">VNĐ</span></div>
+                <div class="input-with-suffix"><input type="text" id="sal-2" class="number-format" placeholder="Tháng 2"><span class="suffix">VNĐ</span></div>
+                <div class="input-with-suffix"><input type="text" id="sal-3" class="number-format" placeholder="Tháng 3"><span class="suffix">VNĐ</span></div>
+                <div class="input-with-suffix"><input type="text" id="sal-4" class="number-format" placeholder="Tháng 4"><span class="suffix">VNĐ</span></div>
+                <div class="input-with-suffix"><input type="text" id="sal-5" class="number-format" placeholder="Tháng 5"><span class="suffix">VNĐ</span></div>
+                <div class="input-with-suffix"><input type="text" id="sal-6" class="number-format" placeholder="Tháng 6"><span class="suffix">VNĐ</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Thời gian đóng -->
+          <div class="form-row mt-30">
+            <div class="form-label">Tổng thời gian đóng BHTN chưa hưởng</div>
+            <div class="form-input">
+              <div class="input-with-suffix short-input">
+                <input type="number" id="months-paid" min="0" placeholder="Tháng">
+                <span class="suffix">Tháng</span>
+              </div>
+              <div class="text-mute mt-10" style="font-size: 12px; color: var(--text3);">(Đóng từ đủ 12 tháng - 36 tháng được hưởng 3 tháng trợ cấp. Sau đó cứ đóng đủ thêm 12 tháng được hưởng thêm 1 tháng trợ cấp)</div>
+            </div>
+          </div>
+
+          <!-- Chế độ tiền lương -->
+          <div class="form-row mt-30">
+            <div class="form-label">Chế độ tiền lương</div>
+            <div class="form-input">
+              <div class="radio-grid-4">
+                <label class="radio-item"><input type="radio" name="salary-regime" value="state" checked><span>Nhà nước</span></label>
+                <label class="radio-item"><input type="radio" name="salary-regime" value="private"><span>Tư nhân</span></label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Vùng (Chỉ hiện khi chọn Tư nhân) -->
+          <div class="form-row mt-20" id="row-region" style="display:none; padding-left: 20px; border-left: 3px solid var(--blue);">
+            <div class="form-label" style="color: var(--blue);">Vùng làm việc</div>
+            <div class="form-input">
+              <div class="radio-grid-4">
+                <label class="radio-item"><input type="radio" name="region" value="1" checked><span>Vùng I</span></label>
+                <label class="radio-item"><input type="radio" name="region" value="2"><span>Vùng II</span></label>
+                <label class="radio-item"><input type="radio" name="region" value="3"><span>Vùng III</span></label>
+                <label class="radio-item"><input type="radio" name="region" value="4"><span>Vùng IV</span></label>
+              </div>
+              <div class="text-mute mt-10" style="font-size: 12px; color: var(--text3);">(Căn cứ để tính mức hưởng BHTN tối đa đối với chế độ lương tư nhân)</div>
+            </div>
+          </div>
+
+          <!-- Buttons -->
+          <div class="form-actions mt-40">
+            <button class="btn-action btn-red" onclick="calculateBHTN()" style="padding: 14px 30px; font-size: 15px;">TÍNH BẢO HIỂM THẤT NGHIỆP</button>
+          </div>
+
+        </div> <!-- End gn-form -->
+        
+        <!-- Kết quả Báo cáo -->
+        <div id="bhtn-report-container" class="tax-report" style="display:none; padding: 30px; background: var(--bg2); border-top: 1px dashed var(--border2);">
+        </div>
+
+      </div> <!-- End form card -->
+
+      <!-- Hỗ trợ Luật VN -->
+      <div class="support-box">
+        <h3 class="support-title">Hỗ trợ thủ tục nhận trợ cấp thất nghiệp của LuatVietnam.vn</h3>
+        <ul class="support-list">
+          <li>• Cung cấp mẫu Đơn đề nghị nhận trợ cấp;</li>
+          <li>• Cung cấp mẫu Đơn thông báo tìm việc làm;</li>
+          <li>• Giải đáp, hướng dẫn làm thủ tục nhận trợ cấp thất nghiệp.</li>
+        </ul>
+        <div class="support-contact">
+          Liên hệ ngay <span class="hotline">📞 0936 385 236</span>
+        </div>
+      </div>
+
+    </div> <!-- End Layout -->
+
+    <!-- Cẩm nang SEO -->
+    <div class="seo-card mt-40">
+      
+      <div class="legal-basis">
+        <h3 class="mb-10">Căn cứ pháp lý:</h3>
+        <ul id="dynamic-legal-list">
+          <!-- Sẽ render bằng JS -->
+          <li>- Mức hưởng bảo hiểm thất nghiệp được quy định tại Điều 50 Luật Việc làm 2013 và được hướng dẫn chi tiết tại Điều 8 Nghị định 28/2015/NĐ-CP.</li>
+          <li>- Áp dụng mức tham chiếu mới nhất có hiệu lực từ 01/7/2025.</li>
+        </ul>
+      </div>
+
+      <div class="seo-content mt-30" id="seo-content">
+        <div class="seo-text-wrapper bhtn-seo-text">
+          <h3 class="mt-20">BẢO HIỂM THẤT NGHIỆP LÀ GÌ?</h3>
+          <p>Theo Luật Việc làm 2013, bảo hiểm thất nghiệp là chế độ bù đắp một phần thu nhập của người lao động khi bị mất việc làm, hỗ trợ người lao động học nghề, duy trì và tìm kiếm việc làm trên cơ sở đóng vào Quỹ bảo hiểm thất nghiệp.</p>
+          
+          <h3 class="mt-30">Điều kiện hưởng bảo hiểm thất nghiệp là gì?</h3>
+          <p>Để được hưởng trợ cấp thất nghiệp, người lao động phải đáp ứng các điều kiện tại Điều 49 Luật Việc làm 2013:</p>
+          <ul>
+            <li>Đã chấm dứt hợp đồng lao động (trừ trường hợp đơn phương chấm dứt hợp đồng lao động trái pháp luật; đang hưởng lương hưu, trợ cấp mất sức lao động hằng tháng)</li>
+            <li>Đã đóng BHTN từ đủ 12 tháng trở lên trong thời gian 24 tháng trước khi chấm dứt hợp đồng lao động</li>
+            <li>Đã nộp hồ sơ hưởng trợ cấp thất nghiệp tại trung tâm dịch vụ việc làm trong thời hạn 03 tháng</li>
+            <li>Chưa tìm được việc làm sau 15 ngày, kể từ ngày nộp hồ sơ</li>
+          </ul>
+
+          <h3 class="mt-30">Mức hưởng trợ cấp thất nghiệp mới nhất</h3>
+          <p>Căn cứ Điều 50 Luật Việc làm 2013, mức hưởng trợ cấp thất nghiệp hằng tháng chi trả cho người lao động được tính theo công thức sau:</p>
+          <p><b style="color: #ff4757; font-size: 16px;">Mức hưởng hằng tháng = 60% x Bình quân tiền lương tháng đóng BHTN của 06 tháng liền kề trước khi thất nghiệp</b></p>
+          <p>Thời gian hưởng trợ cấp thất nghiệp được tính theo số tháng đóng bảo hiểm thất nghiệp:</p>
+          <ul>
+            <li>Đóng bảo hiểm thất nghiệp đủ 12 - 36 tháng: Được hưởng 03 tháng trợ cấp.</li>
+            <li>Sau đó, cứ đóng đủ thêm 12 tháng: Được hưởng thêm 01 tháng trợ cấp.</li>
+            <li>Thời gian hưởng tối đa không quá 12 tháng.</li>
+          </ul>
+
+          <h3 class="mt-30">THỦ TỤC NHẬN TIỀN TRỢ CẤP THẤT NGHIỆP</h3>
+          <p><b style="color: #ff4757;">Các loại giấy tờ cần chuẩn bị:</b></p>
+          <ul>
+            <li>Đơn đề nghị hưởng trợ cấp thất nghiệp theo mẫu</li>
+            <li>Bản chính hoặc bản sao có chứng thực của một trong các giấy tờ xác nhận về việc chấm dứt hợp đồng lao động</li>
+            <li>Sổ bảo hiểm xã hội</li>
+          </ul>
+          <p><b>Nơi nộp hồ sơ:</b> Trung tâm dịch vụ việc làm (tại địa phương nơi người lao động muốn nhận trợ cấp).</p>
+          <p><b>Thời hạn giải quyết:</b> 20 ngày làm việc kể từ ngày nhận đủ hồ sơ hợp lệ.</p>
+          <p><i style="color: #ff4757;">Lưu ý:</i> Người lao động phải làm thủ tục nhận trợ cấp trong vòng 03 tháng kể từ ngày chấm dứt hợp đồng lao động. Hiện nay đã có thể làm thủ tục nhận trợ cấp thất nghiệp online trên Cổng Dịch vụ công Quốc gia.</p>
+        </div>
+        
+        <div class="read-more-wrapper">
+          <button class="btn-read-more" id="btn-read-more">Xem thêm ⌄</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div> <!-- End container -->
+
+  <footer class="site-footer">
+    <div class="footer-content">
+      <p><strong>FinAnalyzer Portal (Beta)</strong></p>
+      <p>Dự án đang trong giai đoạn thử nghiệm và phát triển. Các công cụ tính toán được xây dựng dựa trên việc tham khảo các quy định pháp luật và nhiều nguồn tài liệu uy tín.</p>
+      <p>Website hoạt động hoàn toàn với mục đích <strong>phi thương mại</strong>, phục vụ cho nhu cầu học tập, tham khảo và hỗ trợ tính toán nhanh. Chúng tôi <strong>không chịu trách nhiệm</strong> pháp lý đối với bất kỳ quyết định tài chính, kế toán hay thuế nào dựa trên các kết quả từ hệ thống này.</p>
+      <p class="footer-copyright">© 2026 FinAnalyzer. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

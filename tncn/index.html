@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Công cụ tính thuế thu nhập cá nhân online 2026</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="../favicon_io/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon_io/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon_io/favicon-16x16.png">
+  <link rel="shortcut icon" href="../favicon_io/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lexend:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <a href="../" title="Trở về Trang Chủ" class="float-home-btn">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+    <span>Trang Chủ</span>
+  </a>
+
+  <button class="theme-float" onclick="toggleTheme()" title="Chuyển đổi giao diện sáng/tối">
+    <span id="themeIcon">🌙</span>
+    <span id="themeLabel">Tối</span>
+    <div class="theme-track">
+      <div class="theme-thumb"></div>
+    </div>
+  </button>
+
+  <div class="container">
+    <div class="header">
+      <h1 class="title" style="margin-top: 10px;">Công cụ tính thuế thu nhập cá nhân online 2026</h1>
+      <p class="subtitle">Chỉ cần nhập thông tin mức thu nhập, bạn sẽ biết được ngay số thuế thu nhập cá nhân (TNCN) cần nộp hàng tháng và số thuế TNCN được hoàn theo năm</p>
+    </div>
+
+    <div class="tncn-period-toggle">
+      <span class="period-label">Áp dụng quy định:</span>
+      <div class="period-radio-group">
+        <input type="radio" id="period-2025" name="tax_period" value="2025">
+        <label for="period-2025">Từ 01/07/2025 - 31/12/2025</label>
+        
+        <input type="radio" id="period-2026" name="tax_period" value="2026" checked>
+        <label for="period-2026">Từ 01/01/2026 (Mới nhất)</label>
+      </div>
+    </div>
+
+    <div class="tncn-layout">
+      <!-- Cột trái: Công cụ tính toán -->
+      <div class="tncn-wrapper">
+        <!-- Main Tabs -->
+        <div class="tncn-tabs">
+        <button class="tncn-tab active" data-target="tab-nop">
+          <div class="tab-icon">💸</div>
+          Bảng tính thuế TNCN cần nộp
+        </button>
+        <button class="tncn-tab" data-target="tab-hoan">
+          <div class="tab-icon">💰</div>
+          Bảng tính thuế TNCN được hoàn
+        </button>
+      </div>
+
+      <!-- Tab Content: Cần Nộp -->
+      <div id="tab-nop" class="tncn-tab-content active">
+        <h2 class="section-title"><span>📝</span> Bảng tính thuế TNCN cần nộp</h2>
+        
+        <!-- Cách 1: NET -->
+        <div class="calc-block">
+          <h3 class="block-title">Cách 1: Tính thuế TNCN phải nộp dựa trên mức lương NET (Theo tháng)</h3>
+          
+          <div class="form-row">
+            <div class="form-label">
+              <span class="icon">💵</span> Tổng thu nhập (NET) <span class="required">*</span> <span class="info-icon" title="Là tổng thu nhập phải chịu thuế bao gồm lương tháng từ tiền công/tiền lương và thưởng (đã trừ đi khoản bảo hiểm bắt buộc).">ⓘ</span>
+            </div>
+            <div class="form-input">
+              <input type="text" id="net-income" class="number-format" placeholder="Nhập tổng thu nhập">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-label">
+              <span class="icon">👨‍👩‍👧‍👦</span> Số lượng người phụ thuộc <span class="required">*</span>
+            </div>
+            <div class="form-input">
+              <input type="number" id="net-dependents" min="0" value="0" placeholder="Nhập số người phụ thuộc">
+            </div>
+          </div>
+
+          <div class="form-row result-row">
+            <div class="form-label">
+              <span class="icon">📉</span> Số thuế thu nhập cá nhân cần nộp
+            </div>
+            <div class="form-input result-value" id="net-result">
+              Vui lòng nhập đầy đủ các ô bắt buộc
+            </div>
+          </div>
+          <div class="note-text">Ô đánh dấu * bắt buộc điền dữ liệu</div>
+          <div id="net-report" class="tax-report" style="display: none;"></div>
+        </div>
+
+        <!-- Cách 2: GROSS -->
+        <div class="calc-block mt-24">
+          <h3 class="block-title">Cách 2: Tính thuế TNCN phải nộp dựa trên mức lương GROSS (Theo tháng)</h3>
+          
+          <div class="form-row">
+            <div class="form-label">
+              <span class="icon">💵</span> Tổng thu nhập (GROSS) <span class="required">*</span> <span class="info-icon" title="Là tổng thu nhập phải chịu thuế bao gồm lương tháng từ tiền công/tiền lương và thưởng (Chưa tính trừ các khoản bảo hiểm và các khoản miễn thuế khác).">ⓘ</span>
+            </div>
+            <div class="form-input">
+              <input type="text" id="gross-income" class="number-format" placeholder="Nhập tổng thu nhập">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-label">
+              <span class="icon">🏢</span> Mức lương đóng bảo hiểm <span class="required">*</span>
+            </div>
+            <div class="form-input">
+              <input type="text" id="gross-insurance" class="number-format" placeholder="Nhập mức lương đóng bảo hiểm">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-label">
+              <span class="icon">📍</span> Vùng <span class="required">*</span> <span class="info-icon" title="Mức lương tối thiểu vùng dùng để giới hạn trần đóng Bảo hiểm Thất nghiệp (BHTN).">ⓘ</span>
+            </div>
+            <div class="form-input">
+              <select id="gross-region">
+                <option value="1">Vùng I (Mức lương tối thiểu 4.960.000 VNĐ)</option>
+                <option value="2">Vùng II (Mức lương tối thiểu 4.410.000 VNĐ)</option>
+                <option value="3">Vùng III (Mức lương tối thiểu 3.860.000 VNĐ)</option>
+                <option value="4">Vùng IV (Mức lương tối thiểu 3.450.000 VNĐ)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-label">
+              <span class="icon">👨‍👩‍👧‍👦</span> Số lượng người phụ thuộc <span class="required">*</span>
+            </div>
+            <div class="form-input">
+              <input type="number" id="gross-dependents" min="0" value="0" placeholder="Nhập số người phụ thuộc">
+            </div>
+          </div>
+
+          <div class="form-row result-row">
+            <div class="form-label">
+              <span class="icon">📉</span> Số thuế thu nhập cá nhân cần nộp
+            </div>
+            <div class="form-input result-value" id="gross-result">
+              Vui lòng nhập đầy đủ các ô bắt buộc
+            </div>
+          </div>
+          <div class="note-text">Ô đánh dấu * bắt buộc điền dữ liệu</div>
+          <div id="gross-report" class="tax-report" style="display: none;"></div>
+        </div>
+
+      </div>
+
+      <!-- Tab Content: Hoàn Thuế -->
+      <div id="tab-hoan" class="tncn-tab-content">
+        <h2 class="section-title"><span>📝</span> Bảng tính thuế TNCN được hoàn</h2>
+        
+        <div class="calc-block">
+          <h3 class="block-title">Bảng tính số tiền thuế thu nhập cá nhân được hoàn (Theo năm)</h3>
+          
+          <div class="form-row">
+            <div class="form-label">
+              <span class="icon">💵</span> Tổng thu nhập (GROSS) <span class="required">*</span> <span class="info-icon" title="Là tổng thu nhập phải chịu thuế bao gồm lương tháng từ tiền công/tiền lương và thưởng (Chưa tính trừ các khoản bảo hiểm và các khoản miễn thuế khác).">ⓘ</span>
+            </div>
+            <div class="form-input">
+              <input type="text" id="refund-gross" class="number-format" placeholder="Nhập tổng thu nhập">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-label">
+              <span class="icon">🛡️</span> Tổng tiền bảo hiểm bắt buộc đã đóng <span class="required">*</span>
+            </div>
+            <div class="form-input">
+              <input type="text" id="refund-insurance" class="number-format" placeholder="Nhập tổng tiền bảo hiểm">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-label">
+              <span class="icon">👨‍👩‍👧‍👦</span> Số lượng người phụ thuộc <span class="required">*</span>
+            </div>
+            <div class="form-input">
+              <input type="number" id="refund-dependents" min="0" value="0" placeholder="Nhập số người phụ thuộc">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-label">
+              <span class="icon">📅</span> Số tháng phụ thuộc <span class="required">*</span>
+            </div>
+            <div class="form-input">
+              <input type="number" id="refund-months" min="1" max="12" value="12" placeholder="Nhập số tháng phụ thuộc">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-label">
+              <span class="icon">📉</span> Số thuế thu nhập cá nhân đã khấu trừ <span class="required">*</span>
+            </div>
+            <div class="form-input">
+              <input type="text" id="refund-deducted" class="number-format" placeholder="Nhập số thuế đã khấu trừ">
+            </div>
+          </div>
+
+          <div class="form-row result-row">
+            <div class="form-label">
+              <span class="icon">💸</span> Số tiền thuế được hoàn <span class="info-icon" title="Nếu âm nghĩa là số tiền thuế phải nộp thêm">ⓘ</span>
+            </div>
+            <div class="form-input result-value" id="refund-result">
+              Vui lòng nhập đầy đủ các ô bắt buộc
+            </div>
+          </div>
+          <div class="note-text">Ô đánh dấu * bắt buộc điền dữ liệu</div>
+          <div id="refund-report" class="tax-report" style="display: none;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cột phải: Sidebar chú thích -->
+    <div class="tncn-sidebar">
+      <div class="sidebar-box info-box">
+        <h4><span class="icon">ⓘ</span> Tổng thu nhập (NET)</h4>
+        <ul>
+          <li>Là tổng thu nhập phải chịu thuế bao gồm lương tháng từ tiền công/tiền lương và thưởng (đã trừ đi khoản bảo hiểm bắt buộc).</li>
+          <li>Áp dụng đối với người nhận lương net (Mức lương nhận được đã trừ khoản bảo hiểm bắt buộc 10.5%).</li>
+        </ul>
+        
+        <h4 class="mt-16"><span class="icon">ⓘ</span> Tổng thu nhập (GROSS)</h4>
+        <ul>
+          <li>Là tổng thu nhập phải chịu thuế bao gồm lương tháng từ tiền công/tiền lương và thưởng (Chưa tính trừ các khoản bảo hiểm và các khoản miễn thuế khác).</li>
+        </ul>
+      </div>
+
+      <div class="sidebar-box text-box mt-16">
+        <p>Đây là tiện ích giúp người dùng nhanh chóng, dễ dàng tính được số thuế thu nhập cá nhân cần nộp (hàng tháng) và số tiền thuế thu nhập cá nhân được hoàn (theo năm).</p>
+        <p>Tiện ích được xây dựng dựa trên việc tuân theo đúng chuẩn quy định pháp luật hiện hành. Căn cứ pháp lý sau:</p>
+        
+        <ul id="legal-basis-list">
+          <!-- Sẽ được điền bằng JS tùy theo kỳ quy định -->
+        </ul>
+      </div>
+    </div>
+  </div> <!-- End tncn-layout -->
+  </div> <!-- End container -->
+
+  <footer class="site-footer">
+    <div class="footer-content">
+      <p><strong>FinAnalyzer Portal (Beta)</strong></p>
+      <p>Dự án đang trong giai đoạn thử nghiệm và phát triển. Các công cụ tính toán được xây dựng dựa trên việc tham khảo các quy định pháp luật và nhiều nguồn tài liệu uy tín.</p>
+      <p>Website hoạt động hoàn toàn với mục đích <strong>phi thương mại</strong>, phục vụ cho nhu cầu học tập, tham khảo và hỗ trợ tính toán nhanh. Chúng tôi <strong>không chịu trách nhiệm</strong> pháp lý đối với bất kỳ quyết định tài chính, kế toán hay thuế nào dựa trên các kết quả từ hệ thống này.</p>
+      <p class="footer-copyright">© 2026 FinAnalyzer. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

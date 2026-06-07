@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Công Cụ Tính Lương Gross Sang Net, Net Sang Gross Mới Nhất 2026</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="../favicon_io/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon_io/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon_io/favicon-16x16.png">
+  <link rel="shortcut icon" href="../favicon_io/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lexend:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../tncn/style.css"> <!-- Tái sử dụng CSS report của TNCN -->
+</head>
+<body>
+
+  <a href="../" title="Trở về Trang Chủ" class="float-home-btn">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+    <span>Trang Chủ</span>
+  </a>
+
+  <button class="theme-float" onclick="toggleTheme()" title="Chuyển đổi giao diện sáng/tối">
+    <span id="themeIcon">🌙</span>
+    <span id="themeLabel">Tối</span>
+    <div class="theme-track">
+      <div class="theme-thumb"></div>
+    </div>
+  </button>
+
+  <div class="container main-container">
+    
+    <div class="header">
+      <h1 class="title">CÔNG CỤ TÍNH LƯƠNG GROSS SANG NET, NET SANG GROSS MỚI NHẤT 2026</h1>
+      <p class="subtitle">Công cụ chuyển đổi lương gross to net, net to gross giúp khách hàng chuyển đổi lương gộp/lương danh nghĩa (lương Gross) sang lương thực nhận/lương ròng (lương Net) nhanh chóng và tiện lợi. Thuế suất và các khoản giảm trừ liên quan đến khoản lương nói trên được tính theo quy định hiện hành.</p>
+    </div>
+
+    <!-- Khối Form -->
+    <div class="gn-card">
+      <div class="gn-form">
+        
+        <!-- Quy định -->
+        <div class="form-row">
+          <div class="form-label">Áp dụng quy định:</div>
+          <div class="form-input">
+            <div class="radio-grid-2">
+              <label class="radio-item">
+                <input type="radio" name="rule-period" value="2026" checked>
+                <span>Từ 01/01/2026 <b style="color:#ff4757">(Mới nhất)</b> ⓘ</span>
+              </label>
+              <label class="radio-item">
+                <input type="radio" name="rule-period" value="2025_2">
+                <span>Từ 01/7/2025 - 31/12/2025 ⓘ</span>
+              </label>
+              <label class="radio-item">
+                <input type="radio" name="rule-period" value="2024_2">
+                <span>Từ 01/7/2024 - 30/06/2025 ⓘ</span>
+              </label>
+              <label class="radio-item">
+                <input type="radio" name="rule-period" value="2023_2">
+                <span>Từ 01/7/2023 - 30/06/2024 ⓘ</span>
+              </label>
+              <label class="radio-item">
+                <input type="radio" name="rule-period" value="2022_2">
+                <span>Từ 01/7/2022 - 30/06/2023 ⓘ</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Thu nhập -->
+        <div class="form-row mt-20">
+          <div class="form-label">Thu nhập của bạn ⓘ</div>
+          <div class="form-input">
+            <div class="input-with-suffix">
+              <input type="text" id="gn-income" class="number-format" placeholder="Nhập thu nhập...">
+              <span class="suffix">VNĐ</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lương đóng bảo hiểm -->
+        <div class="form-row mt-20">
+          <div class="form-label">Lương đóng bảo hiểm ⓘ</div>
+          <div class="form-input">
+            <div class="radio-group-vertical">
+              <label class="radio-item">
+                <input type="radio" name="ins-type" value="official" checked>
+                <span>Trên lương chính thức</span>
+              </label>
+              <label class="radio-item">
+                <input type="radio" name="ins-type" value="other">
+                <span>Khác</span>
+                <div class="input-with-suffix inline-input" id="ins-other-wrapper">
+                  <input type="text" id="gn-insurance" class="number-format" placeholder="Nhập lương bảo hiểm..." disabled>
+                  <span class="suffix">VNĐ</span>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Vùng -->
+        <div class="form-row mt-20">
+          <div class="form-label">Vùng ⓘ</div>
+          <div class="form-input">
+            <div class="radio-grid-4">
+              <label class="radio-item"><input type="radio" name="region" value="1" checked><span>Vùng I</span></label>
+              <label class="radio-item"><input type="radio" name="region" value="2"><span>Vùng II</span></label>
+              <label class="radio-item"><input type="radio" name="region" value="3"><span>Vùng III</span></label>
+              <label class="radio-item"><input type="radio" name="region" value="4"><span>Vùng IV</span> <span class="text-mute">(Giải thích vùng)</span></label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Người phụ thuộc -->
+        <div class="form-row mt-20">
+          <div class="form-label">Số người phụ thuộc ⓘ</div>
+          <div class="form-input">
+            <div class="input-with-suffix short-input">
+              <input type="number" id="gn-dependents" min="0" value="0">
+              <span class="suffix">Người</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="form-actions mt-30">
+          <button class="btn-action btn-red" onclick="calcGrossToNet()">GROSS SANG NET</button>
+          <button class="btn-action btn-brown" onclick="calcNetToGross()">NET SANG GROSS</button>
+        </div>
+
+      </div> <!-- End gn-form -->
+
+      <!-- Kết quả báo cáo sẽ được render vào đây (tái sử dụng CSS của TNCN) -->
+      <div id="gn-report-container" class="tax-report" style="display:none; padding: 30px; background: var(--bg2);">
+      </div>
+
+    </div> <!-- End gn-card -->
+
+    <!-- Cẩm nang SEO -->
+    <div class="seo-card mt-40">
+      
+      <div class="legal-basis">
+        <h3 class="mb-10">Căn cứ pháp lý:</h3>
+        <ul id="dynamic-legal-list">
+          <!-- Render by JS based on period -->
+          <li>- Áp dụng mức tham chiếu 2.340.000 đồng (Theo Luật Bảo hiểm xã hội 2024 và Nghị định 73/2024/NĐ-CP)</li>
+          <li>- Luật Bảo hiểm xã hội 2024 có hiệu lực từ 01/7/2025 quyết định sử dụng mức tham chiếu trong bảo hiểm xã hội thay thế mức lương cơ sở.</li>
+          <li>- Áp dụng mức giảm trừ gia cảnh mới nhất 11 triệu đồng/tháng.</li>
+        </ul>
+      </div>
+
+      <div class="seo-content mt-30" id="seo-content">
+        <div class="seo-text-wrapper">
+          <h3 class="mt-20">1. LƯƠNG NET VÀ LƯƠNG GROSS LÀ GÌ?</h3>
+          <p><b>Lương net</b> là tiền lương thực nhận mà người lao động được người sử dụng lao động trả hàng tháng sau khi đã trừ hết các loại khoản chi phí bảo hiểm, thuế thu nhập cá nhân.</p>
+          <p>Trong trường hợp nhận lương net, công ty đã đóng bảo hiểm, thuế thu nhập cá nhân thay cho người lao động và tiền lương người lao động được nhận là đã trừ các khoản này.</p>
+          <p><b>Lương gross</b> là tổng thu nhập mỗi tháng người lao động nhận được gồm cả lương cơ bản và các khoản trợ cấp, phụ cấp, hoa hồng... trong đó có cả các khoản đóng bảo hiểm và thuế thu nhập cá nhân.</p>
+          <p>Trong trường hợp nhận lương gross, người lao động phải tự đóng bảo hiểm, thuế thu nhập cá nhân. Tiền lương được nhận bao gồm cả các khoản phí này.</p>
+
+          <h3 class="mt-30">2. CÁCH TÍNH LƯƠNG NET NHƯ THẾ NÀO?</h3>
+          <p>Công thức sau thể hiện cách tính lương net:</p>
+          <p><b style="color: #ff4757;">Lương net = Lương gross - Tiền đóng bảo hiểm bắt buộc - Thuế TNCN (nếu có)</b></p>
+          <p>Trong đó:</p>
+          <p>* <b>Tiền đóng bảo hiểm bắt buộc</b> của người lao động được tính trên cơ sở tiền lương của người lao động. Cụ thể:</p>
+          <ul>
+            <li>8% đóng quỹ hưu trí - tử tuất.</li>
+            <li>1% đóng quỹ bảo hiểm thất nghiệp.</li>
+            <li>1,5% đóng quỹ bảo hiểm y tế.</li>
+          </ul>
+          <p>* <b>Tiền thuế thu nhập cá nhân:</b></p>
+          <p><b style="color: #ff4757;">Thuế TNCN = (Tổng thu nhập - Các khoản được miễn - Khoản giảm trừ) x Thuế suất</b></p>
+
+          <h3 class="mt-30">3. VÌ SAO CẦN BIẾT CÁCH CHUYỂN LƯƠNG GROSS SANG NET?</h3>
+          <p>Người lao động cần biết cách tính lương gross sang net để biết được chính xác số tiền mà mình nhận được và số tiền phải trừ để đóng thuế thu nhập cá nhân và bảo hiểm.</p>
+          
+          <h3 class="mt-30">4. LƯƠNG NET VÀ LƯƠNG GROSS: NHẬN LƯƠNG NÀO CÓ LỢI HƠN?</h3>
+          <p>Nhận lương net hay lương gross không làm thay đổi mức thu nhập thực tế của người lao động. Tuy nhiên, người nhận lương net có xu hướng chịu rủi ro nhiều hơn so với lương gross, do nhiều trường hợp người sử dụng lao động trả lương gross cho người lao động nhưng cố tình "trốn" đóng bảo hiểm cũng như thuế thu nhập cá nhân cho người lao động, ảnh hưởng rất lớn đến quyền lợi của người lao động.</p>
+        </div>
+        
+        <div class="read-more-wrapper">
+          <button class="btn-read-more" id="btn-read-more">Xem thêm ⌄</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div> <!-- End container -->
+
+  <footer class="site-footer">
+    <div class="footer-content">
+      <p><strong>FinAnalyzer Portal (Beta)</strong></p>
+      <p>Dự án đang trong giai đoạn thử nghiệm và phát triển. Các công cụ tính toán được xây dựng dựa trên việc tham khảo các quy định pháp luật và nhiều nguồn tài liệu uy tín.</p>
+      <p>Website hoạt động hoàn toàn với mục đích <strong>phi thương mại</strong>, phục vụ cho nhu cầu học tập, tham khảo và hỗ trợ tính toán nhanh. Chúng tôi <strong>không chịu trách nhiệm</strong> pháp lý đối với bất kỳ quyết định tài chính, kế toán hay thuế nào dựa trên các kết quả từ hệ thống này.</p>
+      <p class="footer-copyright">© 2026 FinAnalyzer. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../tncn/script.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

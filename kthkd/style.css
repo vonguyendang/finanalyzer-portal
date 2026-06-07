@@ -11,6 +11,18 @@
   --shm:0 4px 20px rgba(0,0,0,.08),0 2px 6px rgba(0,0,0,.04);
   --t:.2s ease;
 }
+
+html[data-theme="dark"] {
+  --p:#3d8ef8; --p-lt:rgba(61,142,248,0.15); --p-dk:#2563eb;
+  --g1:#00e87a; --g1-lt:rgba(0,232,122,0.15); --g1-b:#16a34a;
+  --g2:#3d8ef8; --g2-lt:rgba(61,142,248,0.15); --g2-b:#2563eb;
+  --g3:#f5a623; --g3-lt:rgba(245,166,35,0.15); --g3-b:#d97706;
+  --g4:#ff4757; --g4-lt:rgba(255,71,87,0.15); --g4-b:#dc2626;
+  --s50:#060c18; --s100:#0b1220; --s200:#1e2d4a; --s300:#253551;
+  --s400:#4d6484; --s500:#8fa3c0; --s600:#a0b4d0; --s700:#dce6f5; --s800:#f1f5f9; --s900:#ffffff;
+  --white:#0f1929;
+}
+
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{font-size:14px}
 body{font-family:'Be Vietnam Pro',sans-serif;background:var(--s100);color:var(--s700);min-height:100vh;line-height:1.6}
@@ -217,4 +229,47 @@ tbody tr:hover td{background:var(--s50)}
 .btn-excel:active{transform:translateY(0)}
 .xl-prog{height:5px;border-radius:100px;background:var(--s200);overflow:hidden;display:none;margin-top:10px}
 .xl-prog-fill{height:100%;background:linear-gradient(90deg,#16a34a,#4ade80);width:0;border-radius:100px;transition:width .35s ease}
+
+/* Theme toggle */
+.theme-float {
+  position: fixed; top: 20px; right: 24px; z-index: 9999;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 13px; border-radius: 20px; cursor: pointer;
+  border: 1.5px solid var(--s200, #253551); background: var(--s50, #141f33);
+  color: var(--s500, #8fa3c0); font-size: 11px; font-weight: 700;
+  transition: all 0.2s ease; user-select: none; font-family: var(--sans, sans-serif);
+}
+.theme-float:hover { border-color: var(--gold, #f5a623); color: var(--gold, #f5a623); background: rgba(245,166,35,0.06); }
+.theme-track { width: 32px; height: 18px; border-radius: 9px; background: var(--s200, #253551); position: relative; transition: background 0.3s ease; }
+html[data-theme="light"] .theme-track { background: var(--gold, #f5a623); }
+.theme-thumb {
+  position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%;
+  background: var(--s300, #8fa3c0); transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), background 0.3s;
+}
+html[data-theme="light"] .theme-thumb { transform: translateX(14px); background: #fff; }
+
+/* Float Home Button */
+.float-home-btn {
+  position: fixed; top: 20px; left: 24px; z-index: 9999; 
+  display: inline-flex; align-items: center; gap: 8px; 
+  padding: 7px 13px; border-radius: 20px; cursor: pointer; 
+  border: 1.5px solid var(--border2, #253551); background: var(--card2, #141f33); 
+  color: var(--text2, #8fa3c0); font-size: 11px; font-weight: 700; 
+  font-family: var(--sans, sans-serif); text-decoration: none; 
+  transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.float-home-btn:hover {
+  border-color: var(--gold, #f5a623); color: var(--gold, #f5a623); background: rgba(245,166,35,0.06);
+}
+
+/* Footer */
+.site-footer {
+  width: 100%; margin-top: 60px; padding: 30px 20px;
+  border-top: 1px solid var(--s200); background: var(--s50);
+  text-align: center; color: var(--s500); font-size: 12px; line-height: 1.6;
+}
+.site-footer .footer-content { max-width: 800px; margin: 0 auto; }
+.site-footer strong { color: var(--s700); font-weight: 700; }
+.site-footer p { margin-bottom: 8px; }
+.site-footer .footer-copyright { margin-top: 16px; opacity: 0.7; }
 

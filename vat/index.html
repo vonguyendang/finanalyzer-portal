@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Công cụ tính thuế VAT | FinAnalyzer Portal</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="../favicon_io/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon_io/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon_io/favicon-16x16.png">
+  <link rel="shortcut icon" href="../favicon_io/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lexend:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <a href="../" title="Trở về Trang Chủ" class="float-home-btn">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+    <span>Trang Chủ</span>
+  </a>
+
+  <button class="theme-float" onclick="toggleTheme()" title="Chuyển đổi giao diện sáng/tối">
+    <span id="themeIcon">🌙</span>
+    <span id="themeLabel">Tối</span>
+    <div class="theme-track">
+      <div class="theme-thumb"></div>
+    </div>
+  </button>
+
+  <div class="container vat-container">
+    <div class="header">
+      <h1 class="title" style="margin-top: 10px;">💰 Công cụ tính thuế VAT</h1>
+      <p class="subtitle">Tính thuế Giá trị gia tăng (VAT) chính xác, nhanh chóng với giao diện hiện đại</p>
+    </div>
+
+    <!-- Khối Tính Toán -->
+    <div class="vat-card">
+      <div class="card-header main-header">
+        <h2>🧮 Tính toán thuế VAT chính xác</h2>
+      </div>
+      <div class="card-body">
+        
+        <div class="input-grid">
+          <!-- Nhập số tiền -->
+          <div class="input-group">
+            <label>💵 Nhập số tiền (VNĐ)</label>
+            <input type="text" id="vat-amount" class="number-format" placeholder="Ví dụ: 10,000,000" autocomplete="off">
+          </div>
+          <!-- Thuế suất -->
+          <div class="input-group">
+            <label>📊 Thuế suất VAT (%)</label>
+            <select id="vat-rate">
+              <option value="10" selected>10%</option>
+              <option value="8">8%</option>
+              <option value="5">5%</option>
+              <option value="0">0%</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Phương thức tính -->
+        <div class="input-group mt-20">
+          <label>⚙️ Chọn phương thức tính</label>
+          <div class="radio-options">
+            <label class="radio-card">
+              <input type="radio" name="vat-method" value="forward" checked>
+              <div class="radio-content">
+                <span class="radio-icon">📈</span>
+                <span class="radio-text">Số tiền <b>chưa có</b> thuế VAT (tính thuế xuôi)</span>
+              </div>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="vat-method" value="backward">
+              <div class="radio-content">
+                <span class="radio-icon">📉</span>
+                <span class="radio-text">Số tiền <b>đã có</b> thuế VAT (tính thuế ngược)</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Khối Kết Quả -->
+      <div class="result-section">
+        <div class="result-header">
+          <h3>📋 Kết quả tính toán</h3>
+        </div>
+        <div class="result-body" id="result-container">
+          
+          <div class="result-row">
+            <div class="result-label">💰 Số tiền trước thuế:</div>
+            <div class="result-value-group">
+              <div class="result-number" id="res-before">0 VNĐ</div>
+              <button class="copy-btn" data-target="res-before" title="Copy số tiền">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              </button>
+            </div>
+          </div>
+          <div class="result-words" id="words-before">Không đồng</div>
+
+          <div class="result-row">
+            <div class="result-label">🏷️ Thuế VAT:</div>
+            <div class="result-value-group">
+              <div class="result-number" id="res-tax">0 VNĐ</div>
+              <button class="copy-btn" data-target="res-tax" title="Copy số tiền">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              </button>
+            </div>
+          </div>
+          <div class="result-words" id="words-tax">Không đồng</div>
+
+          <div class="result-row highlight-row">
+            <div class="result-label">💎 Số tiền sau thuế:</div>
+            <div class="result-value-group">
+              <div class="result-number highlight-number" id="res-after">0 VNĐ</div>
+              <button class="copy-btn" data-target="res-after" title="Copy số tiền">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              </button>
+            </div>
+          </div>
+          <div class="result-words" id="words-after">Không đồng</div>
+
+          <div class="copy-all-wrapper">
+            <button class="copy-all-btn" id="btn-copy-all">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              Copy tất cả kết quả
+            </button>
+          </div>
+        </div>
+      </div>
+    </div> <!-- End vat-card -->
+
+    <!-- Khối Hướng Dẫn -->
+    <div class="vat-guide-card">
+      <div class="card-header guide-header">
+        <h2>📚 Hướng dẫn sử dụng và công thức tính</h2>
+      </div>
+      <div class="guide-body">
+        
+        <div class="guide-item">
+          <h3>1. Tính thuế VAT xuôi (từ giá chưa thuế)</h3>
+          <p>Khi bạn biết giá gốc của sản phẩm chưa bao gồm thuế VAT và muốn tính ra giá bán đã bao gồm thuế.</p>
+          <div class="formula-box">
+            <div class="box-title">📐 Công thức:</div>
+            <ul>
+              <li><b>Thuế VAT</b> = Giá trước thuế × Thuế suất VAT</li>
+              <li><b>Giá sau thuế</b> = Giá trước thuế + Thuế VAT</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="guide-item mt-20">
+          <h3>2. Tính thuế VAT ngược (từ giá đã có thuế)</h3>
+          <p>Khi bạn biết giá bán đã bao gồm thuế VAT và muốn tính ngược lại giá gốc.</p>
+          <div class="formula-box">
+            <div class="box-title">📐 Công thức:</div>
+            <ul>
+              <li><b>Giá trước thuế</b> = Giá đã có thuế ÷ (1 + Thuế suất VAT)</li>
+              <li><b>Thuế VAT</b> = Giá đã có thuế - Giá trước thuế</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div> <!-- End guide-card -->
+
+  </div> <!-- End container -->
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">Đã copy vào bộ nhớ tạm!</div>
+
+  <footer class="site-footer">
+    <div class="footer-content">
+      <p><strong>FinAnalyzer Portal (Beta)</strong></p>
+      <p>Dự án đang trong giai đoạn thử nghiệm và phát triển. Các công cụ tính toán được xây dựng dựa trên việc tham khảo các quy định pháp luật và nhiều nguồn tài liệu uy tín.</p>
+      <p>Website hoạt động hoàn toàn với mục đích <strong>phi thương mại</strong>, phục vụ cho nhu cầu học tập, tham khảo và hỗ trợ tính toán nhanh. Chúng tôi <strong>không chịu trách nhiệm</strong> pháp lý đối với bất kỳ quyết định tài chính, kế toán hay thuế nào dựa trên các kết quả từ hệ thống này.</p>
+      <p class="footer-copyright">© 2026 FinAnalyzer. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

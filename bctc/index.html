@@ -19,11 +19,9 @@
 
 <body>
 
-  <a href="../" title="Trở về Trang Chủ"
-    style="position: fixed; top: 20px; left: 24px; z-index: 9999; display: inline-flex; align-items: center; gap: 8px; padding: 7px 13px; border-radius: 20px; cursor: pointer; border: 1.5px solid var(--border2, #253551); background: var(--card2, #141f33); color: var(--text2, #8fa3c0); font-size: 11px; font-weight: 700; font-family: var(--sans, sans-serif); text-decoration: none; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
-    onmouseover="this.style.borderColor='var(--gold, #f5a623)'; this.style.color='var(--gold, #f5a623)'; this.style.background='rgba(245,166,35,0.06)'"
-    onmouseout="this.style.borderColor='var(--border2, #253551)'; this.style.color='var(--text2, #8fa3c0)'; this.style.background='var(--card2, #141f33)'">
-    <span style="font-size: 13px; line-height: 1;">🏠</span>
+  <!-- Float Home Button -->
+  <a href="../" title="Trở về Trang Chủ" class="float-home-btn">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
     <span>Trang Chủ</span>
   </a>
 
@@ -364,6 +362,14 @@
   <script src="js/ai-analysis.js"></script>
   <script src="js/export.js"></script>
   <script src="js/main.js"></script>
+  <footer class="site-footer">
+    <div class="footer-content">
+      <p><strong>FinAnalyzer Portal (Beta)</strong></p>
+      <p>Dự án đang trong giai đoạn thử nghiệm và phát triển. Các công cụ tính toán được xây dựng dựa trên việc tham khảo các quy định pháp luật và nhiều nguồn tài liệu uy tín.</p>
+      <p>Website hoạt động hoàn toàn với mục đích <strong>phi thương mại</strong>, phục vụ cho nhu cầu học tập, tham khảo và hỗ trợ tính toán nhanh. Chúng tôi <strong>không chịu trách nhiệm</strong> pháp lý đối với bất kỳ quyết định tài chính, kế toán hay thuế nào dựa trên các kết quả từ hệ thống này.</p>
+      <p class="footer-copyright">© 2026 FinAnalyzer. All rights reserved.</p>
+    </div>
+  </footer>
   <!-- ════ PROMPT MODAL ════ -->
   <div id="promptModal"
     style="display:none; position:fixed; inset:0; background:rgba(6,12,24,0.8); z-index:99999; align-items:center; justify-content:center; backdrop-filter:blur(5px); padding: 20px;">

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hệ thống tính Bảo hiểm xã hội 1 lần | FinAnalyzer Portal</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="../favicon_io/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon_io/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon_io/favicon-16x16.png">
+  <link rel="shortcut icon" href="../favicon_io/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lexend:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <a href="../" title="Trở về Trang Chủ" class="float-home-btn">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+    <span>Trang Chủ</span>
+  </a>
+
+  <button class="theme-float" onclick="toggleTheme()" title="Chuyển đổi giao diện sáng/tối">
+    <span id="themeIcon">🌙</span>
+    <span id="themeLabel">Tối</span>
+    <div class="theme-track">
+      <div class="theme-thumb"></div>
+    </div>
+  </button>
+
+  <div class="container main-container">
+    <div class="header">
+      <h1 class="title">HỆ THỐNG TÍNH BẢO HIỂM XÃ HỘI 1 LẦN</h1>
+      <p class="subtitle">Cách tính bảo hiểm xã hội 1 lần đơn giản, dành cho người muốn tự tính tiền BHXH 1 lần</p>
+    </div>
+
+    <div class="bhxh-layout">
+      <!-- Cột Trái: Nội dung chính -->
+      <div class="bhxh-main">
+        
+        <!-- Tabs -->
+        <div class="bhxh-tabs">
+          <button class="bhxh-tab active" data-type="batbuoc">BHXH bắt buộc</button>
+          <button class="bhxh-tab" data-type="tunguyen">BHXH tự nguyện</button>
+          <button class="bhxh-tab" data-type="cahai">Cả BHXH bắt buộc & BHXH tự nguyện</button>
+        </div>
+
+        <div class="bhxh-form-container">
+          <!-- Form Header -->
+          <div class="form-grid-header" id="form-grid-header">
+            <div class="col-stt">Stt</div>
+            <div class="col-period">Giai đoạn nộp BHXH</div>
+            <div class="col-salary" id="col-salary-label">Mức lương đóng BHXH</div>
+            <div class="col-type" id="col-type-label" style="display:none;">Đối tượng tham gia</div>
+            <div class="col-action"></div>
+          </div>
+
+          <!-- Form Rows -->
+          <div id="period-rows-container">
+            <!-- Rows sẽ được sinh ra bằng JS -->
+          </div>
+
+          <!-- Buttons -->
+          <div class="form-actions">
+            <button class="btn-outline btn-add-period" id="btn-add-period" onclick="addPeriodRow()">+ THÊM GIAI ĐOẠN</button>
+            <button class="btn-outline btn-add-maternity" id="btn-add-maternity" onclick="addMaternityRow()">+ GIAI ĐOẠN THAI SẢN</button>
+            <button class="btn-solid btn-calculate" onclick="calculateBHXH()">TÍNH BHXH</button>
+          </div>
+
+          <div class="note-text mt-10">
+            <span style="color: #ff4757; font-weight: 700;">Lưu ý:</span> Vui lòng nhập quá trình đóng BHXH theo thứ tự lần lượt từ khi bắt đầu đóng bảo hiểm đến khi ngừng đóng.
+            <div id="note-tunguyen" style="display:none; color: #ff4757; font-weight: 700;">Một người có thể thuộc nhiều nhóm đối tượng tham gia, nhưng chỉ được hưởng mức hỗ trợ cao nhất (không cộng dồn).</div>
+          </div>
+        </div>
+
+        <!-- Kết Quả Tính Toán -->
+        <div id="result-container" class="result-container" style="display:none;">
+          <!-- Kết quả render bằng JS -->
+        </div>
+
+        <!-- Bảng Dữ Liệu Tham Chiếu -->
+        <div class="data-tables-section" id="data-tables">
+          <!-- Bảng hỗ trợ tự nguyện (ẩn mặc định) -->
+          <div id="table-support-container" style="display:none;">
+            <h3 class="table-title">Mức Nhà nước hỗ trợ đóng BHXH tự nguyện</h3>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th rowspan="2">Đối tượng</th>
+                    <th colspan="4">Mức Nhà nước hỗ trợ đóng BHXH tự nguyện/tháng của từng giai đoạn như sau:</th>
+                  </tr>
+                  <tr>
+                    <th>Từ T1/2018 - 12/2021</th>
+                    <th>Từ T1/2022 - 6/2025</th>
+                    <th>Từ T7/2025 - 12/2026</th>
+                    <th>Từ T1/2027 - 12/2030</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Hộ nghèo</td>
+                    <td>0,22 x 700.000 x 30%</td>
+                    <td>0,22 x 1.500.000 x 30%</td>
+                    <td>0,22 x 1.500.000 x 50%</td>
+                    <td>0,22 x 2.200.000 x 50%</td>
+                  </tr>
+                  <tr>
+                    <td>Người đang sinh sống tại xã đảo, đặc khu</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>0,22 x 1.500.000 x 50%</td>
+                    <td>0,22 x 2.200.000 x 50%</td>
+                  </tr>
+                  <tr>
+                    <td>Hộ cận nghèo</td>
+                    <td>0,22 x 700.000 x 25%</td>
+                    <td>0,22 x 1.500.000 x 25%</td>
+                    <td>0,22 x 1.500.000 x 40%</td>
+                    <td>0,22 x 2.200.000 x 40%</td>
+                  </tr>
+                  <tr>
+                    <td>Người dân tộc thiểu số</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>0,22 x 1.500.000 x 30%</td>
+                    <td>0,22 x 2.200.000 x 30%</td>
+                  </tr>
+                  <tr>
+                    <td>Đối tượng khác</td>
+                    <td>0,22 x 700.000 x 10%</td>
+                    <td>0,22 x 1.500.000 x 10%</td>
+                    <td>0,22 x 1.500.000 x 20%</td>
+                    <td>0,22 x 2.200.000 x 20%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Bảng Hệ số trượt giá -->
+          <h3 class="table-title mt-30" id="title-truotgia">Bảng hệ số trượt giá năm 2026</h3>
+          <div class="table-responsive">
+            <table class="data-table" id="table-truotgia">
+              <!-- Render by JS -->
+            </table>
+          </div>
+        </div>
+
+      </div> <!-- End bhxh-main -->
+
+      <!-- Cột Phải: Sidebar -->
+      <div class="bhxh-sidebar">
+        
+        <div class="sidebar-box contact-box">
+          <div class="contact-title">Tổng đài giải đáp thắc mắc</div>
+          <div class="contact-phone">📞 1900.6192</div>
+        </div>
+
+        <div class="sidebar-box note-box mt-20">
+          <div class="box-heading">Chú thích:</div>
+          <p><strong>- Đối tượng áp dụng:</strong> Người lao động vừa có thời gian đóng BHXH bắt buộc theo tiền lương do doanh nghiệp quyết định, vừa có thời gian tham gia BHXH tự nguyện.</p>
+        </div>
+
+        <div class="sidebar-box legal-box mt-20">
+          <div class="box-heading">Căn cứ pháp lý:</div>
+          <ul class="legal-list">
+            <li>1. Luật Bảo hiểm xã hội 2024</li>
+            <li>2. Nghị định 158/2025/NĐ-CP</li>
+            <li>3. Nghị định 159/2025/NĐ-CP</li>
+            <li>4. Thông tư 25/2025/TT-BYT</li>
+            <li>5. Công văn 340/BHXH-CSXH ngày 03/02/2026</li>
+          </ul>
+        </div>
+
+      </div> <!-- End bhxh-sidebar -->
+    </div> <!-- End bhxh-layout -->
+
+  </div> <!-- End container -->
+
+  <footer class="site-footer">
+    <div class="footer-content">
+      <p><strong>FinAnalyzer Portal (Beta)</strong></p>
+      <p>Dự án đang trong giai đoạn thử nghiệm và phát triển. Các công cụ tính toán được xây dựng dựa trên việc tham khảo các quy định pháp luật và nhiều nguồn tài liệu uy tín.</p>
+      <p>Website hoạt động hoàn toàn với mục đích <strong>phi thương mại</strong>, phục vụ cho nhu cầu học tập, tham khảo và hỗ trợ tính toán nhanh. Chúng tôi <strong>không chịu trách nhiệm</strong> pháp lý đối với bất kỳ quyết định tài chính, kế toán hay thuế nào dựa trên các kết quả từ hệ thống này.</p>
+      <p class="footer-copyright">© 2026 FinAnalyzer. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
