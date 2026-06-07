@@ -60,9 +60,13 @@
           </div>
 
           <!-- Buttons -->
-          <div class="form-actions">
+          <div class="form-actions" style="display: flex; gap: 10px; flex-wrap: wrap;">
             <button class="btn-outline btn-add-period" id="btn-add-period" onclick="addPeriodRow()">+ THÊM GIAI ĐOẠN</button>
+            <button class="btn-outline btn-add-period" id="btn-add-batbuoc" style="display:none;" onclick="addPeriodRow('batbuoc')">+ THÊM GIAI ĐOẠN BHXH BẮT BUỘC</button>
+            <button class="btn-outline btn-add-period" id="btn-add-tunguyen" style="display:none;" onclick="addPeriodRow('tunguyen')">+ THÊM GIAI ĐOẠN BHXH TỰ NGUYỆN</button>
             <button class="btn-outline btn-add-maternity" id="btn-add-maternity" onclick="addMaternityRow()">+ GIAI ĐOẠN THAI SẢN</button>
+            <div style="flex: 1;"></div>
+            <button class="btn-outline" style="border-color: var(--text3); color: var(--text3);" onclick="resetData()">LÀM MỚI</button>
             <button class="btn-solid btn-calculate" onclick="calculateBHXH()">TÍNH BHXH</button>
           </div>
 
@@ -137,12 +141,24 @@
             </div>
           </div>
 
-          <!-- Bảng Hệ số trượt giá -->
-          <h3 class="table-title mt-30" id="title-truotgia">Bảng hệ số trượt giá năm 2026</h3>
-          <div class="table-responsive">
-            <table class="data-table" id="table-truotgia">
-              <!-- Render by JS -->
-            </table>
+          <!-- Bảng Hệ số trượt giá Bắt Buộc -->
+          <div id="container-truotgia-batbuoc">
+            <h3 class="table-title mt-30">Bảng hệ số trượt giá năm 2026 dành cho người tham gia BHXH bắt buộc</h3>
+            <div class="table-responsive">
+              <table class="data-table" id="table-truotgia-batbuoc">
+                <!-- Render by JS -->
+              </table>
+            </div>
+          </div>
+
+          <!-- Bảng Hệ số trượt giá Tự Nguyện -->
+          <div id="container-truotgia-tunguyen" style="display:none;">
+            <h3 class="table-title mt-30">Bảng hệ số trượt giá năm 2026 dành cho người tham gia BHXH tự nguyện</h3>
+            <div class="table-responsive">
+              <table class="data-table" id="table-truotgia-tunguyen">
+                <!-- Render by JS -->
+              </table>
+            </div>
           </div>
         </div>
 
@@ -151,19 +167,14 @@
       <!-- Cột Phải: Sidebar -->
       <div class="bhxh-sidebar">
         
-        <div class="sidebar-box contact-box">
-          <div class="contact-title">Tổng đài giải đáp thắc mắc</div>
-          <div class="contact-phone">📞 1900.6192</div>
-        </div>
-
         <div class="sidebar-box note-box mt-20">
           <div class="box-heading">Chú thích:</div>
-          <p><strong>- Đối tượng áp dụng:</strong> Người lao động vừa có thời gian đóng BHXH bắt buộc theo tiền lương do doanh nghiệp quyết định, vừa có thời gian tham gia BHXH tự nguyện.</p>
+          <p id="sidebar-note-content"><strong>- Đối tượng áp dụng:</strong> Người lao động vừa có thời gian đóng BHXH bắt buộc theo tiền lương do doanh nghiệp quyết định, vừa có thời gian tham gia BHXH tự nguyện.</p>
         </div>
 
         <div class="sidebar-box legal-box mt-20">
           <div class="box-heading">Căn cứ pháp lý:</div>
-          <ul class="legal-list">
+          <ul class="legal-list" id="sidebar-legal-content">
             <li>1. Luật Bảo hiểm xã hội 2024</li>
             <li>2. Nghị định 158/2025/NĐ-CP</li>
             <li>3. Nghị định 159/2025/NĐ-CP</li>
@@ -185,6 +196,9 @@
       <p class="footer-copyright">© 2026 FinAnalyzer. All rights reserved.</p>
     </div>
   </footer>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
 
   <script src="../script.js"></script>
   <script src="script.js"></script>

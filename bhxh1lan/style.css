@@ -71,6 +71,8 @@
 
 .form-grid-header {
   display: flex;
+  align-items: center;
+  gap: 10px;
   font-size: 13px;
   font-weight: 700;
   color: var(--text);
@@ -92,11 +94,11 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-.col-stt { width: 40px; text-align: center; font-size: 13px; color: var(--text2); }
-.col-period { flex: 2; display: flex; align-items: center; gap: 8px; }
-.col-salary { flex: 1.5; }
-.col-type { flex: 1.5; }
-.col-action { width: 40px; text-align: center; }
+.col-stt { width: 40px; flex-shrink: 0; text-align: center; font-size: 13px; color: var(--text2); }
+.col-period { width: 460px; flex-shrink: 0; display: flex; align-items: center; gap: 8px; }
+.col-salary { flex: 1; min-width: 0; }
+.col-type { flex: 1; min-width: 0; }
+.col-action { width: 40px; flex-shrink: 0; text-align: center; }
 
 .col-period select,
 .col-salary input,
@@ -217,7 +219,7 @@
 
 /* Sidebar */
 .sidebar-box {
-  background: var(--card);
+  background: var(--bg2);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 20px;
@@ -293,4 +295,81 @@
   .col-salary, .col-type { flex: 1; }
   .col-stt { display: none; }
   .form-grid-header { display: none; }
+}
+
+/* Toast Notification */
+.toast-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 9999;
+}
+
+.toast {
+  background: var(--bg2);
+  color: var(--text);
+  padding: 16px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-left: 4px solid #ff4757;
+  font-family: var(--sans);
+  font-size: 14px;
+  animation: toastSlideIn 0.3s ease forwards;
+  max-width: 350px;
+  line-height: 1.4;
+}
+
+.toast.success {
+  border-left-color: #2ed573;
+}
+
+@keyframes toastSlideIn {
+  from { opacity: 0; transform: translateX(100%); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes toastSlideOut {
+  from { opacity: 1; transform: translateX(0); }
+  to { opacity: 0; transform: translateX(100%); }
+}
+
+/* Print Styles */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #result-container, #result-container * {
+    visibility: visible;
+  }
+  #result-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: white !important;
+    color: black !important;
+  }
+  .toast-container, .float-home-btn, .theme-float {
+    display: none !important;
+  }
+  /* Expand steps for printing */
+  #steps-container {
+    max-height: none !important;
+    overflow: visible !important;
+  }
+  #steps-gradient, #btn-toggle-steps {
+    display: none !important;
+  }
+  /* Hide download and print buttons in print */
+  #result-container a[href^="javascript"] {
+    display: none !important;
+  }
 }
