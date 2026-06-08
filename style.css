@@ -89,6 +89,27 @@
     .card:nth-child(7) .card-icon { background: rgba(241,196,15,0.1); color: #f1c40f; } /* Vàng cho Gross-Net */
     .card:nth-child(8) .card-icon { background: rgba(230,126,34,0.1); color: #e67e22; } /* Cam cho BHTN */
 
+    .card-usage {
+      position: absolute;
+      top: 32px;
+      right: 24px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border2);
+      color: var(--text2);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      pointer-events: none;
+    }
+    html[data-theme="light"] .card-usage {
+      background: rgba(0, 0, 0, 0.03);
+      color: var(--text3);
+    }
+
     .card-title { font-size: 18px; font-weight: 800; margin-bottom: 10px; }
     .card-desc { font-size: 13px; color: var(--text2); line-height: 1.6; flex: 1; }
     .card-action {
