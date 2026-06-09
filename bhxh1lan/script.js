@@ -280,11 +280,25 @@ function addPeriodRow(type, skipSave = false) {
   if (salaryInput) {
     bindCurrencyFormat(salaryInput);
   }
+  
+  // Bind save events
+  if (!skipSave) {
+    row.querySelectorAll('input, select').forEach(el => {
+      el.addEventListener('change', saveToLocalStorage);
+      el.addEventListener('input', saveToLocalStorage);
+    });
+    saveToLocalStorage();
+  } else {
+    row.querySelectorAll('input, select').forEach(el => {
+      el.addEventListener('change', saveToLocalStorage);
+      el.addEventListener('input', saveToLocalStorage);
+    });
+  }
 }
 
 function removeRow(id) {
   document.getElementById(`row-${id}`).remove();
-  // Re-index stt if necessary, but skipping is fine for simple visual.
+  saveToLocalStorage();
 }
 
 function addMaternityRow() {
@@ -750,6 +764,7 @@ function loadFromLocalStorage() {
 }
 
 function resetData() {
+  if(!confirm('Bạn có chắc chắn muốn xóa toàn bộ dữ liệu đã nhập?')) return;
   localStorage.removeItem('bhxh_data');
   document.querySelectorAll('.bhxh-tab').forEach(t => t.classList.remove('active'));
   const firstTab = document.querySelector('.bhxh-tab[data-type="batbuoc"]');

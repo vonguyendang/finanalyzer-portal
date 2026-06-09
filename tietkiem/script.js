@@ -2,6 +2,87 @@ let growthChartIns = null;
 let pieChartIns = null;
 let scheduleData = [];
 
+document.addEventListener('DOMContentLoaded', () => {
+  loadData();
+  const inputs = document.querySelectorAll('input, select');
+  inputs.forEach(el => {
+    el.addEventListener('input', saveData);
+    el.addEventListener('change', saveData);
+  });
+  
+  const currencyInputs = document.querySelectorAll('.input-currency');
+  currencyInputs.forEach(input => {
+    formatInput({target: input});
+  });
+  updateInterestConverted();
+});
+
+function saveData() {
+  const data = {
+    amount: document.getElementById('amount').value,
+    termSelect: document.getElementById('term-select').value,
+    termCustom: document.getElementById('term-custom').value,
+    termCustomType: document.getElementById('term-custom-type').value,
+    interestRate: document.getElementById('interest-rate').value,
+    interestUnit: document.getElementById('interest-unit').value,
+    rollover: document.querySelector('input[name="rollover"]:checked').value,
+    expectedTerm: document.getElementById('expected-term').value,
+    expectedTermType: document.getElementById('expected-term-type').value
+  };
+  localStorage.setItem('tietkiem_data', JSON.stringify(data));
+}
+
+function loadData() {
+  const dataStr = localStorage.getItem('tietkiem_data');
+  if (dataStr) {
+    try {
+      const data = JSON.parse(dataStr);
+      if(data.amount) document.getElementById('amount').value = data.amount;
+      if(data.termSelect) document.getElementById('term-select').value = data.termSelect;
+      if(data.termCustom) document.getElementById('term-custom').value = data.termCustom;
+      if(data.termCustomType) document.getElementById('term-custom-type').value = data.termCustomType;
+      if(data.interestRate) document.getElementById('interest-rate').value = data.interestRate;
+      if(data.interestUnit) document.getElementById('interest-unit').value = data.interestUnit;
+      if(data.expectedTerm) document.getElementById('expected-term').value = data.expectedTerm;
+      if(data.expectedTermType) document.getElementById('expected-term-type').value = data.expectedTermType;
+      if(data.rollover) {
+        const r = document.querySelector(`input[name="rollover"][value="${data.rollover}"]`);
+        if(r) r.checked = true;
+        const expectedGroup = document.getElementById('expected-time-group');
+        if (data.rollover === 'none') {
+          expectedGroup.style.display = 'none';
+        } else {
+          expectedGroup.style.display = 'block';
+        }
+      }
+      toggleCustomTerm();
+    } catch(e) {}
+  }
+}
+
+function clearData() {
+  if(!confirm('Bạn có chắc chắn muốn xóa toàn bộ dữ liệu đã nhập?')) return;
+  localStorage.removeItem('tietkiem_data');
+  
+  document.getElementById('amount').value = '';
+  document.getElementById('term-select').value = '6';
+  document.getElementById('term-custom').value = '';
+  document.getElementById('term-custom-type').value = 'month';
+  document.getElementById('interest-rate').value = '';
+  document.getElementById('interest-unit').value = 'year';
+  document.getElementById('expected-term').value = '';
+  document.getElementById('expected-term-type').value = 'year';
+  
+  document.querySelector(`input[name="rollover"][value="both"]`).checked = true;
+  document.getElementById('expected-time-group').style.display = 'block';
+  
+  toggleCustomTerm();
+  updateInterestConverted();
+  
+  document.getElementById('report-section').style.display = 'none';
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
 function formatInput(e) {
   let val = e.target.value.replace(/\./g, '').replace(/[^0-9]/g, '');
   if(val) {

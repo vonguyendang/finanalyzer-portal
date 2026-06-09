@@ -1,4 +1,74 @@
 // --- Dữ liệu các mốc quy định pháp lý ---
+document.addEventListener('DOMContentLoaded', () => {
+  loadData();
+  const inputs = document.querySelectorAll('input, select');
+  inputs.forEach(el => {
+    el.addEventListener('input', saveData);
+    el.addEventListener('change', saveData);
+  });
+});
+
+function saveData() {
+  const data = {
+    period: document.querySelector('input[name="rule-period"]:checked').value,
+    income: document.getElementById('gn-income').value,
+    insType: document.querySelector('input[name="ins-type"]:checked').value,
+    insOther: document.getElementById('gn-insurance').value,
+    region: document.querySelector('input[name="region"]:checked').value,
+    dependents: document.getElementById('gn-dependents').value
+  };
+  localStorage.setItem('gross_net_data', JSON.stringify(data));
+}
+
+function loadData() {
+  const dataStr = localStorage.getItem('gross_net_data');
+  if (dataStr) {
+    try {
+      const data = JSON.parse(dataStr);
+      if(data.period) {
+        document.querySelector(`input[name="rule-period"][value="${data.period}"]`).checked = true;
+      }
+      if(data.income) document.getElementById('gn-income').value = data.income;
+      if(data.insType) {
+        document.querySelector(`input[name="ins-type"][value="${data.insType}"]`).checked = true;
+        if(data.insType === 'other') {
+          const insInput = document.getElementById('gn-insurance');
+          insInput.disabled = false;
+        }
+      }
+      if(data.insOther) document.getElementById('gn-insurance').value = data.insOther;
+      if(data.region) document.querySelector(`input[name="region"][value="${data.region}"]`).checked = true;
+      if(data.dependents) document.getElementById('gn-dependents').value = data.dependents;
+      
+      const rules = getCurrentRules();
+      const list = document.getElementById('dynamic-legal-list');
+      if(list) list.innerHTML = rules.LEGAL.map(item => `<li>${item}</li>`).join('');
+    } catch(e) {}
+  }
+}
+
+function clearData() {
+  if(!confirm('Bạn có chắc chắn muốn xóa toàn bộ dữ liệu đã nhập?')) return;
+  localStorage.removeItem('gross_net_data');
+  
+  document.getElementById('gn-income').value = '';
+  document.getElementById('gn-insurance').value = '';
+  document.getElementById('gn-insurance').disabled = true;
+  document.getElementById('gn-dependents').value = '';
+  
+  document.querySelector('input[name="rule-period"][value="2026"]').checked = true;
+  document.querySelector('input[name="ins-type"][value="official"]').checked = true;
+  document.querySelector('input[name="region"][value="1"]').checked = true;
+  
+  document.getElementById('gn-report-container').style.display = 'none';
+  
+  const rules = getCurrentRules();
+  const list = document.getElementById('dynamic-legal-list');
+  if(list) list.innerHTML = rules.LEGAL.map(item => `<li>${item}</li>`).join('');
+  
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
 const rulesDB = {
   "2026": {
     label: "Từ 01/01/2026",

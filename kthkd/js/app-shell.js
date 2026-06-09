@@ -69,6 +69,7 @@ function addPeriod(){
   initPeriod(p);
   S.curPeriod=p;
   buildPeriodSel();
+  autoSaveToLocal();
   renderContent();
   toast('Đã thêm kỳ: '+p);
 }

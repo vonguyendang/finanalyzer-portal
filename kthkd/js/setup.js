@@ -46,6 +46,9 @@ function finishSetup(){
   S.curPeriod=S.profile.period;
   S.curBook='dash';
   initPeriod(S.curPeriod);
+  
+  autoSaveToLocal();
+  
   $('setup').style.display='none';
   $('app').style.display='flex';
   buildAppShell();

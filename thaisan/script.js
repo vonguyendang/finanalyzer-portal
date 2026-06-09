@@ -135,7 +135,102 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       });
     }
+
+    loadData();
+    document.querySelectorAll('input, select').forEach(el => {
+        el.addEventListener('input', saveData);
+        el.addEventListener('change', saveData);
+    });
 });
+
+function saveData() {
+    const data = {
+        mode: document.getElementById('mode-select').value,
+        salaryType: document.querySelector('input[name="salary-type"]:checked')?.value,
+        salaryAvg: document.getElementById('salary-avg').value,
+        salaries: [],
+        numChildren: document.getElementById('num-children').value,
+        numMonths: document.getElementById('num-months')?.value,
+        numDaysLe: document.getElementById('num-days-le')?.value,
+        numDays: document.getElementById('num-days')?.value,
+        voDuDieuKien: document.querySelector('input[name="vo-du-dieu-kien"]:checked')?.value
+    };
+    for(let i=1; i<=6; i++) {
+        const salEl = document.getElementById(`sal-${i}`);
+        if(salEl) data.salaries.push(salEl.value);
+    }
+    localStorage.setItem('thaisan_data', JSON.stringify(data));
+}
+
+function loadData() {
+    const dataStr = localStorage.getItem('thaisan_data');
+    if(dataStr) {
+        try {
+            const data = JSON.parse(dataStr);
+            if(data.mode) {
+                document.getElementById('mode-select').value = data.mode;
+            }
+            if(data.salaryType) {
+                const el = document.querySelector(`input[name="salary-type"][value="${data.salaryType}"]`);
+                if(el) el.checked = true;
+            }
+            if(data.salaryAvg) document.getElementById('salary-avg').value = data.salaryAvg;
+            if(data.salaries) {
+                data.salaries.forEach((val, idx) => {
+                    const salEl = document.getElementById(`sal-${idx+1}`);
+                    if(salEl) salEl.value = val;
+                });
+            }
+            if(data.numChildren) document.getElementById('num-children').value = data.numChildren;
+            if(data.numMonths) document.getElementById('num-months').value = data.numMonths;
+            if(data.numDaysLe) document.getElementById('num-days-le').value = data.numDaysLe;
+            if(data.numDays) document.getElementById('num-days').value = data.numDays;
+            if(data.voDuDieuKien) {
+                const el = document.querySelector(`input[name="vo-du-dieu-kien"][value="${data.voDuDieuKien}"]`);
+                if(el) el.checked = true;
+            }
+            
+            // Force UI update
+            updateUI(); // Function from within DOMContentLoaded but wait, updateUI is not global.
+            // Oh right, I need to trigger change on mode-select.
+            const ev = new Event('change');
+            document.getElementById('mode-select').dispatchEvent(ev);
+        } catch(e){}
+    }
+}
+
+function clearData() {
+    if(!confirm('Bạn có chắc chắn muốn xóa toàn bộ dữ liệu đã nhập?')) return;
+    localStorage.removeItem('thaisan_data');
+    
+    document.getElementById('mode-select').value = 'nu_sinh_con';
+    const stEl = document.querySelector('input[name="salary-type"][value="unchanged"]');
+    if(stEl) stEl.checked = true;
+    
+    document.getElementById('salary-avg').value = '';
+    for(let i=1; i<=6; i++) {
+        const salEl = document.getElementById(`sal-${i}`);
+        if(salEl) salEl.value = '';
+    }
+    const nc = document.getElementById('num-children');
+    if(nc) nc.value = '';
+    const nm = document.getElementById('num-months');
+    if(nm) nm.value = '';
+    const ndl = document.getElementById('num-days-le');
+    if(ndl) ndl.value = '';
+    const nd = document.getElementById('num-days');
+    if(nd) nd.value = '';
+    
+    const vddk = document.querySelector('input[name="vo-du-dieu-kien"][value="co"]');
+    if(vddk) vddk.checked = true;
+    
+    document.getElementById('thaisan-report-container').style.display = 'none';
+    
+    const ev = new Event('change');
+    document.getElementById('mode-select').dispatchEvent(ev);
+    
+    window.scrollTo({top: 0, behavior: 'smooth'});
+}
 
 // Hàm lấy giá trị số từ input đã format
 function getNumberValue(id) {

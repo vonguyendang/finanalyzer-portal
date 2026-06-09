@@ -1,3 +1,88 @@
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadData();
+  const revInput = document.getElementById('revenue');
+  const bizSelect = document.getElementById('bizType');
+  if(revInput) {
+    revInput.addEventListener('input', saveData);
+    revInput.addEventListener('change', saveData);
+  }
+  if(bizSelect) {
+    bizSelect.addEventListener('change', saveData);
+  }
+});
+
+function saveData() {
+  const data = {
+    revenue: document.getElementById('revenue').value,
+    bizType: document.getElementById('bizType').value,
+    props: []
+  };
+  const propInputs = document.querySelectorAll('#prop-list .prop-row input');
+  propInputs.forEach(inp => data.props.push(inp.value));
+  
+  localStorage.setItem('tracuu_hkd_data', JSON.stringify(data));
+}
+
+function loadData() {
+  const dataStr = localStorage.getItem('tracuu_hkd_data');
+  if(dataStr) {
+    try {
+      const data = JSON.parse(dataStr);
+      if(data.revenue) {
+        document.getElementById('revenue').value = data.revenue;
+        document.getElementById('revenue').dispatchEvent(new Event('input'));
+      }
+      if(data.bizType) {
+        document.getElementById('bizType').value = data.bizType;
+        onBizChange();
+      }
+      if(data.props && data.props.length > 0) {
+        const list = document.getElementById('prop-list');
+        list.innerHTML = '';
+        propCount = 0;
+        data.props.forEach((pVal, i) => {
+          addProp();
+          const inp = list.querySelectorAll('.prop-row input')[i];
+          if(inp) {
+            inp.value = pVal;
+            propHint(inp);
+          }
+        });
+      }
+    } catch(e){}
+  }
+}
+
+function clearData() {
+  if(!confirm('Bạn có chắc chắn muốn xóa toàn bộ dữ liệu đã nhập?')) return;
+  localStorage.removeItem('tracuu_hkd_data');
+  
+  document.getElementById('revenue').value = '';
+  document.getElementById('revenue').dispatchEvent(new Event('input'));
+  document.getElementById('bizType').value = 'goods';
+  onBizChange();
+  
+  const list = document.getElementById('prop-list');
+  if(list) {
+    list.innerHTML = '';
+    propCount = 0;
+    addProp();
+  }
+  
+  const results = document.getElementById('results');
+  if(results) {
+    results.innerHTML = '<div class="empty"><div class="empty-ico">🧾</div><p>Nhập doanh thu và nhấn <strong>Tra cứu</strong> để xem kết quả.</p></div>';
+  }
+  const resBds = document.getElementById('bds-calc-result');
+  if(resBds) {
+    resBds.style.display = 'none';
+    resBds.innerHTML = '';
+  }
+  
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
 var RATES = {
   goods:      {vat:'1%',  pit:'0.5%'},
   service:    {vat:'5%',  pit:'2%'  },

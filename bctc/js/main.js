@@ -222,3 +222,40 @@ function processManualEntry() {
   fetchAI(D);
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+  loadManualData();
+  const form = document.getElementById('manualEntryForm');
+  if(form) {
+    form.addEventListener('input', saveManualData);
+    form.addEventListener('change', saveManualData);
+  }
+});
+
+function saveManualData() {
+  const inputs = document.querySelectorAll('#manualEntryForm input[type="number"]');
+  const data = {};
+  inputs.forEach(inp => {
+    data[inp.id] = inp.value;
+  });
+  localStorage.setItem('bctc_manual_data', JSON.stringify(data));
+}
+
+function loadManualData() {
+  const dataStr = localStorage.getItem('bctc_manual_data');
+  if (dataStr) {
+    try {
+      const data = JSON.parse(dataStr);
+      Object.keys(data).forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = data[id];
+      });
+    } catch(e) {}
+  }
+}
+
+function clearManualData() {
+  if(!confirm('Bạn có chắc chắn muốn xóa toàn bộ dữ liệu đã nhập?')) return;
+  localStorage.removeItem('bctc_manual_data');
+  const inputs = document.querySelectorAll('#manualEntryForm input[type="number"]');
+  inputs.forEach(inp => inp.value = '');
+}

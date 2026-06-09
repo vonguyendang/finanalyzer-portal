@@ -38,6 +38,10 @@ function importData(input){
     }catch(e){toast('Lỗi: '+e.message,'err');}
   };
   reader.readAsText(file);
-  input.value='';
 }
 
+function clearLocalData() {
+  if(!confirm('Bạn có chắc chắn muốn xóa toàn bộ dữ liệu (bút toán, hồ sơ) và quay lại màn hình thiết lập?')) return;
+  localStorage.removeItem('kthkd_data');
+  location.reload();
+}

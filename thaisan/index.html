@@ -130,7 +130,7 @@
             <div class="form-label">Số con</div>
             <div class="form-input">
               <div class="input-with-suffix short-input" style="max-width: 200px;">
-                <input type="number" id="num-children" min="1" value="1" placeholder="Số con">
+                <input type="number" id="num-children" min="1" placeholder="1">
                 <span class="suffix">Con</span>
               </div>
             </div>
@@ -142,11 +142,11 @@
             <div class="form-input">
               <div style="display: flex; gap: 10px;">
                 <div class="input-with-suffix short-input" style="max-width: 120px;">
-                  <input type="number" id="num-months" min="0" max="6" value="4" placeholder="Tháng">
+                  <input type="number" id="num-months" min="0" max="6" placeholder="4">
                   <span class="suffix" style="color: var(--text3);">Tháng</span>
                 </div>
                 <div class="input-with-suffix short-input" style="max-width: 120px;">
-                  <input type="number" id="num-days-le" min="0" max="30" value="2" placeholder="Ngày">
+                  <input type="number" id="num-days-le" min="0" max="30" placeholder="2">
                   <span class="suffix" style="color: var(--text3);">Ngày</span>
                 </div>
               </div>
@@ -158,7 +158,7 @@
             <div class="form-label" id="label-days">Số ngày nghỉ ⓘ</div>
             <div class="form-input">
               <div class="input-with-suffix short-input" style="max-width: 200px;">
-                <input type="number" id="num-days" min="0" value="1" placeholder="Số ngày">
+                <input type="number" id="num-days" min="0" placeholder="1">
                 <span class="suffix">Ngày</span>
               </div>
               <div class="text-mute mt-10" id="hint-days" style="font-size: 12px; color: var(--text3); display: none;"></div>
@@ -189,7 +189,8 @@
           </div>
 
           <!-- Buttons -->
-          <div class="form-actions mt-40">
+          <div class="form-actions mt-40" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+            <button class="btn-secondary" style="padding: 14px 30px; font-weight: 600; border-radius: 8px; border: 1px solid var(--border-color); background: transparent; color: var(--text-color); cursor: pointer;" onclick="clearData()">LÀM MỚI</button>
             <button class="btn-action btn-red" onclick="calculateThaiSan()" style="padding: 14px 30px; font-size: 15px; background-color: #e74c3c; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">TÍNH TIỀN THAI SẢN</button>
           </div>
 

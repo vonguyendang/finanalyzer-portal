@@ -118,14 +118,15 @@
           <div class="form-label">Số người phụ thuộc ⓘ</div>
           <div class="form-input">
             <div class="input-with-suffix short-input">
-              <input type="number" id="gn-dependents" min="0" value="0">
+              <input type="number" id="gn-dependents" min="0" placeholder="0">
               <span class="suffix">Người</span>
             </div>
           </div>
         </div>
 
         <!-- Buttons -->
-        <div class="form-actions mt-30">
+        <div class="form-actions mt-30" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+          <button class="btn-secondary" style="padding: 14px 30px; font-weight: 600; border-radius: 8px; border: 1px solid var(--border-color); background: transparent; color: var(--text-color); cursor: pointer;" onclick="clearData()">LÀM MỚI</button>
           <button class="btn-action btn-red" onclick="calcGrossToNet()">GROSS SANG NET</button>
           <button class="btn-action btn-brown" onclick="calcNetToGross()">NET SANG GROSS</button>
         </div>

@@ -12,9 +12,114 @@ let globalSumRemainAmountAll = 0;
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
-  addLoanForm(); // Add first loan form
-
+  const loaded = loadData();
+  if (!loaded) {
+    addLoanForm(); // Add first loan form if no cache
+  }
+  
+  // Delegate input/change events to save data
+  const container = document.getElementById('loans-container');
+  if (container) {
+    container.addEventListener('input', saveData);
+    container.addEventListener('change', saveData);
+  }
 });
+
+function saveData() {
+  const container = document.getElementById('loans-container');
+  const blocks = container.querySelectorAll('.loan-form-block');
+  const cacheData = [];
+  
+  blocks.forEach((block) => {
+    const id = block.id.replace('loan-block-', '');
+    
+    // Dynamic Rates
+    let dynamicRates = [];
+    const rows = document.querySelectorAll(`#rate-rows-${id} .rate-row`);
+    rows.forEach(row => {
+      dynamicRates.push({
+        from: row.querySelector('.rate-from').value,
+        to: row.querySelector('.rate-to').value,
+        val: row.querySelector('.rate-val').value,
+        type: row.querySelector('.rate-type').value
+      });
+    });
+
+    cacheData.push({
+      amount: document.getElementById(`amount-${id}`).value,
+      term: document.getElementById(`term-${id}`).value,
+      startDate: document.getElementById(`startdate-${id}`).value,
+      paydate: document.getElementById(`paydate-${id}`).value,
+      method: document.getElementById(`method-${id}`).value,
+      rateMode: document.getElementById(`ratemode-${id}`).value,
+      rateFixed: document.getElementById(`rate-${id}`).value,
+      rateFixedType: document.getElementById(`ratetype-${id}`).value,
+      dynamicRates: dynamicRates
+    });
+  });
+  
+  localStorage.setItem('laivay_data', JSON.stringify(cacheData));
+}
+
+function loadData() {
+  const dataStr = localStorage.getItem('laivay_data');
+  if (dataStr) {
+    try {
+      const cacheData = JSON.parse(dataStr);
+      if (cacheData && cacheData.length > 0) {
+        document.getElementById('loans-container').innerHTML = '';
+        loanCounter = 0;
+        
+        cacheData.forEach((loanCache) => {
+          addLoanForm(); 
+          const id = loanCounter - 1;
+          
+          document.getElementById(`amount-${id}`).value = loanCache.amount || '';
+          document.getElementById(`term-${id}`).value = loanCache.term || '';
+          if(loanCache.startDate) document.getElementById(`startdate-${id}`).value = loanCache.startDate;
+          if(loanCache.paydate) document.getElementById(`paydate-${id}`).value = loanCache.paydate;
+          if(loanCache.method) document.getElementById(`method-${id}`).value = loanCache.method;
+          if(loanCache.rateMode) {
+            document.getElementById(`ratemode-${id}`).value = loanCache.rateMode;
+            toggleRateMode(id);
+          }
+          if(loanCache.rateFixed) document.getElementById(`rate-${id}`).value = loanCache.rateFixed;
+          if(loanCache.rateFixedType) document.getElementById(`ratetype-${id}`).value = loanCache.rateFixedType;
+          
+          if (loanCache.dynamicRates && loanCache.dynamicRates.length > 0) {
+            document.getElementById(`rate-rows-${id}`).innerHTML = '';
+            window[`rateRows_${id}`] = 0;
+            loanCache.dynamicRates.forEach(dr => {
+              addRateRow(id, dr.from, dr.to, dr.val);
+              const rows = document.querySelectorAll(`#rate-rows-${id} .rate-row`);
+              const lastRow = rows[rows.length - 1];
+              if (lastRow && dr.type) {
+                lastRow.querySelector('.rate-type').value = dr.type;
+              }
+            });
+          }
+          
+          calcEndDate(id);
+          updateRateText(id);
+        });
+        return true;
+      }
+    } catch(e) {
+      console.error(e);
+    }
+  }
+  return false;
+}
+
+function clearData() {
+  if(!confirm('Bạn có chắc chắn muốn xóa toàn bộ dữ liệu đã nhập?')) return;
+  localStorage.removeItem('laivay_data');
+  document.getElementById('loans-container').innerHTML = '';
+  loanCounter = 0;
+  addLoanForm();
+  document.getElementById('report-section').style.display = 'none';
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
 
 // Accordion Toggle
 function toggleAccordion(headerElement) {
@@ -41,14 +146,14 @@ function addLoanForm() {
         <div class="form-group">
           <label>Số tiền vay</label>
           <div class="input-group">
-            <input type="text" id="amount-${id}" class="num-format" placeholder="VD: 1.000.000.000" value="${id===0?'1.000.000.000':''}">
+            <input type="text" id="amount-${id}" class="num-format" placeholder="VD: 1.000.000.000" value="">
             <span class="suffix">VNĐ</span>
           </div>
         </div>
         <div class="form-group">
           <label>Kỳ hạn</label>
           <div class="input-group">
-            <input type="number" id="term-${id}" placeholder="VD: 12" value="12">
+            <input type="number" id="term-${id}" placeholder="VD: 12" value="">
             <span class="suffix">Tháng</span>
           </div>
         </div>
@@ -88,7 +193,7 @@ function addLoanForm() {
           
           <div id="rate-fixed-block-${id}">
             <div class="input-group">
-              <input type="number" id="rate-${id}" step="0.1" value="8.0" oninput="updateRateText(${id})">
+              <input type="number" id="rate-${id}" step="0.1" placeholder="8.0" value="" oninput="updateRateText(${id})">
               <select class="suffix" style="border:none; outline:none; background:transparent" id="ratetype-${id}" onchange="updateRateText(${id})">
                 <option value="year">%/Năm</option>
                 <option value="month">%/Tháng</option>
@@ -136,7 +241,7 @@ function addLoanForm() {
   
   // Initialize dynamic rate rows
   window[`rateRows_${id}`] = 0;
-  addRateRow(id, 1, 12, 8.0);
+  addRateRow(id, 1, '', '');
 }
 
 function toggleRateMode(id) {
@@ -196,6 +301,7 @@ function addRateRow(id, defaultFrom = '', defaultTo = '', defaultRate = '') {
 function removeLoanForm(id) {
   const el = document.getElementById(`loan-block-${id}`);
   if(el) el.remove();
+  saveData();
 }
 
 function calcEndDate(id) {

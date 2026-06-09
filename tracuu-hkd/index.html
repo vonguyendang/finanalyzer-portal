@@ -57,9 +57,10 @@
           <option value="digital">💻 Nội dung số, giải trí, quảng cáo số</option>
           <option value="other">📦 Hoạt động kinh doanh khác</option>
         </select>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn" style="background:transparent; border:1px solid var(--border-color); color:var(--text-color); box-shadow:none; flex:1;" onclick="clearData()">🗑 Làm mới</button>
+        <button class="btn" style="flex:2;" onclick="lookup()">🔍 Tra cứu</button>
       </div>
-      <button class="btn" onclick="lookup()">🔍 Tra cứu</button>
-    </div>
     <div class="dvl" id="displayVal">Doanh thu nhập: <span id="displayNum">—</span></div>
   </div>
 

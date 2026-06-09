@@ -2,12 +2,16 @@ let currentTab = 'oto';
 let isBudgetManuallyEdited = false;
 
 document.addEventListener('DOMContentLoaded', () => {
+  loadData();
+
   // Format inputs on load
   const currencyInputs = document.querySelectorAll('.input-currency');
   currencyInputs.forEach(input => {
     formatInput({target: input});
     input.addEventListener('input', formatInput);
   });
+  
+  switchTab(currentTab); // Initialize icon and labels
   
   calculateTotalIncome();
   calculateTotalDebt();
@@ -19,8 +23,74 @@ document.addEventListener('DOMContentLoaded', () => {
   if(s1) updateSliderProgress(s1);
   if(s2) updateSliderProgress(s2);
 
-  switchTab('oto'); // Initialize icon and labels
+  // Lắng nghe sự kiện để lưu dữ liệu
+  document.querySelectorAll('input, select').forEach(el => {
+    el.addEventListener('change', saveData);
+    el.addEventListener('input', saveData);
+  });
 });
+
+function saveData() {
+  const data = {
+    incomeSelf: document.getElementById('income-self').value,
+    incomeSpouse: document.getElementById('income-spouse').value,
+    debtSelf: document.getElementById('debt-self').value,
+    debtSpouse: document.getElementById('debt-spouse').value,
+    safeLimit: document.getElementById('safe-limit').value,
+    term: document.getElementById('term').value,
+    termType: document.getElementById('term-type').value,
+    interestRate: document.getElementById('interest-rate').value,
+    ltv: document.getElementById('ltv').value,
+    tab: currentTab
+  };
+  localStorage.setItem('khanangvay_data', JSON.stringify(data));
+}
+
+function loadData() {
+  const dataStr = localStorage.getItem('khanangvay_data');
+  if (dataStr) {
+    try {
+      const data = JSON.parse(dataStr);
+      if(data.incomeSelf) document.getElementById('income-self').value = data.incomeSelf;
+      if(data.incomeSpouse) document.getElementById('income-spouse').value = data.incomeSpouse;
+      if(data.debtSelf) document.getElementById('debt-self').value = data.debtSelf;
+      if(data.debtSpouse) document.getElementById('debt-spouse').value = data.debtSpouse;
+      if(data.safeLimit) document.getElementById('safe-limit').value = data.safeLimit;
+      if(data.term) document.getElementById('term').value = data.term;
+      if(data.termType) document.getElementById('term-type').value = data.termType;
+      if(data.interestRate) document.getElementById('interest-rate').value = data.interestRate;
+      if(data.ltv) document.getElementById('ltv').value = data.ltv;
+      if(data.tab) currentTab = data.tab;
+    } catch(e) {}
+  }
+}
+
+function clearData() {
+  if(!confirm('Bạn có chắc chắn muốn xóa toàn bộ dữ liệu đã nhập?')) return;
+  localStorage.removeItem('khanangvay_data');
+  
+  // Clear inputs
+  document.getElementById('income-self').value = '';
+  document.getElementById('income-spouse').value = '';
+  document.getElementById('debt-self').value = '';
+  document.getElementById('debt-spouse').value = '';
+  
+  document.getElementById('safe-limit').value = 75;
+  document.getElementById('term').value = '';
+  document.getElementById('term-type').value = 'month';
+  document.getElementById('interest-rate').value = '';
+  document.getElementById('ltv').value = currentTab === 'oto' ? 80 : 70;
+  
+  const s1 = document.getElementById('debt-slider-self');
+  const s2 = document.getElementById('debt-slider-spouse');
+  if(s1) { s1.value = 0; updateSliderProgress(s1); }
+  if(s2) { s2.value = 0; updateSliderProgress(s2); }
+  
+  calculateTotalIncome();
+  calculateTotalDebt();
+  document.getElementById('result-section').style.display = 'none';
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
 
 function formatInput(e) {
   let val = e.target.value.replace(/\./g, '').replace(/[^0-9]/g, '');
@@ -149,6 +219,7 @@ function switchTab(tab) {
   
   // Hide result if shown
   document.getElementById('result-section').style.display = 'none';
+  saveData();
 }
 
 function calculateResult() {
@@ -242,6 +313,5 @@ function toggleExplanation() {
 }
 
 function resetForm() {
-  document.getElementById('result-section').style.display = 'none';
-  window.scrollTo({top: 0, behavior: 'smooth'});
+  clearData();
 }

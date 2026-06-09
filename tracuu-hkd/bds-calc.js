@@ -14,9 +14,9 @@ function addProp(){
   row.className='prop-row';
   row.setAttribute('data-idx',idx);
   row.innerHTML='<span class="prop-label">BĐS '+(idx+1)+'</span>'
-    +'<input type="number" placeholder="Doanh thu (đồng)" min="0" step="1000000" oninput="propHint(this)">'
+    +'<input type="number" placeholder="Doanh thu (đồng)" min="0" step="1000000" oninput="propHint(this); typeof saveData === &quot;function&quot; && saveData();">'
     +'<span class="prop-hint" id="ph-'+idx+'"></span>'
-    +'<button class="btn-rm" onclick="removeProp(this)" title="Xóa">×</button>';
+    +'<button class="btn-rm" onclick="removeProp(this); typeof saveData === &quot;function&quot; && saveData();" title="Xóa">×</button>';
   list.appendChild(row);
 }
 

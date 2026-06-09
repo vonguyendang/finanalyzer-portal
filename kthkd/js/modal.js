@@ -278,6 +278,7 @@ function saveEntry(){
   }
 
   closeModal();
+  autoSaveToLocal();
   renderContent();
   toast(S.editId?'Đã cập nhật bút toán.':'Đã thêm bút toán mới.');
 }
@@ -286,6 +287,7 @@ function delEntry(book,id){
   if(!confirm('Xóa bút toán này?'))return;
   var d=S.data[S.curPeriod][book];
   S.data[S.curPeriod][book]=d.filter(function(e){return e.id!==id;});
+  autoSaveToLocal();
   renderContent();
   toast('Đã xóa bút toán.','info');
 }

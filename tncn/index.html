@@ -35,15 +35,18 @@
       <p class="subtitle">Chỉ cần nhập thông tin mức thu nhập, bạn sẽ biết được ngay số thuế thu nhập cá nhân (TNCN) cần nộp hàng tháng và số thuế TNCN được hoàn theo năm</p>
     </div>
 
-    <div class="tncn-period-toggle">
-      <span class="period-label">Áp dụng quy định:</span>
-      <div class="period-radio-group">
-        <input type="radio" id="period-2025" name="tax_period" value="2025">
-        <label for="period-2025">Từ 01/07/2025 - 31/12/2025</label>
-        
-        <input type="radio" id="period-2026" name="tax_period" value="2026" checked>
-        <label for="period-2026">Từ 01/01/2026 (Mới nhất)</label>
+    <div class="tncn-period-toggle" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+      <div>
+        <span class="period-label">Áp dụng quy định:</span>
+        <div class="period-radio-group">
+          <input type="radio" id="period-2025" name="tax_period" value="2025">
+          <label for="period-2025">Từ 01/07/2025 - 31/12/2025</label>
+          
+          <input type="radio" id="period-2026" name="tax_period" value="2026" checked>
+          <label for="period-2026">Từ 01/01/2026 (Mới nhất)</label>
+        </div>
       </div>
+      <button class="btn-secondary" style="padding: 10px 20px; font-weight: 600; border-radius: 8px; border: 1px solid var(--border-color); background: transparent; color: var(--text-color); cursor: pointer;" onclick="clearData()">Làm mới</button>
     </div>
 
     <div class="tncn-layout">
@@ -83,7 +86,7 @@
               <span class="icon">👨‍👩‍👧‍👦</span> Số lượng người phụ thuộc <span class="required">*</span>
             </div>
             <div class="form-input">
-              <input type="number" id="net-dependents" min="0" value="0" placeholder="Nhập số người phụ thuộc">
+              <input type="number" id="net-dependents" min="0" value="" placeholder="0">
             </div>
           </div>
 
@@ -140,7 +143,7 @@
               <span class="icon">👨‍👩‍👧‍👦</span> Số lượng người phụ thuộc <span class="required">*</span>
             </div>
             <div class="form-input">
-              <input type="number" id="gross-dependents" min="0" value="0" placeholder="Nhập số người phụ thuộc">
+              <input type="number" id="gross-dependents" min="0" value="" placeholder="0">
             </div>
           </div>
 
@@ -209,7 +212,7 @@
               <span class="icon">👨‍👩‍👧‍👦</span> Số lượng người phụ thuộc <span class="required">*</span>
             </div>
             <div class="form-input">
-              <input type="number" id="refund-dependents" min="0" value="0" placeholder="Nhập số người phụ thuộc">
+              <input type="number" id="refund-dependents" min="0" value="" placeholder="0">
             </div>
           </div>
 
@@ -218,7 +221,7 @@
               <span class="icon">📅</span> Số tháng phụ thuộc <span class="required">*</span>
             </div>
             <div class="form-input">
-              <input type="number" id="refund-months" min="1" max="12" value="12" placeholder="Nhập số tháng phụ thuộc">
+              <input type="number" id="refund-months" min="1" max="12" value="" placeholder="12">
             </div>
           </div>
 

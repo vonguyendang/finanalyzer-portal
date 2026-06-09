@@ -59,17 +59,17 @@
             
             <div class="form-group mb-20">
               <label>Của bạn</label>
-              <input type="text" id="income-self" class="input-currency" value="60.000.000" oninput="formatInput(event); calculateTotalIncome()">
+              <input type="text" id="income-self" class="input-currency" placeholder="60.000.000" value="" oninput="formatInput(event); calculateTotalIncome()">
               <div style="height: 16px; margin-top: 10px;"></div>
             </div>
             <div class="form-group mb-20">
               <label>Của vợ/chồng</label>
-              <input type="text" id="income-spouse" class="input-currency" value="100.000.000" oninput="formatInput(event); calculateTotalIncome()">
+              <input type="text" id="income-spouse" class="input-currency" placeholder="100.000.000" value="" oninput="formatInput(event); calculateTotalIncome()">
               <div style="height: 16px; margin-top: 10px;"></div>
             </div>
             <div class="form-group">
               <label>Tổng Thu Nhập</label>
-              <input type="text" id="income-total" class="input-readonly" readonly value="160.000.000">
+              <input type="text" id="income-total" class="input-readonly" readonly value="0">
             </div>
           </div>
 
@@ -84,19 +84,19 @@
             
             <div class="form-group mb-20">
               <label>Của bạn</label>
-              <input type="text" id="debt-self" class="input-currency" value="19.000.000" oninput="formatInput(event); syncDebtSlider('self'); calculateTotalDebt()">
-              <input type="range" id="debt-slider-self" class="styled-slider mt-10" min="0" max="45000000" step="500000" value="19000000" oninput="syncDebtInput('self')">
+              <input type="text" id="debt-self" class="input-currency" placeholder="19.000.000" value="" oninput="formatInput(event); syncDebtSlider('self'); calculateTotalDebt()">
+              <input type="range" id="debt-slider-self" class="styled-slider mt-10" min="0" max="45000000" step="500000" value="0" oninput="syncDebtInput('self')">
               <div id="warn-self" style="display: none; color: #e67e22; font-size: 13px; margin-top: 6px;">Vượt mức an toàn theo thu nhập.</div>
             </div>
             <div class="form-group mb-20">
               <label>Của vợ/chồng</label>
-              <input type="text" id="debt-spouse" class="input-currency" value="39.000.000" oninput="formatInput(event); syncDebtSlider('spouse'); calculateTotalDebt()">
-              <input type="range" id="debt-slider-spouse" class="styled-slider mt-10" min="0" max="75000000" step="500000" value="39000000" oninput="syncDebtInput('spouse')">
+              <input type="text" id="debt-spouse" class="input-currency" placeholder="39.000.000" value="" oninput="formatInput(event); syncDebtSlider('spouse'); calculateTotalDebt()">
+              <input type="range" id="debt-slider-spouse" class="styled-slider mt-10" min="0" max="75000000" step="500000" value="0" oninput="syncDebtInput('spouse')">
               <div id="warn-spouse" style="display: none; color: #e67e22; font-size: 13px; margin-top: 6px;">Vượt mức an toàn theo thu nhập.</div>
             </div>
             <div class="form-group mb-20">
               <label>Tổng Tiền Nợ</label>
-              <input type="text" id="debt-total" class="input-readonly" readonly value="58.000.000">
+              <input type="text" id="debt-total" class="input-readonly" readonly value="0">
             </div>
           </div>
         </div>
@@ -109,7 +109,7 @@
             <div class="form-group">
               <label>Bạn muốn vay trong bao lâu?</label>
               <div class="input-group">
-                <input type="number" id="term" value="72" min="1" oninput="calculateResult()" style="text-align: center;">
+                <input type="number" id="term" placeholder="72" value="" min="1" oninput="calculateResult()" style="text-align: center;">
                 <select id="term-type" onchange="calculateResult()">
                   <option value="month">Tháng</option>
                   <option value="year">Năm</option>
@@ -118,12 +118,12 @@
             </div>
             <div class="form-group">
               <label>Lãi suất tham khảo (%/năm)</label>
-              <input type="number" id="interest-rate" class="input-currency" value="8.5" min="0" step="0.1" oninput="calculateResult()" style="text-align: center;">
+              <input type="number" id="interest-rate" class="input-currency" placeholder="8.5" value="" min="0" step="0.1" oninput="calculateResult()" style="text-align: center;">
             </div>
             
             <div class="form-group">
               <label>Tỷ lệ vay tối đa LTV (%)</label>
-              <input type="number" id="ltv" class="input-currency" value="80" min="0" max="100" oninput="calculateResult()" style="text-align: center;">
+              <input type="number" id="ltv" class="input-currency" placeholder="80" value="" min="0" max="100" oninput="calculateResult()" style="text-align: center;">
             </div>
           </div>
         </div>
@@ -138,7 +138,8 @@
           </div>
         </div>
         
-        <div style="text-align: center;">
+        <div style="text-align: center; display: flex; justify-content: center; gap: 15px;">
+          <button class="btn-secondary" style="padding: 15px 30px; font-size: 16px; font-weight: 700; border-radius: 8px; border: 1px solid var(--border-color); background: transparent; color: var(--text-color); cursor: pointer;" onclick="clearData()">LÀM MỚI</button>
           <button class="btn-calculate-large" onclick="calculateResult()">TÍNH KHẢ NĂNG VAY</button>
         </div>
       </div>

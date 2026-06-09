@@ -1,4 +1,95 @@
 // --- Dữ liệu các mốc quy định pháp lý ---
+document.addEventListener('DOMContentLoaded', () => {
+  loadData();
+  const inputs = document.querySelectorAll('input, select');
+  inputs.forEach(el => {
+    el.addEventListener('input', saveData);
+    el.addEventListener('change', saveData);
+  });
+});
+
+function saveData() {
+  const data = {
+    period: document.querySelector('input[name="rule-period"]:checked').value,
+    salaryType: document.querySelector('input[name="salary-type"]:checked').value,
+    salaryAvg: document.getElementById('salary-avg').value,
+    sal1: document.getElementById('sal-1').value,
+    sal2: document.getElementById('sal-2').value,
+    sal3: document.getElementById('sal-3').value,
+    sal4: document.getElementById('sal-4').value,
+    sal5: document.getElementById('sal-5').value,
+    sal6: document.getElementById('sal-6').value,
+    monthsPaid: document.getElementById('months-paid').value,
+    regime: document.querySelector('input[name="salary-regime"]:checked').value,
+    region: document.querySelector('input[name="region"]:checked').value
+  };
+  localStorage.setItem('bhtn_data', JSON.stringify(data));
+}
+
+function loadData() {
+  const dataStr = localStorage.getItem('bhtn_data');
+  if (dataStr) {
+    try {
+      const data = JSON.parse(dataStr);
+      if(data.period) document.querySelector(`input[name="rule-period"][value="${data.period}"]`).checked = true;
+      if(data.salaryType) {
+        document.querySelector(`input[name="salary-type"][value="${data.salaryType}"]`).checked = true;
+        if(data.salaryType === 'changed') {
+          document.getElementById('row-salary-1').style.display = 'none';
+          document.getElementById('row-salary-6').style.display = 'block';
+        }
+      }
+      if(data.salaryAvg) document.getElementById('salary-avg').value = data.salaryAvg;
+      if(data.sal1) document.getElementById('sal-1').value = data.sal1;
+      if(data.sal2) document.getElementById('sal-2').value = data.sal2;
+      if(data.sal3) document.getElementById('sal-3').value = data.sal3;
+      if(data.sal4) document.getElementById('sal-4').value = data.sal4;
+      if(data.sal5) document.getElementById('sal-5').value = data.sal5;
+      if(data.sal6) document.getElementById('sal-6').value = data.sal6;
+      if(data.monthsPaid) document.getElementById('months-paid').value = data.monthsPaid;
+      if(data.regime) {
+        document.querySelector(`input[name="salary-regime"][value="${data.regime}"]`).checked = true;
+        if(data.regime === 'private') {
+          document.getElementById('row-region').style.display = 'block';
+        }
+      }
+      if(data.region) document.querySelector(`input[name="region"][value="${data.region}"]`).checked = true;
+      
+      const rules = getCurrentRules();
+      const list = document.getElementById('dynamic-legal-list');
+      if(list) list.innerHTML = rules.LEGAL.map(item => `<li>${item}</li>`).join('');
+    } catch(e) {}
+  }
+}
+
+function clearData() {
+  if(!confirm('Bạn có chắc chắn muốn xóa toàn bộ dữ liệu đã nhập?')) return;
+  localStorage.removeItem('bhtn_data');
+  
+  document.getElementById('salary-avg').value = '';
+  for(let i=1; i<=6; i++) {
+    document.getElementById(`sal-${i}`).value = '';
+  }
+  document.getElementById('months-paid').value = '';
+  
+  document.querySelector('input[name="rule-period"][value="2026"]').checked = true;
+  document.querySelector('input[name="salary-type"][value="unchanged"]').checked = true;
+  document.querySelector('input[name="salary-regime"][value="state"]').checked = true;
+  document.querySelector('input[name="region"][value="1"]').checked = true;
+  
+  document.getElementById('row-salary-1').style.display = 'block';
+  document.getElementById('row-salary-6').style.display = 'none';
+  document.getElementById('row-region').style.display = 'none';
+  
+  document.getElementById('bhtn-report-container').style.display = 'none';
+  
+  const rules = getCurrentRules();
+  const list = document.getElementById('dynamic-legal-list');
+  if(list) list.innerHTML = rules.LEGAL.map(item => `<li>${item}</li>`).join('');
+  
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
 const rulesDB = {
   "2026": {
     BASE_SALARY: 2340000,

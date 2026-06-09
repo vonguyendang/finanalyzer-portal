@@ -195,5 +195,49 @@ function showToast() {
   }, 2000);
 }
 
-// Initial calculate
-calculateVAT();
+function saveData() {
+  const data = {
+    amount: document.getElementById('vat-amount').value,
+    rate: document.getElementById('vat-rate').value,
+    method: document.querySelector('input[name="vat-method"]:checked')?.value
+  };
+  localStorage.setItem('vat_data', JSON.stringify(data));
+}
+
+function loadData() {
+  const dataStr = localStorage.getItem('vat_data');
+  if(dataStr) {
+    try {
+      const data = JSON.parse(dataStr);
+      if(data.amount) document.getElementById('vat-amount').value = data.amount;
+      if(data.rate) document.getElementById('vat-rate').value = data.rate;
+      if(data.method) {
+        const el = document.querySelector(`input[name="vat-method"][value="${data.method}"]`);
+        if(el) el.checked = true;
+      }
+    } catch(e){}
+  }
+}
+
+function clearData() {
+  if(!confirm('Bạn có chắc chắn muốn xóa toàn bộ dữ liệu đã nhập?')) return;
+  localStorage.removeItem('vat_data');
+  
+  document.getElementById('vat-amount').value = '';
+  document.getElementById('vat-rate').value = '10';
+  document.querySelector('input[name="vat-method"][value="forward"]').checked = true;
+  
+  calculateVAT();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadData();
+  calculateVAT();
+  
+  document.getElementById('vat-amount').addEventListener('input', saveData);
+  document.getElementById('vat-rate').addEventListener('change', saveData);
+  document.querySelectorAll('input[name="vat-method"]').forEach(radio => {
+    radio.addEventListener('change', saveData);
+  });
+});
