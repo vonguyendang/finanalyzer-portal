@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tính Toán Khả Năng Vay - FinAnalyzer</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="../favicon_io/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon_io/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon_io/favicon-16x16.png">
+  <link rel="shortcut icon" href="../favicon_io/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lexend:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css?v=4">
+  <link rel="stylesheet" href="style.css?v=4">
+</head>
+<body>
+
+  <a href="../" title="Trở về Trang Chủ" class="float-home-btn">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+    <span>Trang Chủ</span>
+  </a>
+
+  <button class="theme-float" onclick="toggleTheme()" title="Chuyển đổi giao diện sáng/tối">
+    <span id="themeIcon">🌙</span>
+    <span id="themeLabel">Tối</span>
+    <div class="theme-track">
+      <div class="theme-thumb"></div>
+    </div>
+  </button>
+
+  <div class="container main-container">
+    
+    <div class="header">
+      <h1 class="title">CÔNG CỤ TÍNH TOÁN KHẢ NĂNG VAY</h1>
+      <p class="subtitle">Đánh giá khả năng trả nợ và xác định hạn mức vay tối đa phù hợp với thu nhập của bạn.</p>
+    </div>
+
+    <div class="tabs-container">
+      <button class="tab-btn active" onclick="switchTab('oto')" id="tab-oto">Vay mua ô tô</button>
+      <button class="tab-btn" onclick="switchTab('nha')" id="tab-nha">Vay mua nhà / Sửa nhà</button>
+    </div>
+
+    <!-- Form Tính Khả Năng Vay -->
+    <div class="lv-card mb-30" style="border-top-left-radius: 0;">
+      <div class="lv-card-header" id="banner-header" style="border-top-left-radius: 0; display: flex; align-items: center; justify-content: space-between; padding-top: 30px;">
+        <div>
+          <h2 class="lv-card-title text-mute" id="banner-title" style="font-size: 15px; font-weight: 500;">Tính toán phương án vay ô tô trả góp phù hợp với ngân sách của bạn.</h2>
+        </div>
+        <div class="banner-icon" id="banner-icon" style="width: 40px; height: 40px; color: var(--purple-main);">
+          <!-- Icon injected by JS -->
+        </div>
+      </div>
+      
+      <div class="lv-card-body">
+        
+        <div class="form-grid-2 mb-40">
+          <!-- Col 1: Thu nhập -->
+          <div class="sub-card">
+            <h3 class="section-title mb-20" style="color: var(--text-color); font-size: 18px;">Thu Nhập Hàng Tháng</h3>
+            
+            <div class="form-group mb-20">
+              <label>Của bạn</label>
+              <input type="text" id="income-self" class="input-currency" value="60.000.000" oninput="formatInput(event); calculateTotalIncome()">
+              <div style="height: 16px; margin-top: 10px;"></div>
+            </div>
+            <div class="form-group mb-20">
+              <label>Của vợ/chồng</label>
+              <input type="text" id="income-spouse" class="input-currency" value="100.000.000" oninput="formatInput(event); calculateTotalIncome()">
+              <div style="height: 16px; margin-top: 10px;"></div>
+            </div>
+            <div class="form-group">
+              <label>Tổng Thu Nhập</label>
+              <input type="text" id="income-total" class="input-readonly" readonly value="160.000.000">
+            </div>
+          </div>
+
+          <!-- Col 2: Tiền nợ -->
+          <div class="sub-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+              <h3 class="section-title" style="color: var(--text-color); font-size: 18px; margin-bottom: 0;">Khoản Vay Hiện Có <span class="help-icon" title="Tiền trả hàng tháng hiện tại">?</span></h3>
+              <div style="font-size: 13px; color: var(--text-mute); display: flex; align-items: center;">
+                Tối đa: <input type="number" id="safe-limit" value="75" style="width: 55px; padding: 4px; margin: 0 4px; text-align: center; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg2); color: var(--text-color); font-weight: bold;" oninput="updateSlidersMax(); calculateResult()"> %
+              </div>
+            </div>
+            
+            <div class="form-group mb-20">
+              <label>Của bạn</label>
+              <input type="text" id="debt-self" class="input-currency" value="19.000.000" oninput="formatInput(event); syncDebtSlider('self'); calculateTotalDebt()">
+              <input type="range" id="debt-slider-self" class="styled-slider mt-10" min="0" max="45000000" step="500000" value="19000000" oninput="syncDebtInput('self')">
+              <div id="warn-self" style="display: none; color: #e67e22; font-size: 13px; margin-top: 6px;">Vượt mức an toàn theo thu nhập.</div>
+            </div>
+            <div class="form-group mb-20">
+              <label>Của vợ/chồng</label>
+              <input type="text" id="debt-spouse" class="input-currency" value="39.000.000" oninput="formatInput(event); syncDebtSlider('spouse'); calculateTotalDebt()">
+              <input type="range" id="debt-slider-spouse" class="styled-slider mt-10" min="0" max="75000000" step="500000" value="39000000" oninput="syncDebtInput('spouse')">
+              <div id="warn-spouse" style="display: none; color: #e67e22; font-size: 13px; margin-top: 6px;">Vượt mức an toàn theo thu nhập.</div>
+            </div>
+            <div class="form-group mb-20">
+              <label>Tổng Tiền Nợ</label>
+              <input type="text" id="debt-total" class="input-readonly" readonly value="58.000.000">
+            </div>
+          </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="sub-card mb-40">
+          <h3 class="section-title mb-20" style="color: var(--text-color); font-size: 18px;">Thông Số Khoản Vay Mới</h3>
+          <div class="form-grid-3">
+            <div class="form-group">
+              <label>Bạn muốn vay trong bao lâu?</label>
+              <div class="input-group">
+                <input type="number" id="term" value="72" min="1" oninput="calculateResult()" style="text-align: center;">
+                <select id="term-type" onchange="calculateResult()">
+                  <option value="month">Tháng</option>
+                  <option value="year">Năm</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Lãi suất tham khảo (%/năm)</label>
+              <input type="number" id="interest-rate" class="input-currency" value="8.5" min="0" step="0.1" oninput="calculateResult()" style="text-align: center;">
+            </div>
+            
+            <div class="form-group">
+              <label>Tỷ lệ vay tối đa LTV (%)</label>
+              <input type="number" id="ltv" class="input-currency" value="80" min="0" max="100" oninput="calculateResult()" style="text-align: center;">
+            </div>
+          </div>
+        </div>
+
+        <div class="note-box mb-40">
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <svg style="width: 24px; height: 24px; color: #d35400; flex-shrink: 0; margin-top: 2px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+            <div>
+              <div style="color: #d35400; font-weight: 700; margin-bottom: 4px;">Lưu ý an toàn</div>
+              <div style="line-height: 1.5; color: #e67e22; font-size: 14px;">Giữ tỷ lệ trả nợ dưới 75% thu nhập ròng để đảm bảo chi phí sinh hoạt.</div>
+            </div>
+          </div>
+        </div>
+        
+        <div style="text-align: center;">
+          <button class="btn-calculate-large" onclick="calculateResult()">TÍNH KHẢ NĂNG VAY</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Kết quả -->
+    <div class="lv-card mb-30" id="result-section" style="display: none;">
+      <div class="lv-card-header" style="padding: 24px 30px; text-align: center; border-bottom: 1px solid var(--border-color);">
+        <h2 class="lv-card-title text-purple" style="font-size: 22px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">Khả Năng Vay Của Bạn</h2>
+      </div>
+      <div class="lv-card-body" style="background: var(--bg-color);">
+        
+        <div class="kpi-cards-wrapper mb-30" style="grid-template-columns: 1fr 1fr;">
+          <div class="kpi-card box-neutral">
+            <div class="kpi-label">Số tiền trả tối đa / tháng</div>
+            <div class="kpi-value" id="res-monthly">0 ₫</div>
+          </div>
+          
+          <div class="kpi-card box-neutral">
+            <div class="kpi-label">Số tiền vay tối đa</div>
+            <div class="kpi-value text-blue" id="res-max-loan">0 ₫</div>
+          </div>
+        </div>
+
+          <div class="kpi-card box-primary highlight-card">
+          <div style="flex: 1;">
+            <div class="kpi-label" id="res-asset-label" style="color: rgba(255,255,255,0.8); font-size: 15px;">Giá trị tài sản tối đa</div>
+            <div class="kpi-value" id="res-asset-value" style="font-size: 38px; color: white;">0 ₫</div>
+            <div class="kpi-meta mt-10">
+              <span class="badge badge-light" id="res-downpayment">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px; vertical-align: text-bottom;"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                Vốn tự có cần chuẩn bị: 0 ₫
+              </span>
+            </div>
+          </div>
+          <div class="highlight-icon" id="res-icon" style="opacity: 0.2; transform: scale(1.5);">
+            <!-- Icon will be injected here -->
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+          <button onclick="toggleExplanation()" id="btn-explanation" style="background: transparent; border: 1px solid var(--purple-main); color: var(--purple-main); padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s;">Xem diễn giải chi tiết</button>
+        </div>
+        
+        <div id="explanation-box" style="display: none; margin-top: 20px; padding: 24px; background: rgba(169, 59, 141, 0.05); border-radius: 10px; border: 1px solid var(--purple-main); font-size: 15px; line-height: 1.8; color: var(--text-color); box-shadow: 0 4px 15px rgba(169, 59, 141, 0.1);">
+           <!-- Breakdown injected by JS -->
+        </div>
+        
+      </div>
+    </div>
+    </div>
+
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-content">
+      <p><strong>FinAnalyzer Portal (Beta)</strong></p>
+      <p>Dự án đang trong giai đoạn thử nghiệm và phát triển. Các công cụ tính toán được xây dựng dựa trên việc tham khảo các quy định pháp luật và nhiều nguồn tài liệu uy tín.</p>
+      <p>Website hoạt động hoàn toàn với mục đích <strong>phi thương mại</strong>, phục vụ cho nhu cầu học tập, tham khảo và hỗ trợ tính toán nhanh. Chúng tôi <strong>không chịu trách nhiệm</strong> pháp lý đối với bất kỳ quyết định tài chính, kế toán hay thuế nào dựa trên các kết quả từ hệ thống này.</p>
+      <p class="footer-copyright">© 2026 FinAnalyzer. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../tracking.js"></script>
+  <script src="script.js?v=1"></script>
+  <script>
+    // Theme toggle
+    const themeBtn = document.querySelector('.theme-float');
+    const html = document.documentElement;
+    const themeIcon = document.getElementById('themeIcon');
+    const themeLabel = document.getElementById('themeLabel');
+
+    if (localStorage.getItem('theme') === 'light') {
+      html.setAttribute('data-theme', 'light');
+      themeBtn.classList.add('light');
+      themeIcon.textContent = '☀️';
+      themeLabel.textContent = 'Sáng';
+    }
+
+    function toggleTheme() {
+      if (html.getAttribute('data-theme') === 'dark') {
+        html.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+        themeBtn.classList.add('light');
+        themeIcon.textContent = '☀️';
+        themeLabel.textContent = 'Sáng';
+      } else {
+        html.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+        themeBtn.classList.remove('light');
+        themeIcon.textContent = '🌙';
+        themeLabel.textContent = 'Tối';
+      }
+    }
+  </script>
+</body>
+</html>
