@@ -1,0 +1,88 @@
+/* CSS riêng cho Công cụ Thai Sản */
+
+.thaisan-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.thaisan-seo-text h3 {
+  color: var(--text);
+  margin-top: 25px;
+  margin-bottom: 15px;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+.thaisan-seo-text p, .thaisan-seo-text ul, .thaisan-seo-text li {
+  color: var(--text2);
+  line-height: 1.6;
+}
+
+.thaisan-seo-text ul {
+  padding-left: 20px;
+  margin-bottom: 15px;
+}
+
+.thaisan-seo-text li {
+  margin-bottom: 8px;
+}
+
+/* Report Table */
+.report-table-wrapper {
+  overflow-x: auto;
+  margin-top: 15px;
+  margin-bottom: 25px;
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg);
+  font-size: 14px;
+}
+
+.report-table th, .report-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.report-table th {
+  background: var(--bg2);
+  font-weight: 600;
+  color: var(--blue);
+}
+
+.report-table tr:nth-child(even) {
+  background: var(--bg2);
+}
+
+.highlight-row td {
+  background: rgba(255, 71, 87, 0.05) !important;
+  font-weight: 600;
+}
+
+.highlight-val {
+  color: #ff4757;
+  font-weight: 700;
+}
+
+.blue-text {
+  color: #3498db;
+  font-weight: 600;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  font-size: 15px;
+}
+
+#legal-basis-container p {
+  margin-bottom: 10px;
+  line-height: 1.6;
+  color: var(--text2);
+}
+
+#legal-basis-container p:last-child {
+  margin-bottom: 0;
+}

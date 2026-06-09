@@ -72,7 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     "vat": 156,
                     "bhxh1lan": 89,
                     "gross-net": 420,
-                    "bhtn": 67
+                    "bhtn": 67,
+                    "thaisan": 150
                 };
                 cards.forEach(card => {
                     const href = card.getAttribute('href');

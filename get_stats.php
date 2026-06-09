@@ -36,7 +36,8 @@ $fake_stats = [
     "vat" => 1563,
     "bhxh1lan" => 892,
     "gross-net" => 4207,
-    "bhtn" => 671
+    "bhtn" => 671,
+    "thaisan" => 1504
 ];
 
 foreach ($fake_stats as $app => $count) {

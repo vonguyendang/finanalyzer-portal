@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Công cụ tính tiền chế độ thai sản mới nhất 2026</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="../favicon_io/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon_io/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon_io/favicon-16x16.png">
+  <link rel="shortcut icon" href="../favicon_io/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lexend:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../gross-net/style.css"> <!-- Tái sử dụng CSS chung form & seo -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <a href="../" title="Trở về Trang Chủ" class="float-home-btn">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+    <span>Trang Chủ</span>
+  </a>
+
+  <button class="theme-float" onclick="toggleTheme()" title="Chuyển đổi giao diện sáng/tối">
+    <span id="themeIcon">🌙</span>
+    <span id="themeLabel">Tối</span>
+    <div class="theme-track">
+      <div class="theme-thumb"></div>
+    </div>
+  </button>
+
+  <div class="container main-container">
+    
+    <div class="header">
+      <h1 class="title" style="max-width: 800px; margin: 0 auto; text-align: center;">CÔNG CỤ TÍNH TIỀN CHẾ ĐỘ THAI SẢN MỚI NHẤT 2026</h1>
+      <p class="subtitle mt-20" style="font-style: italic; max-width: 900px; margin: 20px auto 0;">
+        Chế độ thai sản là quyền lợi mà người lao động (bao gồm cả lao động nam và nữ) được hưởng khi tham gia đóng Bảo hiểm xã hội (BHXH) bắt buộc. Việc hiểu rõ cách tính tiền chế độ thai sản là rất quan trọng để người lao động có thể tự kiểm tra số tiền mà mình nhận được. Công cụ tính tiền thai sản của FinAnalyzer sẽ giúp bạn nhanh chóng tính toán hoặc kiểm tra số tiền được nhận.
+      </p>
+    </div>
+
+    <div class="thaisan-layout">
+      <!-- Khối Form nhập liệu -->
+      <div class="gn-card bhtn-form-card" style="margin-bottom: 20px;">
+        <div class="gn-form" style="background: rgba(0,0,0,0.02);">
+          
+          <!-- Chế độ hưởng -->
+          <div class="form-row">
+            <div class="form-label">Chế độ hưởng</div>
+            <div class="form-input">
+              <select id="mode-select" class="form-select" style="width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg2); color: var(--text); font-family: 'Inter', sans-serif;">
+                <option value="nu_sinh_con">Chế độ thai sản khi lao động nữ sinh con</option>
+                <option value="nam_co_vo_sinh_con">Chế độ thai sản khi lao động nam có vợ sinh con</option>
+                <option value="nghi_duong_suc">Chế độ thai sản khi nghỉ dưỡng sức sau thai sản</option>
+                <option value="kham_thai">Chế độ thai sản khi đi khám thai</option>
+                <option value="say_thai">Chế độ thai sản khi sẩy thai, nạo, hút thai, thai chết lưu hoặc phá thai bệnh lý</option>
+                <option value="nhan_con_nuoi">Chế độ thai sản khi nhận nuôi con nuôi</option>
+                <option value="tranh_thai">Chế độ thai sản khi thực hiện biện pháp tránh thai</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Lương đóng BHXH (Cho các chế độ có bình quân 6 tháng) -->
+          <div class="form-row mt-30" id="row-salary-type">
+            <div class="form-label">Lương đóng BHXH</div>
+            <div class="form-input">
+              <div class="radio-group-vertical">
+                <label class="radio-item">
+                  <input type="radio" name="salary-type" value="unchanged" checked>
+                  <span>Lương đóng bảo hiểm không thay đổi trong 6 tháng gần nhất trước khi nghỉ chế độ.</span>
+                </label>
+                <label class="radio-item mt-10">
+                  <input type="radio" name="salary-type" value="changed">
+                  <span>Lương đóng bảo hiểm thay đổi trong 6 tháng gần nhất trước khi nghỉ khám chế độ.</span>
+                </label>
+                <label class="radio-item mt-10" id="opt-under-6">
+                  <input type="radio" name="salary-type" value="under_6_months">
+                  <span>Đóng bảo hiểm xã hội chưa đủ 6 tháng.</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tiền lương đóng BHXH -->
+          <div class="form-row mt-20" id="row-salary-1">
+            <div class="form-label">Tiền lương đóng BHXH <span title="Tiền lương đóng BHXH trong nhiều trường hợp không phải là lương thực nhận. Để biết chính xác có thể xem sổ BHXH hoặc tra cứu VssID hoặc tra cứu tại Website của BHXH Việt Nam: https://baohiemxahoi.gov.vn/tracuu/Pages/tra-cuu-dong-bao-hiem.aspx" style="cursor:help;">ⓘ</span></div>
+            <div class="form-input">
+              <div class="input-with-suffix" style="max-width: 300px;">
+                <input type="text" id="salary-avg" class="number-format" placeholder="Nhập số tiền...">
+                <span class="suffix">VNĐ</span>
+              </div>
+              <div class="text-mute mt-10" style="font-size: 12px; color: var(--text3);">(Bình quân tiền lương đóng BHXH của 6 tháng gần nhất trước khi nghỉ chế độ thai sản)</div>
+            </div>
+          </div>
+
+          <!-- Nhập lương 6 tháng (Changed) -->
+          <div class="form-row mt-20" id="row-salary-6" style="display:none;">
+            <div class="form-label">Tiền lương đóng BHXH <span title="Tiền lương đóng BHXH trong nhiều trường hợp không phải là lương thực nhận. Để biết chính xác có thể xem sổ BHXH hoặc tra cứu VssID hoặc tra cứu tại Website của BHXH Việt Nam: https://baohiemxahoi.gov.vn/tracuu/Pages/tra-cuu-dong-bao-hiem.aspx" style="cursor:help;">ⓘ</span></div>
+            <div class="form-input">
+              <div class="salary-6-grid">
+                <div>
+                  <div style="font-size: 13px; font-weight: 600; margin-bottom: 5px; color: var(--text);">BHXH tháng 1:</div>
+                  <div class="input-with-suffix"><input type="text" id="sal-1" class="number-format"><span class="suffix">VNĐ</span></div>
+                </div>
+                <div>
+                  <div style="font-size: 13px; font-weight: 600; margin-bottom: 5px; color: var(--text);">BHXH tháng 2:</div>
+                  <div class="input-with-suffix"><input type="text" id="sal-2" class="number-format"><span class="suffix">VNĐ</span></div>
+                </div>
+                <div>
+                  <div style="font-size: 13px; font-weight: 600; margin-bottom: 5px; color: var(--text);">BHXH tháng 3:</div>
+                  <div class="input-with-suffix"><input type="text" id="sal-3" class="number-format"><span class="suffix">VNĐ</span></div>
+                </div>
+                <div>
+                  <div style="font-size: 13px; font-weight: 600; margin-bottom: 5px; color: var(--text);">BHXH tháng 4:</div>
+                  <div class="input-with-suffix"><input type="text" id="sal-4" class="number-format"><span class="suffix">VNĐ</span></div>
+                </div>
+                <div>
+                  <div style="font-size: 13px; font-weight: 600; margin-bottom: 5px; color: var(--text);">BHXH tháng 5:</div>
+                  <div class="input-with-suffix"><input type="text" id="sal-5" class="number-format"><span class="suffix">VNĐ</span></div>
+                </div>
+                <div>
+                  <div style="font-size: 13px; font-weight: 600; margin-bottom: 5px; color: var(--text);">BHXH tháng 6:</div>
+                  <div class="input-with-suffix"><input type="text" id="sal-6" class="number-format"><span class="suffix">VNĐ</span></div>
+                </div>
+              </div>
+              <div class="text-mute mt-10" id="hint-salary-6" style="font-size: 12px; font-style: italic; color: var(--text3);">Lương đóng BHXH trong 6 tháng gần nhất trước khi nghỉ khám chế độ</div>
+            </div>
+          </div>
+
+          <!-- Số con -->
+          <div class="form-row mt-30" id="row-children">
+            <div class="form-label">Số con</div>
+            <div class="form-input">
+              <div class="input-with-suffix short-input" style="max-width: 200px;">
+                <input type="number" id="num-children" min="1" value="1" placeholder="Số con">
+                <span class="suffix">Con</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Số tháng (Dùng cho nhận nuôi con nuôi) -->
+          <div class="form-row mt-30" id="row-months" style="display:none;">
+            <div class="form-label" style="font-weight: 600;">Thời gian từ lúc nhận con đến khi con đủ 06 tháng tuổi</div>
+            <div class="form-input">
+              <div style="display: flex; gap: 10px;">
+                <div class="input-with-suffix short-input" style="max-width: 120px;">
+                  <input type="number" id="num-months" min="0" max="6" value="4" placeholder="Tháng">
+                  <span class="suffix" style="color: var(--text3);">Tháng</span>
+                </div>
+                <div class="input-with-suffix short-input" style="max-width: 120px;">
+                  <input type="number" id="num-days-le" min="0" max="30" value="2" placeholder="Ngày">
+                  <span class="suffix" style="color: var(--text3);">Ngày</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Số ngày nghỉ (dùng chung cho nhiều chế độ, bao gồm ngày lẻ của nhận con nuôi) -->
+          <div class="form-row mt-30" id="row-days" style="display:none;">
+            <div class="form-label" id="label-days">Số ngày nghỉ ⓘ</div>
+            <div class="form-input">
+              <div class="input-with-suffix short-input" style="max-width: 200px;">
+                <input type="number" id="num-days" min="0" value="1" placeholder="Số ngày">
+                <span class="suffix">Ngày</span>
+              </div>
+              <div class="text-mute mt-10" id="hint-days" style="font-size: 12px; color: var(--text3); display: none;"></div>
+            </div>
+          </div>
+          
+          <!-- Hưởng trợ cấp 1 lần (Cho chế độ nam) -->
+          <div class="form-row mt-20" id="row-nam-1lan" style="display:none;">
+            <div class="form-label" style="font-weight: 600;">Vợ có đủ điều kiện hưởng chế độ thai sản không?</div>
+            <div class="form-input">
+              <div class="radio-grid-4">
+                <label class="radio-item"><input type="radio" name="vo-du-dieu-kien" value="co" checked><span>Có</span></label>
+                <label class="radio-item"><input type="radio" name="vo-du-dieu-kien" value="khong"><span>Không</span></label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mức lương cơ sở (Cho chế độ dưỡng sức) -->
+          <div class="form-row mt-30" id="row-base-salary" style="display:none;">
+             <div class="form-label">Mức tham chiếu (Lương cơ sở)</div>
+             <div class="form-input">
+               <div class="input-with-suffix" style="max-width: 300px;">
+                 <input type="text" id="base-salary" class="number-format" value="2340000" disabled>
+                 <span class="suffix">VNĐ</span>
+               </div>
+               <div class="text-mute mt-10" style="font-size: 12px; color: var(--text3);">(Mức tham chiếu mới 2.340.000đ/tháng)</div>
+             </div>
+          </div>
+
+          <!-- Buttons -->
+          <div class="form-actions mt-40">
+            <button class="btn-action btn-red" onclick="calculateThaiSan()" style="padding: 14px 30px; font-size: 15px; background-color: #e74c3c; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">TÍNH TIỀN THAI SẢN</button>
+          </div>
+
+        </div> <!-- End gn-form -->
+        
+        <!-- Căn cứ pháp lý form -->
+        <div id="legal-basis-container" class="legal-basis-inline mt-20" style="padding: 0 20px; font-size: 14px;">
+           <!-- Sẽ render bằng JS tùy thuộc vào chế độ đang chọn -->
+        </div>
+
+        <!-- Kết quả Báo cáo -->
+        <div id="thaisan-report-container" class="tax-report" style="display:none; padding: 30px; background: var(--bg2); border-top: 1px dashed var(--border2); margin-top: 30px;">
+        </div>
+
+      </div> <!-- End form card -->
+
+
+    </div> <!-- End Layout -->
+
+    <!-- Cẩm nang SEO -->
+    <div class="seo-card mt-40">
+      
+      <div class="seo-content mt-10" id="seo-content">
+        <div class="seo-text-wrapper thaisan-seo-text" id="thaisan-guide-content">
+          <!-- Sẽ render bằng JS tùy thuộc vào chế độ đang chọn -->
+        </div>
+        
+        <div class="read-more-wrapper">
+          <button class="btn-read-more" id="btn-read-more">Xem thêm ⌄</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div> <!-- End container -->
+
+  <footer class="site-footer">
+    <div class="footer-content">
+      <p><strong>FinAnalyzer Portal (Beta)</strong></p>
+      <p>Dự án đang trong giai đoạn thử nghiệm và phát triển. Các công cụ tính toán được xây dựng dựa trên việc tham khảo các quy định pháp luật và nhiều nguồn tài liệu uy tín.</p>
+      <p>Website hoạt động hoàn toàn với mục đích <strong>phi thương mại</strong>, phục vụ cho nhu cầu học tập, tham khảo và hỗ trợ tính toán nhanh. Chúng tôi <strong>không chịu trách nhiệm</strong> pháp lý đối với bất kỳ quyết định tài chính, kế toán hay thuế nào dựa trên các kết quả từ hệ thống này.</p>
+      <p class="footer-copyright">© 2026 FinAnalyzer. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="script.js"></script>
+  <script src="../tracking.js"></script>
+</body>
+</html>
