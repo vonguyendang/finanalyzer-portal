@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tính Lãi Tiền Gửi Tiết Kiệm - FinAnalyzer</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="../favicon_io/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon_io/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon_io/favicon-16x16.png">
+  <link rel="shortcut icon" href="../favicon_io/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lexend:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css?v=4">
+  <link rel="stylesheet" href="style.css?v=1">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+
+  <a href="../" title="Trở về Trang Chủ" class="float-home-btn">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+    <span>Trang Chủ</span>
+  </a>
+
+  <button class="theme-float" onclick="toggleTheme()" title="Chuyển đổi giao diện sáng/tối">
+    <span id="themeIcon">🌙</span>
+    <span id="themeLabel">Tối</span>
+    <div class="theme-track">
+      <div class="theme-thumb"></div>
+    </div>
+  </button>
+
+  <div class="container main-container">
+    
+    <div class="header">
+      <h1 class="title text-blue">CÔNG CỤ TÍNH LÃI TIỀN GỬI TIẾT KIỆM</h1>
+      <p class="subtitle">Mô phỏng dòng tiền lãi nhận được, hỗ trợ tính toán lãi kép, tái tục gốc và lên kế hoạch gửi tiền dài hạn.</p>
+    </div>
+
+    <!-- 1. Form Nhập Liệu -->
+    <div class="lv-card mb-30 border-blue">
+      <div class="lv-card-header bg-blue-light">
+        <h2 class="lv-card-title text-blue-dark">Nhập Thông Tin Gửi Tiết Kiệm</h2>
+      </div>
+      
+      <div class="lv-card-body">
+        <div class="form-grid-3">
+          <div class="form-group">
+            <label>Số tiền gửi (VND)</label>
+            <input type="text" id="amount" class="input-currency input-blue" value="100.000.000" oninput="formatInput(event)">
+          </div>
+          
+          <div class="form-group">
+            <label>Kỳ hạn gửi</label>
+            <div style="display: flex; gap: 10px;">
+              <select id="term-select" class="input-blue" onchange="toggleCustomTerm()" style="flex: 1;">
+                <option value="1">1 tháng</option>
+                <option value="3">3 tháng</option>
+                <option value="6" selected>6 tháng</option>
+                <option value="9">9 tháng</option>
+                <option value="12">12 tháng</option>
+                <option value="18">18 tháng</option>
+                <option value="24">24 tháng</option>
+                <option value="36">36 tháng</option>
+                <option value="custom">Khác...</option>
+              </select>
+              <input type="number" id="term-custom" class="input-blue" style="display: none; width: 80px;" placeholder="Số" value="1">
+              <select id="term-custom-type" class="input-blue" style="display: none; width: 90px;">
+                <option value="month">Tháng</option>
+                <option value="day">Ngày</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>Lãi suất</label>
+            <div style="display: flex; gap: 10px;">
+              <input type="number" id="interest-rate" class="input-blue" value="5.5" step="0.1" style="flex: 2;" oninput="updateInterestConverted()">
+              <select id="interest-unit" class="input-blue" style="flex: 1;" onchange="updateInterestConverted()">
+                <option value="year">% / năm</option>
+                <option value="month">% / tháng</option>
+              </select>
+            </div>
+            <div id="interest-converted" class="text-mute" style="font-size: 12px; margin-top: 5px;">~ 0.458% / tháng</div>
+          </div>
+        </div>
+        
+        <div class="form-grid-2 mt-20">
+          <div class="form-group">
+            <label class="text-blue-dark">Tùy chọn khi đến hạn (Hình thức tái tục)</label>
+            <div class="radio-group-cards">
+              <label class="radio-card">
+                <input type="radio" name="rollover" value="none">
+                <div class="rc-content">
+                  <div class="rc-title">Không tái tục</div>
+                  <div class="rc-desc">Rút cả gốc và lãi khi đáo hạn</div>
+                </div>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="rollover" value="principal">
+                <div class="rc-content">
+                  <div class="rc-title">Tái tục gốc</div>
+                  <div class="rc-desc">Tiền lãi sẽ được rút ra</div>
+                </div>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="rollover" value="both" checked>
+                <div class="rc-content">
+                  <div class="rc-title">Tái tục gốc & lãi</div>
+                  <div class="rc-desc">Lãi nhập gốc (lãi kép)</div>
+                </div>
+              </label>
+            </div>
+          </div>
+          
+          <div class="form-group" id="expected-time-group">
+            <label class="text-blue-dark">Thời gian dự kiến gửi tổng cộng <span class="help-icon" title="Dùng để mô phỏng dòng tiền qua nhiều chu kỳ tái tục">?</span></label>
+            <div style="display: flex; gap: 10px;">
+              <input type="number" id="expected-term" class="input-blue" value="3" min="1" style="flex: 2;">
+              <select id="expected-term-type" class="input-blue" style="flex: 1;">
+                <option value="year">Năm</option>
+                <option value="month">Tháng</option>
+              </select>
+            </div>
+            <p class="text-mute mt-10" style="font-size: 13px;">Nhập tổng thời gian bạn định gửi để xem bảng mô phỏng lãi kép.</p>
+          </div>
+        </div>
+
+        <div class="mt-40 text-center">
+          <button class="btn-calculate-large bg-blue" onclick="calculateResult()">Tính Lãi Tiết Kiệm</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Báo cáo Kết Quả -->
+    <div class="lv-card report-card mb-30" id="report-section" style="display: none;">
+      <div class="lv-card-header d-flex-between bg-blue-light align-items-center">
+        <h2 class="lv-card-title text-blue-dark m-0">Kết Quả Tính Toán</h2>
+        <button class="btn-secondary-outline text-blue-dark" onclick="exportToExcel()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 5px; vertical-align: middle;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="8" y1="13" x2="16" y2="13"></line><line x1="8" y1="17" x2="16" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg> Tải xuống Excel
+        </button>
+      </div>
+      
+      <div class="lv-card-body">
+        
+        <div class="kpi-cards-wrapper mb-40">
+          <div class="kpi-card box-blue">
+            <div class="kpi-label">Tiền gốc ban đầu</div>
+            <div class="kpi-value text-blue" id="res-principal">0 ₫</div>
+          </div>
+          <div class="kpi-card box-green">
+            <div class="kpi-label">Tổng tiền lãi nhận được</div>
+            <div class="kpi-value text-green" id="res-interest">0 ₫</div>
+            <div class="kpi-meta"><span class="badge badge-green" id="res-interest-rate">Tỷ suất: 0%</span></div>
+          </div>
+          <div class="kpi-card box-orange">
+            <div class="kpi-label">Tổng gốc và lãi cuối kỳ</div>
+            <div class="kpi-value text-orange" id="res-total">0 ₫</div>
+            <div class="kpi-meta"><span class="badge badge-orange" id="res-duration">Sau 0 tháng</span></div>
+          </div>
+        </div>
+
+        <!-- Biểu đồ -->
+        <div class="chart-container-flex mb-30" id="chart-area" style="display: none;">
+          <div class="chart-box" style="flex: 2;">
+            <h3 class="chart-title">Tăng trưởng qua từng kỳ</h3>
+            <div style="height: 300px; position: relative;">
+              <canvas id="growthChart"></canvas>
+            </div>
+          </div>
+          <div class="chart-box" style="flex: 1;">
+            <h3 class="chart-title">Cơ cấu cuối kỳ</h3>
+            <div style="height: 300px; position: relative;">
+              <canvas id="pieChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bảng lịch sử -->
+        <div class="table-responsive" id="table-area" style="display: none;">
+          <table class="schedule-table">
+            <thead>
+              <tr>
+                <th>Kỳ tái tục</th>
+                <th>Tháng thứ</th>
+                <th>Số dư đầu kỳ (Gốc)</th>
+                <th>Tiền lãi phát sinh</th>
+                <th>Tiền rút ra / Nhận về</th>
+                <th>Số dư cuối kỳ</th>
+              </tr>
+            </thead>
+            <tbody id="schedule-tbody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-content">
+      <p><strong>FinAnalyzer Portal (Beta)</strong></p>
+      <p>Dự án đang trong giai đoạn thử nghiệm và phát triển. Các công cụ tính toán được xây dựng dựa trên việc tham khảo các quy định pháp luật và nhiều nguồn tài liệu uy tín.</p>
+      <p>Website hoạt động hoàn toàn với mục đích <strong>phi thương mại</strong>, phục vụ cho nhu cầu học tập, tham khảo và hỗ trợ tính toán nhanh. Chúng tôi <strong>không chịu trách nhiệm</strong> pháp lý đối với bất kỳ quyết định tài chính, kế toán hay thuế nào dựa trên các kết quả từ hệ thống này.</p>
+      <p class="footer-copyright">© 2026 FinAnalyzer. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../tracking.js"></script>
+  <script src="script.js?v=1"></script>
+  <script>
+    // Theme toggle
+    const themeBtn = document.querySelector('.theme-float');
+    const html = document.documentElement;
+    const themeIcon = document.getElementById('themeIcon');
+    const themeLabel = document.getElementById('themeLabel');
+
+    if (localStorage.getItem('theme') === 'light') {
+      html.setAttribute('data-theme', 'light');
+      themeBtn.classList.add('light');
+      themeIcon.textContent = '☀️';
+      themeLabel.textContent = 'Sáng';
+    }
+
+    function toggleTheme() {
+      if (html.getAttribute('data-theme') === 'dark') {
+        html.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+        themeBtn.classList.add('light');
+        themeIcon.textContent = '☀️';
+        themeLabel.textContent = 'Sáng';
+      } else {
+        html.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+        themeBtn.classList.remove('light');
+        themeIcon.textContent = '🌙';
+        themeLabel.textContent = 'Tối';
+      }
+    }
+  </script>
+</body>
+</html>
