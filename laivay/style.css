@@ -7,14 +7,14 @@
 .lv-card {
   background: var(--bg2);
   border-radius: 12px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   overflow: hidden;
 }
 
 .lv-card-header {
   padding: 20px 24px;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border);
   background: var(--bg1);
 }
 
@@ -22,7 +22,7 @@
   font-size: 18px;
   font-weight: 700;
   margin: 0;
-  color: var(--text-color);
+  color: var(--text);
 }
 
 .lv-card-body {
@@ -40,7 +40,7 @@
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border);
   padding-bottom: 10px;
 }
 
@@ -62,7 +62,7 @@
 }
 
 .tab-btn:hover:not(.active) {
-  color: var(--text-color);
+  color: var(--text);
 }
 
 .packages-slider {
@@ -87,7 +87,7 @@
 .pkg-card {
   min-width: 280px;
   background: var(--bg1);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 16px;
   flex-shrink: 0;
@@ -118,7 +118,7 @@
 .pkg-title {
   font-size: 15px;
   font-weight: 600;
-  color: var(--text-color);
+  color: var(--text);
   margin: 0;
 }
 
@@ -159,7 +159,7 @@
 
 .slider-nav {
   background: var(--bg1);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 50%;
   width: 32px;
   height: 32px;
@@ -167,7 +167,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: var(--text-color);
+  color: var(--text);
   position: absolute;
   transition: 0.3s;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -192,7 +192,7 @@
 /* Loan Form */
 .loan-form-block {
   background: var(--bg1);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 20px;
   margin-bottom: 20px;
@@ -205,7 +205,7 @@
   justify-content: space-between;
   margin-bottom: 16px;
   padding-bottom: 10px;
-  border-bottom: 1px dashed var(--border-color);
+  border-bottom: 1px dashed var(--border);
 }
 
 .loan-form-title {
@@ -252,13 +252,13 @@
 .form-group label {
   font-size: 13px;
   font-weight: 500;
-  color: var(--text-color);
+  color: var(--text);
 }
 
 .form-control {
   background: var(--bg2);
-  border: 1px solid var(--border-color);
-  color: var(--text-color);
+  border: 1px solid var(--border);
+  color: var(--text);
   padding: 10px 12px;
   border-radius: 6px;
   font-size: 14px;
@@ -293,7 +293,7 @@ html[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
   display: flex;
   align-items: center;
   background: var(--bg2);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
 }
@@ -303,7 +303,7 @@ html[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
   flex: 1;
   background: transparent;
   padding: 10px 12px;
-  color: var(--text-color);
+  color: var(--text);
   font-size: 14px;
   width: 100%;
 }
@@ -315,7 +315,7 @@ html[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
   color: var(--text-mute);
   font-size: 13px;
   background: var(--bg1);
-  border-left: 1px solid var(--border-color);
+  border-left: 1px solid var(--border);
   display: flex;
   align-items: center;
 }
@@ -340,7 +340,7 @@ html[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
 
 .rate-dynamic-container {
   background: var(--bg1);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 6px;
   padding: 12px;
   margin-top: 8px;
@@ -359,10 +359,10 @@ html[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
 .rate-row input {
   width: 50px;
   padding: 6px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 4px;
   background: var(--bg2);
-  color: var(--text-color);
+  color: var(--text);
   text-align: center;
 }
 
@@ -372,10 +372,10 @@ html[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
 
 .rate-row select {
   padding: 6px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 4px;
   background: var(--bg2);
-  color: var(--text-color);
+  color: var(--text);
 }
 
 .btn-remove-rate {
@@ -389,7 +389,7 @@ html[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
 
 .btn-add-rate {
   background: none;
-  border: 1px dashed var(--border-color);
+  border: 1px dashed var(--border);
   color: var(--text-mute);
   padding: 6px;
   border-radius: 4px;
@@ -482,7 +482,7 @@ html[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
   align-items: flex-start;
 }
 .advice-icon { font-size: 20px; }
-.advice-content { font-size: 14px; color: var(--text-color); line-height: 1.5; }
+.advice-content { font-size: 14px; color: var(--text); line-height: 1.5; }
 .advice-content b { color: #f39c12; }
 
 .summary-grid {
@@ -493,7 +493,7 @@ html[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
 
 .summary-item {
   background: var(--bg1);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 20px;
   display: flex;
@@ -544,7 +544,7 @@ html[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
 
 .chart-box {
   background: var(--bg1);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 20px;
 }
@@ -567,7 +567,7 @@ html[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
 .table-tabs {
   display: flex;
   gap: 10px;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border);
 }
 .table-tab-btn {
   background: none;
@@ -588,7 +588,7 @@ html[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
 .table-responsive {
   max-height: 400px;
   overflow-y: auto;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 8px;
 }
 .table-responsive::-webkit-scrollbar {
@@ -596,7 +596,7 @@ html[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
   height: 6px;
 }
 .table-responsive::-webkit-scrollbar-thumb {
-  background-color: var(--border-color);
+  background-color: var(--border);
   border-radius: 4px;
 }
 
@@ -610,7 +610,7 @@ html[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
   background: var(--bg2);
   font-weight: 600;
   text-align: right;
-  border-bottom: 2px solid var(--border-color);
+  border-bottom: 2px solid var(--border);
   position: sticky;
   top: 0;
   z-index: 10;
@@ -620,7 +620,7 @@ html[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
 .schedule-table td {
   padding: 12px 16px;
   text-align: right;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border);
   font-size: 14px;
 }
 
@@ -629,7 +629,7 @@ html[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
 
 .schedule-table th {
   background: var(--bg1);
-  color: var(--text-color);
+  color: var(--text);
   font-weight: 600;
 }
 
@@ -637,7 +637,7 @@ html[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
   background: var(--bg1);
 }
 
-.schedule-table td { color: var(--text-color); }
+.schedule-table td { color: var(--text); }
 .schedule-table td:nth-child(5) { color: #d63031; font-weight: 600; }
 
 .seo-table {
@@ -645,7 +645,7 @@ html[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
   border-collapse: collapse;
 }
 .seo-table th, .seo-table td {
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   padding: 10px;
   text-align: left;
 }
@@ -699,13 +699,13 @@ html[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
 .seo-section-header h2 {
   margin: 0;
   font-size: 20px;
-  color: var(--text-color);
+  color: var(--text);
   font-weight: 700;
 }
 
 .seo-intro {
   font-size: 14px;
-  color: var(--text-color);
+  color: var(--text);
   line-height: 1.6;
   margin-bottom: 12px;
 }
@@ -717,7 +717,7 @@ html[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .accordion-item {
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 12px;
   background: var(--card-bg);
   overflow: hidden;
@@ -737,7 +737,7 @@ html[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
   margin: 0;
   font-size: 16px;
   font-weight: 700;
-  color: var(--text-color);
+  color: var(--text);
 }
 
 .accordion-icon {
@@ -760,7 +760,7 @@ html[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
   padding: 0 20px 20px 20px;
   display: none;
   font-size: 14px;
-  color: var(--text-color);
+  color: var(--text);
   line-height: 1.6;
 }
 
@@ -782,12 +782,12 @@ html[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
   margin-bottom: 20px;
 }
 .seo-table th, .seo-table td {
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   padding: 8px 12px;
 }
 .seo-table th {
   background: var(--bg2);
-  color: var(--text-color);
+  color: var(--text);
 }
 
 .formula-box {

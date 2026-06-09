@@ -55,7 +55,7 @@
         <div class="form-grid-2 mb-40">
           <!-- Col 1: Thu nhập -->
           <div class="sub-card">
-            <h3 class="section-title mb-20" style="color: var(--text-color); font-size: 18px;">Thu Nhập Hàng Tháng</h3>
+            <h3 class="section-title mb-20" style="color: var(--text); font-size: 18px;">Thu Nhập Hàng Tháng</h3>
             
             <div class="form-group mb-20">
               <label>Của bạn</label>
@@ -76,9 +76,9 @@
           <!-- Col 2: Tiền nợ -->
           <div class="sub-card">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-              <h3 class="section-title" style="color: var(--text-color); font-size: 18px; margin-bottom: 0;">Khoản Vay Hiện Có <span class="help-icon" title="Tiền trả hàng tháng hiện tại">?</span></h3>
+              <h3 class="section-title" style="color: var(--text); font-size: 18px; margin-bottom: 0;">Khoản Vay Hiện Có <span class="help-icon" title="Tiền trả hàng tháng hiện tại">?</span></h3>
               <div style="font-size: 13px; color: var(--text-mute); display: flex; align-items: center;">
-                Tối đa: <input type="number" id="safe-limit" value="75" style="width: 55px; padding: 4px; margin: 0 4px; text-align: center; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg2); color: var(--text-color); font-weight: bold;" oninput="updateSlidersMax(); calculateResult()"> %
+                Tối đa: <input type="number" id="safe-limit" value="75" style="width: 55px; padding: 4px; margin: 0 4px; text-align: center; border: 1px solid var(--border); border-radius: 4px; background: var(--bg2); color: var(--text); font-weight: bold;" oninput="updateSlidersMax(); calculateResult()"> %
               </div>
             </div>
             
@@ -104,7 +104,7 @@
         <div class="divider"></div>
         
         <div class="sub-card mb-40">
-          <h3 class="section-title mb-20" style="color: var(--text-color); font-size: 18px;">Thông Số Khoản Vay Mới</h3>
+          <h3 class="section-title mb-20" style="color: var(--text); font-size: 18px;">Thông Số Khoản Vay Mới</h3>
           <div class="form-grid-3">
             <div class="form-group">
               <label>Bạn muốn vay trong bao lâu?</label>
@@ -139,7 +139,7 @@
         </div>
         
         <div style="text-align: center; display: flex; justify-content: center; gap: 15px;">
-          <button class="btn-secondary" style="padding: 15px 30px; font-size: 16px; font-weight: 700; border-radius: 8px; border: 1px solid var(--border-color); background: transparent; color: var(--text-color); cursor: pointer;" onclick="clearData()">LÀM MỚI</button>
+          <button type="button" class="btn-secondary" style="height: 48px; padding: 0 30px; font-size: 15px; font-weight: 600; font-family: var(--sans, 'Inter', sans-serif); border-radius: 6px; border: 2px solid var(--border2, #374151); background: transparent; color: var(--text); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; transition: all 0.2s;" onclick="clearData()" onmouseover="this.style.borderColor='var(--blue, #3b82f6)'; this.style.color='var(--blue, #3b82f6)'" onmouseout="this.style.borderColor='var(--border2, #374151)'; this.style.color='var(--text)'">LÀM MỚI</button>
           <button class="btn-calculate-large" onclick="calculateResult()">TÍNH KHẢ NĂNG VAY</button>
         </div>
       </div>
@@ -147,7 +147,7 @@
 
     <!-- Kết quả -->
     <div class="lv-card mb-30" id="result-section" style="display: none;">
-      <div class="lv-card-header" style="padding: 24px 30px; text-align: center; border-bottom: 1px solid var(--border-color);">
+      <div class="lv-card-header" style="padding: 24px 30px; text-align: center; border-bottom: 1px solid var(--border);">
         <h2 class="lv-card-title text-purple" style="font-size: 22px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">Khả Năng Vay Của Bạn</h2>
       </div>
       <div class="lv-card-body" style="background: var(--bg-color);">
@@ -184,7 +184,7 @@
           <button onclick="toggleExplanation()" id="btn-explanation" style="background: transparent; border: 1px solid var(--purple-main); color: var(--purple-main); padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s;">Xem diễn giải chi tiết</button>
         </div>
         
-        <div id="explanation-box" style="display: none; margin-top: 20px; padding: 24px; background: rgba(169, 59, 141, 0.05); border-radius: 10px; border: 1px solid var(--purple-main); font-size: 15px; line-height: 1.8; color: var(--text-color); box-shadow: 0 4px 15px rgba(169, 59, 141, 0.1);">
+        <div id="explanation-box" style="display: none; margin-top: 20px; padding: 24px; background: rgba(169, 59, 141, 0.05); border-radius: 10px; border: 1px solid var(--purple-main); font-size: 15px; line-height: 1.8; color: var(--text); box-shadow: 0 4px 15px rgba(169, 59, 141, 0.1);">
            <!-- Breakdown injected by JS -->
         </div>
         

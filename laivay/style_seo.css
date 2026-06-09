@@ -11,7 +11,7 @@
   height: 250px;
   overflow: hidden;
   font-size: 14px;
-  color: var(--text-color);
+  color: var(--text);
   line-height: 1.6;
   position: relative;
   transition: height 0.5s ease;
@@ -44,12 +44,12 @@
   margin-bottom: 20px;
 }
 .seo-table th, .seo-table td {
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   padding: 8px 12px;
 }
 .seo-table th {
   background: var(--bg2);
-  color: var(--text-color);
+  color: var(--text);
 }
 
 .formula-box {
@@ -79,7 +79,7 @@ html[data-theme="light"] .read-more-wrapper {
 }
 
 .btn-read-more {
-  background: var(--border-color);
+  background: var(--border);
   color: var(--text-mute);
   border: none;
   padding: 8px 24px;
