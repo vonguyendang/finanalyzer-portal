@@ -2,7 +2,7 @@ let currentTab = 'oto';
 let isBudgetManuallyEdited = false;
 
 document.addEventListener('DOMContentLoaded', () => {
-  loadData();
+  let hasData = loadData();
 
   // Format inputs on load
   const currencyInputs = document.querySelectorAll('.input-currency');
@@ -11,11 +11,15 @@ document.addEventListener('DOMContentLoaded', () => {
     input.addEventListener('input', formatInput);
   });
   
-  switchTab(currentTab); // Initialize icon and labels
+  switchTab(currentTab, true); // Initialize icon and labels
   
   calculateTotalIncome();
   calculateTotalDebt();
-  calculateResult();
+  
+  if (hasData) {
+    calculateResult(true);
+  }
+
   
   // Initialize slider progress
   const s1 = document.getElementById('debt-slider-self');
@@ -61,8 +65,10 @@ function loadData() {
       if(data.interestRate) document.getElementById('interest-rate').value = data.interestRate;
       if(data.ltv) document.getElementById('ltv').value = data.ltv;
       if(data.tab) currentTab = data.tab;
+      return true;
     } catch(e) {}
   }
+  return false;
 }
 
 function clearData() {
@@ -186,7 +192,7 @@ function calculateTotalDebt() {
   document.getElementById('debt-total').value = total.toLocaleString('vi-VN').replace(/,/g, '.');
 }
 
-function switchTab(tab) {
+function switchTab(tab, isInit = false) {
   currentTab = tab;
   
   // Update buttons
@@ -207,22 +213,24 @@ function switchTab(tab) {
     bannerIcon.innerHTML = carSvg;
     resIcon.innerHTML = carSvg;
     resAssetLabel.innerText = 'Giá trị xe tối đa bạn có thể mua';
-    ltvInput.value = 80;
+    if (!isInit) ltvInput.value = 80;
   } else {
     bannerTitle.innerText = 'Tính toán ngay các phương án vay mua nhà trả góp phù hợp với ngân sách của bạn và gia đình.';
     const houseSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>`;
     bannerIcon.innerHTML = houseSvg;
     resIcon.innerHTML = houseSvg;
     resAssetLabel.innerText = 'Giá trị căn nhà bạn có thể mua (Là tài sản đảm bảo khi vay)';
-    ltvInput.value = 70;
+    if (!isInit) ltvInput.value = 70;
   }
   
   // Hide result if shown
-  document.getElementById('result-section').style.display = 'none';
+  if (!isInit) {
+    document.getElementById('result-section').style.display = 'none';
+  }
   saveData();
 }
 
-function calculateResult() {
+function calculateResult(isFromLoad = false) {
   calculateTotalIncome();
   calculateTotalDebt();
   
@@ -297,7 +305,9 @@ function calculateResult() {
   }
 
   document.getElementById('result-section').style.display = 'block';
-  document.getElementById('result-section').scrollIntoView({behavior: 'smooth', block: 'end'});
+  if (!isFromLoad) {
+    document.getElementById('result-section').scrollIntoView({behavior: 'smooth', block: 'end'});
+  }
 }
 
 function toggleExplanation() {
