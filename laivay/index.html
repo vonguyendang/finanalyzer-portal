@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Công Cụ Tính Lãi Vay Ngân Hàng Mới Nhất 2026</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="../favicon_io/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon_io/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon_io/favicon-16x16.png">
+  <link rel="shortcut icon" href="../favicon_io/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lexend:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css?v=3">
+  <link rel="stylesheet" href="style.css?v=3">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+
+  <a href="../" title="Trở về Trang Chủ" class="float-home-btn">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+    <span>Trang Chủ</span>
+  </a>
+
+  <button class="theme-float" onclick="toggleTheme()" title="Chuyển đổi giao diện sáng/tối">
+    <span id="themeIcon">🌙</span>
+    <span id="themeLabel">Tối</span>
+    <div class="theme-track">
+      <div class="theme-thumb"></div>
+    </div>
+  </button>
+
+  <div class="container main-container">
+    
+    <div class="header">
+      <h1 class="title">CÔNG CỤ TÍNH LÃI VAY NGÂN HÀNG CHUẨN XÁC NHẤT 2026</h1>
+      <p class="subtitle">Tính toán tự động dư nợ giảm dần hoặc lãi phẳng, so sánh chi phí, và lập kế hoạch dòng tiền hoàn trả một cách trực quan, chính xác.</p>
+    </div>
+
+    <!-- 2. Form Tính Lãi Vay -->
+    <div class="lv-card mb-30">
+      <div class="lv-card-header">
+        <h2 class="lv-card-title">Công Cụ Tính Lãi Vay</h2>
+        <p class="text-mute" style="margin-top: 5px;">Điền thông tin tính lãi vay và lập kế hoạch chi trả tại đây:</p>
+      </div>
+      
+      <div class="lv-card-body">
+        <div id="loans-container">
+          <!-- Loan forms will be injected here -->
+        </div>
+
+        <div class="form-actions-row">
+          <button class="btn-secondary" onclick="addLoanForm()">+ Tính thêm khoản vay</button>
+          <div class="action-right">
+            <button class="btn-primary" onclick="calculateAllLoans()">Tính ngay</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Báo cáo & Chart -->
+    <div class="lv-card report-card mb-30" id="report-section" style="display: none;">
+      <div class="lv-card-header d-flex-between">
+        <h2 class="lv-card-title">Báo cáo hiệu quả tài chính</h2>
+        <button class="btn-export" onclick="exportToExcel()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 5px; vertical-align: middle;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="8" y1="13" x2="16" y2="13"></line><line x1="8" y1="17" x2="16" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg> Tải xuống báo cáo
+        </button>
+      </div>
+      
+      <div class="lv-card-body">
+        <!-- Tư vấn Box -->
+        <div class="advice-box mb-30" id="advice-box" style="display: none;">
+          <div class="advice-icon">💡</div>
+          <div class="advice-content" id="advice-content"></div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="summary-grid mb-30">
+          <div class="summary-item box-green">
+            <div class="s-icon">💵</div>
+            <div class="s-label">TỔNG GỐC VAY</div>
+            <div class="s-value text-green" id="s-total-principal">0 ₫</div>
+          </div>
+          <div class="summary-item box-orange">
+            <div class="s-icon">🔥</div>
+            <div class="s-label">TỔNG LÃI PHẢI TRẢ</div>
+            <div class="s-value text-orange" id="s-total-interest">0 ₫</div>
+            <div class="s-sub" id="s-interest-percent">chiếm 0% tổng nợ</div>
+          </div>
+          <div class="summary-item box-blue">
+            <div class="s-icon">📉</div>
+            <div class="s-label">LÃI SUẤT BÌNH QUÂN</div>
+            <div class="s-value text-blue" id="s-avg-rate">0%</div>
+            <div class="s-sub">năm (theo dư nợ)</div>
+          </div>
+          <div class="summary-item box-red">
+            <div class="s-icon">🚨</div>
+            <div class="s-label">THÁNG TRẢ CAO NHẤT</div>
+            <div class="s-value text-red" id="s-max-month-amount">0 ₫</div>
+            <div class="s-sub" id="s-max-month-date">--/--/----</div>
+          </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-grid mb-30">
+          <div class="chart-box">
+            <h3 class="chart-title">Dòng tiền trả nợ theo thời gian</h3>
+            <div class="chart-container">
+              <canvas id="cashflowChart"></canvas>
+            </div>
+          </div>
+          <div class="chart-box">
+            <h3 class="chart-title">Cấu trúc khoản trả</h3>
+            <div class="chart-container" style="display: flex; justify-content: center; align-items: center;">
+              <canvas id="structureChart" style="max-height: 250px;"></canvas>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Table tabs (if multiple) -->
+        <div class="table-tabs mb-20" id="table-tabs" style="display: none;">
+          <!-- Render by JS -->
+        </div>
+
+        <!-- Table Schedule -->
+        <div class="table-responsive">
+          <table class="schedule-table">
+            <thead>
+              <tr>
+                <th>Kỳ</th>
+                <th>Ngày dự kiến</th>
+                <th>Tổng gốc</th>
+                <th>Tổng lãi</th>
+                <th>Tổng phải trả</th>
+                <th>Dư nợ còn lại</th>
+              </tr>
+            </thead>
+            <tbody id="schedule-tbody">
+              <!-- Render by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Content -->
+    <div class="seo-card mt-40">
+      
+      <!-- Section 1 -->
+      <div class="seo-accordion-section mb-40">
+        <div class="seo-section-header">
+          <div class="seo-icon-square"></div>
+          <h2>Hướng dẫn cách sử dụng công cụ tính lãi vay</h2>
+        </div>
+        <p class="seo-intro">Tài liệu này sẽ hướng dẫn bạn cách sử dụng công cụ để tính toán chính xác chi phí lãi vay, lên kế hoạch dòng tiền và lựa chọn gói vay phù hợp nhất cho nhu cầu của mình:</p>
+        
+        <div class="accordion">
+          <!-- Item 1.1 -->
+          <div class="accordion-item expanded">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <h3>1. Tổng quan về công cụ</h3>
+              <div class="accordion-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+            </div>
+            <div class="accordion-body">
+              <p>Công cụ này được thiết kế giúp các Doanh nghiệp SME, Hộ kinh doanh và Cá nhân:</p>
+              <ul>
+                <li><b>Tính toán tự động:</b> Nhập số tiền, lãi suất -> Ra ngay lịch trả nợ chi tiết từng tháng.</li>
+                <li><b>So sánh lãi suất:</b> Hiểu rõ sự chênh lệch giữa các phương pháp tính lãi (Dư nợ giảm dần vs Lãi phẳng).</li>
+                <li><b>Hoạch định dòng tiền:</b> Biết trước tháng nào phải trả nhiều tiền nhất để chuẩn bị thanh khoản.</li>
+              </ul>
+            </div>
+          </div>
+          
+          <!-- Item 1.2 -->
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <h3>2. Cách sử dụng công cụ</h3>
+              <div class="accordion-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+            </div>
+            <div class="accordion-body">
+              <p><b>Bước 1: Nhập hoặc Điều chỉnh thông tin vay</b></p>
+              <p>Tại khu vực nhập liệu, bạn hãy điền các thông số thực tế của mình:</p>
+              <ul>
+                <li><b>Số tiền vay:</b> Nhập số tiền bạn cần vay (Hệ thống tự động thêm dấu phân cách hàng nghìn).</li>
+                <li><b>Lãi suất:</b> Nhập con số lãi suất. Lưu ý: Xem dòng chữ nhỏ màu xanh bên dưới để thấy mức lãi suất quy đổi tương ứng.</li>
+                <li><b>Thời gian vay:</b> Chọn Ngày giải ngân, Nhập Kỳ hạn (Tháng), Ngày trả lãi.</li>
+                <li><b>Cách tính lãi:</b> Chọn “Dư nợ giảm dần” (Phổ biến cho vay ngân hàng) hoặc “Lãi phẳng” (Phổ biến cho vay tiêu dùng).</li>
+                <li><i>Mẹo: Bấm nút “Tính thêm khoản vay” để tính toán cho nhiều khoản vay cùng lúc.</i></li>
+              </ul>
+              <p class="mt-10"><b>Bước 2: Xem báo cáo & Tối ưu</b></p>
+              <p>Sau khi điền đủ thông tin, bấm nút “TÍNH NGAY”.</p>
+              <ul>
+                <li><b>Xem Tư vấn:</b> Hệ thống sẽ so sánh lãi suất của bạn với thị trường. Nếu lãi suất bạn nhập quá cao, hệ thống sẽ gợi ý phương án tiết kiệm hơn.</li>
+                <li><b>Kiểm tra:</b> Tổng lãi phải trả, Tháng trả cao nhất, Biểu đồ & Bảng chi tiết dòng tiền hàng tháng.</li>
+                <li><b>Xuất Excel:</b> Kéo xuống cuối trang, bấm “Tải xuống báo cáo” để lưu file về máy tính.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2 -->
+      <div class="seo-accordion-section">
+        <div class="seo-section-header">
+          <div class="seo-icon-square"></div>
+          <h2>Hướng dẫn cách tính lãi vay ngân hàng & Cá nhân: Công thức kèm ví dụ dễ hiểu</h2>
+        </div>
+        <p class="seo-intro">Mọi giao dịch tài chính, từ vay tiêu dùng mua xe, mua nhà đến vay vốn kinh doanh, lãi vay là yếu tố quyết định tổng chi phí phải trả. Tuy nhiên, không phải ai cũng hiểu rõ bản chất và cách tính lãi vay mà các ngân hàng hay tổ chức tín dụng đang áp dụng. Việc thiếu kiến thức này có thể dẫn đến những quyết định tài chính sai lầm, khiến bạn phải trả một khoản tiền cao hơn nhiều so với dự tính.</p>
+        <p class="seo-intro">Sau đây là hướng dẫn chi tiết <b>2 phương pháp tính lãi vay phổ biến nhất</b> hiện nay:</p>
+        
+        <div class="accordion mt-20">
+          <!-- Item 2.1 -->
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <h3>1. Lãi vay là gì? Tại sao phải nắm rõ cách tính?</h3>
+              <div class="accordion-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+            </div>
+            <div class="accordion-body">
+              <p>Lãi vay là khoản chi phí mà người đi vay phải trả cho người cho vay (ngân hàng, công ty tài chính, cá nhân…) cho việc sử dụng một khoản tiền trong một khoảng thời gian nhất định.</p>
+              <p>Việc hiểu rõ cách tính lãi vay mang lại 3 lợi ích cốt lõi:</p>
+              <ul>
+                <li>So sánh và lựa chọn thông minh.</li>
+                <li>Lập kế hoạch tài chính chính xác.</li>
+                <li>Tránh “bẫy” lãi suất phẳng.</li>
+              </ul>
+            </div>
+          </div>
+          
+          <!-- Item 2.2 -->
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <h3>2. Hai phương pháp tính lãi vay phổ biến nhất hiện nay</h3>
+              <div class="accordion-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+            </div>
+            <div class="accordion-body">
+              <table class="seo-table">
+                <thead>
+                  <tr>
+                    <th>Tiêu chí</th>
+                    <th>Tính lãi trên dư nợ ban đầu (Lãi phẳng)</th>
+                    <th>Tính lãi trên dư nợ giảm dần</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><b>Bản chất</b></td>
+                    <td>Lãi suất không đổi, tính trên số tiền gốc vay ban đầu.</td>
+                    <td>Lãi suất tính trên số nợ gốc còn lại sau mỗi kỳ thanh toán.</td>
+                  </tr>
+                  <tr>
+                    <td><b>Số tiền lãi hàng tháng</b></td>
+                    <td>Cố định trong suốt thời gian vay.</td>
+                    <td>Giảm dần theo thời gian.</td>
+                  </tr>
+                  <tr>
+                    <td><b>Số lãi phải trả</b></td>
+                    <td>Cao hơn</td>
+                    <td>Thấp hơn</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <h4 class="mt-20">2.1. Cách tính lãi trên dư nợ ban đầu (Lãi suất phẳng)</h4>
+              <p>Tiền lãi hàng tháng được tính dựa trên số tiền vay ban đầu và không thay đổi trong suốt thời gian vay.</p>
+              <div class="formula-box">
+                <p><b>Tiền lãi tháng = (Số tiền vay ban đầu × Lãi suất năm) / 12</b></p>
+              </div>
+              <p><i>Ví dụ: Vay 120 triệu, 12 tháng, lãi suất 12%/năm phẳng. Lãi cố định: 1,2 triệu/tháng. Tổng lãi: 14,4 triệu.</i></p>
+
+              <h4 class="mt-20">2.2. Cách tính lãi trên dư nợ giảm dần</h4>
+              <p>Tiền lãi mỗi kỳ được tính dựa trên số nợ gốc thực tế còn lại.</p>
+              <div class="formula-box">
+                <p><b>Tiền lãi tháng = Số dư nợ gốc còn lại × (Lãi suất năm / 12)</b></p>
+              </div>
+              <p><i>Ví dụ: Vay 120 triệu, 12 tháng, lãi suất 12%/năm giảm dần. Tổng lãi: 7,8 triệu.</i></p>
+            </div>
+          </div>
+          
+          <!-- Item 2.3 -->
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <h3>3. Các lưu ý về các gói vay ngân hàng</h3>
+              <div class="accordion-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+            </div>
+            <div class="accordion-body">
+              <ul>
+                <li>Hiểu rõ phương pháp tính lãi.</li>
+                <li>Ân hạn nợ gốc: Thời gian đầu chỉ trả lãi.</li>
+                <li>Lãi suất thả nổi: Cố định thời gian đầu, sau đó thả nổi.</li>
+                <li>Phí trả nợ trước hạn.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+  </div> <!-- End container -->
+
+  <footer class="site-footer">
+    <div class="footer-content">
+      <p><strong>FinAnalyzer Portal (Beta)</strong></p>
+      <p>Dự án đang trong giai đoạn thử nghiệm và phát triển. Các công cụ tính toán được xây dựng dựa trên việc tham khảo các quy định pháp luật và nhiều nguồn tài liệu uy tín.</p>
+      <p>Website hoạt động hoàn toàn với mục đích <strong>phi thương mại</strong>, phục vụ cho nhu cầu học tập, tham khảo và hỗ trợ tính toán nhanh. Chúng tôi <strong>không chịu trách nhiệm</strong> pháp lý đối với bất kỳ quyết định tài chính, kế toán hay thuế nào dựa trên các kết quả từ hệ thống này.</p>
+      <p class="footer-copyright">© 2026 FinAnalyzer. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="../tracking.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

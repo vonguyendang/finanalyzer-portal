@@ -1,0 +1,96 @@
+/* SEO Content */
+.seo-card {
+  padding: 20px 0;
+}
+
+.seo-content {
+  position: relative;
+}
+
+.seo-text-wrapper {
+  height: 250px;
+  overflow: hidden;
+  font-size: 14px;
+  color: var(--text-color);
+  line-height: 1.6;
+  position: relative;
+  transition: height 0.5s ease;
+}
+
+.seo-content.expanded .seo-text-wrapper {
+  height: auto;
+}
+
+.seo-text-wrapper h2,
+.seo-text-wrapper h3,
+.seo-text-wrapper h4 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--primary);
+}
+
+.seo-text-wrapper p, .seo-text-wrapper ul {
+  margin-bottom: 12px;
+}
+
+.seo-text-wrapper ul {
+  padding-left: 20px;
+}
+
+.seo-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+.seo-table th, .seo-table td {
+  border: 1px solid var(--border-color);
+  padding: 8px 12px;
+}
+.seo-table th {
+  background: var(--bg2);
+  color: var(--text-color);
+}
+
+.formula-box {
+  background: var(--bg2);
+  padding: 15px;
+  border-radius: 6px;
+  border-left: 4px solid var(--primary);
+  margin-bottom: 15px;
+}
+
+.read-more-wrapper {
+  text-align: center;
+  position: relative;
+  margin-top: -50px;
+  padding-top: 60px;
+  background: linear-gradient(to bottom, rgba(6, 12, 24, 0), var(--bg1) 80%);
+}
+
+html[data-theme="light"] .read-more-wrapper {
+  background: linear-gradient(to bottom, rgba(240, 244, 250, 0), var(--bg1) 80%);
+}
+
+.seo-content.expanded .read-more-wrapper {
+  background: none;
+  margin-top: 10px;
+  padding-top: 0;
+}
+
+.btn-read-more {
+  background: var(--border-color);
+  color: var(--text-mute);
+  border: none;
+  padding: 8px 24px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-read-more:hover {
+  background: var(--primary);
+  color: #fff;
+}
