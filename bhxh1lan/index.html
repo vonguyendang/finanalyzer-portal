@@ -60,14 +60,15 @@
           </div>
 
           <!-- Buttons -->
-          <div class="form-actions" style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <div class="form-actions-add" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;">
             <button class="btn-outline btn-add-period" id="btn-add-period" onclick="addPeriodRow()">+ THÊM GIAI ĐOẠN</button>
             <button class="btn-outline btn-add-period" id="btn-add-batbuoc" style="display:none;" onclick="addPeriodRow('batbuoc')">+ THÊM GIAI ĐOẠN BHXH BẮT BUỘC</button>
             <button class="btn-outline btn-add-period" id="btn-add-tunguyen" style="display:none;" onclick="addPeriodRow('tunguyen')">+ THÊM GIAI ĐOẠN BHXH TỰ NGUYỆN</button>
             <button class="btn-outline btn-add-maternity" id="btn-add-maternity" onclick="addMaternityRow()">+ GIAI ĐOẠN THAI SẢN</button>
-            <div style="flex: 1;"></div>
-            <button class="btn-outline" style="border-color: var(--text3); color: var(--text3);" onclick="resetData()">LÀM MỚI</button>
-            <button class="btn-solid btn-calculate" onclick="calculateBHXH()">TÍNH BHXH</button>
+          </div>
+          <div class="form-actions-main" style="display: flex; gap: 15px; justify-content: center; align-items: center; flex-wrap: wrap;">
+            <button type="button" class="btn-reset-large" onclick="resetData()">LÀM MỚI</button>
+            <button class="btn-calculate-large" onclick="calculateBHXH()">TÍNH BHXH</button>
           </div>
 
           <div class="note-text mt-10">

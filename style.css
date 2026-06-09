@@ -242,3 +242,45 @@
         font-size: 28px;
       }
     }
+
+    /* Standardized Global Buttons */
+    .btn-calculate-large {
+      color: white;
+      background: var(--blue);
+      border: none;
+      padding: 15px 40px;
+      font-size: 15px;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-calculate-large:hover {
+      filter: brightness(1.1);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+
+    .btn-reset-large {
+      color: var(--text);
+      background: transparent;
+      border: 2px solid var(--border2);
+      padding: 13px 30px;
+      font-size: 15px;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-reset-large:hover {
+      border-color: var(--text2);
+      color: var(--text2);
+      transform: translateY(-2px);
+    }

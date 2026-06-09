@@ -215,23 +215,7 @@ html[data-theme="dark"] .input-readonly {
   background: rgba(211, 84, 0, 0.05);
 }
 
-.btn-calculate-large {
-  color: white;
-  background: var(--purple-main);
-  border: none;
-  padding: 18px 80px;
-  font-size: 18px;
-  font-weight: 700;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.3s;
-  box-shadow: 0 4px 15px rgba(169, 59, 141, 0.4);
-}
-.btn-calculate-large:hover {
-  background: var(--purple-dark) !important;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(169, 59, 141, 0.6);
-}
+
 
 /* KPI Cards styling based on tietkiem */
 .kpi-cards-wrapper {

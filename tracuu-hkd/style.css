@@ -56,6 +56,50 @@ body{font-family:'Inter',sans-serif;background:var(--s50);color:var(--s600);min-
 .dvl{margin-top:12px;padding:9px 13px;background:var(--p-lt);border:1px solid #c5d0f7;border-radius:8px;font-size:12.5px;font-weight:600;color:var(--p-dk);display:none}
 .dvl span{font-size:16px;font-weight:800}
 
+/* Standardized Buttons for Tracuu */
+.btn-calculate-large {
+  color: #fff;
+  background: var(--p);
+  border: none;
+  padding: 15px 40px;
+  font-family: 'Lexend', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-calculate-large:hover {
+  background: var(--p-dk);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.btn-reset-large {
+  color: var(--s600);
+  background: transparent;
+  border: 2px solid var(--s200);
+  padding: 13px 30px;
+  font-family: 'Lexend', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-reset-large:hover {
+  border-color: var(--p);
+  color: var(--p);
+  transform: translateY(-2px);
+}
+
 /* ─── BDS PANEL ───────────────── */
 #bds-panel{display:none;margin-bottom:20px;animation:fadeUp .3s ease both}
 .bds-header{background:linear-gradient(135deg,#0d9488,#0f766e);color:#fff;border-radius:var(--r) var(--r) 0 0;padding:18px 24px 16px;display:flex;align-items:center;gap:12px}

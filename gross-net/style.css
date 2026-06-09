@@ -130,7 +130,9 @@
 .form-actions {
   display: flex;
   gap: 15px;
-  margin-left: 220px; /* Offset to align with inputs */
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .btn-action {

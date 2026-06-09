@@ -109,22 +109,6 @@ html[data-theme="dark"] .input-currency {
   line-height: 1.4;
 }
 
-.btn-calculate-large {
-  color: white;
-  border: none;
-  padding: 16px 60px;
-  font-size: 18px;
-  font-weight: 700;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.3s;
-  box-shadow: 0 4px 15px rgba(9, 132, 227, 0.4);
-}
-.btn-calculate-large:hover {
-  background: var(--blue-dark) !important;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(9, 132, 227, 0.6);
-}
 
 .btn-secondary-outline {
   background: transparent;
