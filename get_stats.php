@@ -26,19 +26,24 @@ if (file_exists($file_path)) {
     }
 }
 
-// Nếu chưa có file data, có thể mock một ít data để test giao diện
-if (empty($stats)) {
-    // Dữ liệu giả lập ban đầu để test giao diện khi file JSON chưa có
-    $stats = [
-        "bctc" => 125,
-        "kthkd" => 84,
-        "tracuu-hkd" => 203,
-        "tncn" => 312,
-        "vat" => 156,
-        "bhxh1lan" => 89,
-        "gross-net" => 420,
-        "bhtn" => 67
-    ];
+// Dữ liệu giả lập ban đầu để tăng uy tín (cộng dồn vào data thật)
+// Sau này dữ liệu thật nhiều có thể xóa mảng này đi
+$fake_stats = [
+    "bctc" => 1254,
+    "kthkd" => 842,
+    "tracuu-hkd" => 2038,
+    "tncn" => 3125,
+    "vat" => 1563,
+    "bhxh1lan" => 892,
+    "gross-net" => 4207,
+    "bhtn" => 671
+];
+
+foreach ($fake_stats as $app => $count) {
+    if (!isset($stats[$app])) {
+        $stats[$app] = 0;
+    }
+    $stats[$app] += $count;
 }
 
 echo json_encode([
