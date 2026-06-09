@@ -37,7 +37,10 @@ $fake_stats = [
     "bhxh1lan" => 892,
     "gross-net" => 4207,
     "bhtn" => 671,
-    "thaisan" => 1504
+    "thaisan" => 1504,
+    "laivay" => 2345,
+    "khanangvay" => 1254,
+    "tietkiem" => 1840
 ];
 
 foreach ($fake_stats as $app => $count) {

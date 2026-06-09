@@ -73,7 +73,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     "bhxh1lan": 89,
                     "gross-net": 420,
                     "bhtn": 67,
-                    "thaisan": 150
+                    "thaisan": 150,
+                    "laivay": 345,
+                    "khanangvay": 284,
+                    "tietkiem": 195
                 };
                 cards.forEach(card => {
                     const href = card.getAttribute('href');

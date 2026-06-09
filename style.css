@@ -29,7 +29,7 @@
       min-height: 100vh; display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       background-image: radial-gradient(ellipse at 50% 0%, rgba(61,142,248,0.1) 0%, transparent 70%);
-      padding: 40px 20px; position: relative; overflow-x: hidden;
+      padding: 80px 20px 40px 20px; position: relative; overflow-x: hidden;
     }
 
     .container {
@@ -74,6 +74,8 @@
     .card:nth-child(6):hover { border-color: #2ecc71; box-shadow: 0 20px 40px rgba(0,0,0,0.2), inset 0 0 0 1px rgba(46,204,113,0.2); }
     .card:nth-child(7):hover { border-color: #f1c40f; box-shadow: 0 20px 40px rgba(0,0,0,0.2), inset 0 0 0 1px rgba(241,196,15,0.2); }
     .card:nth-child(8):hover { border-color: #e67e22; box-shadow: 0 20px 40px rgba(0,0,0,0.2), inset 0 0 0 1px rgba(230,126,34,0.2); }
+    .card:nth-child(9):hover { border-color: #fd79a8; box-shadow: 0 20px 40px rgba(0,0,0,0.2), inset 0 0 0 1px rgba(253,121,168,0.2); }
+    .card:nth-child(10):hover { border-color: #00b894; box-shadow: 0 20px 40px rgba(0,0,0,0.2), inset 0 0 0 1px rgba(0,184,148,0.2); }
 
     .card-icon {
       width: 48px; height: 48px; border-radius: 14px;
@@ -88,6 +90,10 @@
     .card:nth-child(6) .card-icon { background: rgba(46,204,113,0.1); color: #2ecc71; } /* Xanh ngọc cho BHXH */
     .card:nth-child(7) .card-icon { background: rgba(241,196,15,0.1); color: #f1c40f; } /* Vàng cho Gross-Net */
     .card:nth-child(8) .card-icon { background: rgba(230,126,34,0.1); color: #e67e22; } /* Cam cho BHTN */
+    .card:nth-child(9) .card-icon { background: rgba(253,121,168,0.1); color: #fd79a8; } /* Hồng cho Thai Sản */
+    .card:nth-child(10) .card-icon { background: rgba(0,184,148,0.1); color: #00b894; } /* Xanh ngọc cho Lãi Vay */
+    .card:nth-child(11) .card-icon { background: rgba(169,59,141,0.1); color: #a93b8d; } /* Tím hồng cho Khả Năng Vay */
+    .card:nth-child(12) .card-icon { background: rgba(9,132,227,0.1); color: #0984e3; } /* Xanh biển cho Tiết Kiệm */
 
     .card-usage {
       position: absolute;
@@ -124,6 +130,10 @@
     .card:nth-child(6) .card-action { color: #2ecc71; }
     .card:nth-child(7) .card-action { color: #f1c40f; }
     .card:nth-child(8) .card-action { color: #e67e22; }
+    .card:nth-child(9) .card-action { color: #fd79a8; }
+    .card:nth-child(10) .card-action { color: #00b894; }
+    .card:nth-child(11) .card-action { color: #a93b8d; }
+    .card:nth-child(12) .card-action { color: #0984e3; }
     .card:hover .card-action i { transform: translateX(4px); }
     .card-action i { transition: transform 0.2s; font-style: normal; }
 
@@ -191,6 +201,24 @@
     .b-main { font-weight: 700; color: var(--text); background: rgba(0,0,0,0.1); }
     .b-col-name { flex: 1; }
     .b-col-val { font-weight: 600; }
+
+    .help-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      color: inherit;
+      font-size: 11px;
+      font-weight: bold;
+      cursor: help;
+      margin-left: 5px;
+    }
+    html[data-theme="light"] .help-icon {
+      background: rgba(0, 0, 0, 0.1);
+    }
 
     /* Footer */
     .site-footer {
