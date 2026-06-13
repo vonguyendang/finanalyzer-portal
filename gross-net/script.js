@@ -386,3 +386,22 @@ function calcNetToGross() {
   const data = calcNetToGrossLogic(v.income, v.insType, v.insOther, v.region, v.dependents, v.rules);
   renderReport(data);
 }
+
+// --- MODAL GIẢI THÍCH VÙNG ---
+function openRegionModal() {
+  const modal = document.getElementById('regionModal');
+  if (modal) modal.style.display = 'flex';
+}
+
+function closeRegionModal() {
+  const modal = document.getElementById('regionModal');
+  if (modal) modal.style.display = 'none';
+}
+
+// Đóng modal khi click ra ngoài
+window.addEventListener('click', function(e) {
+  const modal = document.getElementById('regionModal');
+  if (e.target === modal) {
+    closeRegionModal();
+  }
+});

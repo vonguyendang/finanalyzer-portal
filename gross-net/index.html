@@ -46,23 +46,23 @@
             <div class="radio-grid-2">
               <label class="radio-item">
                 <input type="radio" name="rule-period" value="2026" checked>
-                <span>Từ 01/01/2026 <b style="color:#ff4757">(Mới nhất)</b> ⓘ</span>
+                <span>Từ 01/01/2026 <b style="color:#ff4757">(Mới nhất)</b> <span title="Dựa trên mức tham chiếu 2.340.000đ và mức giảm trừ gia cảnh mới." style="cursor: help;">ⓘ</span></span>
               </label>
               <label class="radio-item">
                 <input type="radio" name="rule-period" value="2025_2">
-                <span>Từ 01/7/2025 - 31/12/2025 ⓘ</span>
+                <span>Từ 01/7/2025 - 31/12/2025 <span title="Dựa trên mức tham chiếu 2.340.000đ và mức giảm trừ gia cảnh 11 triệu." style="cursor: help;">ⓘ</span></span>
               </label>
               <label class="radio-item">
                 <input type="radio" name="rule-period" value="2024_2">
-                <span>Từ 01/7/2024 - 30/06/2025 ⓘ</span>
+                <span>Từ 01/7/2024 - 30/06/2025 <span title="Dựa trên mức lương cơ sở 2.340.000đ và mức giảm trừ gia cảnh 11 triệu." style="cursor: help;">ⓘ</span></span>
               </label>
               <label class="radio-item">
                 <input type="radio" name="rule-period" value="2023_2">
-                <span>Từ 01/7/2023 - 30/06/2024 ⓘ</span>
+                <span>Từ 01/7/2023 - 30/06/2024 <span title="Dựa trên mức lương cơ sở 1.800.000đ và mức giảm trừ gia cảnh 11 triệu." style="cursor: help;">ⓘ</span></span>
               </label>
               <label class="radio-item">
                 <input type="radio" name="rule-period" value="2022_2">
-                <span>Từ 01/7/2022 - 30/06/2023 ⓘ</span>
+                <span>Từ 01/7/2022 - 30/06/2023 <span title="Dựa trên mức lương cơ sở 1.490.000đ và mức giảm trừ gia cảnh 11 triệu." style="cursor: help;">ⓘ</span></span>
               </label>
             </div>
           </div>
@@ -70,7 +70,7 @@
 
         <!-- Thu nhập -->
         <div class="form-row mt-20">
-          <div class="form-label">Thu nhập của bạn ⓘ</div>
+          <div class="form-label">Thu nhập của bạn <span title="Tổng thu nhập hàng tháng của bạn." style="cursor: help;">ⓘ</span></div>
           <div class="form-input">
             <div class="input-with-suffix">
               <input type="text" id="gn-income" class="number-format" placeholder="Nhập thu nhập...">
@@ -81,7 +81,7 @@
 
         <!-- Lương đóng bảo hiểm -->
         <div class="form-row mt-20">
-          <div class="form-label">Lương đóng bảo hiểm ⓘ</div>
+          <div class="form-label">Lương đóng bảo hiểm <span title="Mức lương làm căn cứ đóng các loại bảo hiểm bắt buộc." style="cursor: help;">ⓘ</span></div>
           <div class="form-input">
             <div class="radio-group-vertical">
               <label class="radio-item">
@@ -102,20 +102,20 @@
 
         <!-- Vùng -->
         <div class="form-row mt-20">
-          <div class="form-label">Vùng ⓘ</div>
+          <div class="form-label">Vùng <span title="Vùng kinh tế nơi công ty hoạt động, dùng để xác định trần đóng Bảo hiểm thất nghiệp." style="cursor: help;">ⓘ</span></div>
           <div class="form-input">
             <div class="radio-grid-4">
               <label class="radio-item"><input type="radio" name="region" value="1" checked><span>Vùng I</span></label>
               <label class="radio-item"><input type="radio" name="region" value="2"><span>Vùng II</span></label>
               <label class="radio-item"><input type="radio" name="region" value="3"><span>Vùng III</span></label>
-              <label class="radio-item"><input type="radio" name="region" value="4"><span>Vùng IV</span> <span class="text-mute">(Giải thích vùng)</span></label>
+              <label class="radio-item"><input type="radio" name="region" value="4"><span>Vùng IV</span> <span class="text-mute link-explain" onclick="openRegionModal()">(Giải thích vùng)</span></label>
             </div>
           </div>
         </div>
 
         <!-- Người phụ thuộc -->
         <div class="form-row mt-20">
-          <div class="form-label">Số người phụ thuộc ⓘ</div>
+          <div class="form-label">Số người phụ thuộc <span title="Số lượng người phụ thuộc được đăng ký giảm trừ gia cảnh." style="cursor: help;">ⓘ</span></div>
           <div class="form-input">
             <div class="input-with-suffix short-input">
               <input type="number" id="gn-dependents" min="0" placeholder="0">
@@ -198,7 +198,7 @@
     </div>
   </footer>
 
-  <script src="../script.js"></script>
+  <!-- Modal Giải thích vùng -->\n  <div id="regionModal" class="modal-overlay" style="display:none;">\n    <div class="modal-content">\n      <div class="modal-header">\n        <h2>Giải thích vùng</h2>\n        <button class="modal-close" onclick="closeRegionModal()" title="Đóng">&times;</button>\n      </div>\n      <div class="modal-body">\n        <p>Vùng được xác định theo nơi hoạt động của người sử dụng lao động áp dụng từ ngày 01 tháng 7 năm 2025 như sau:</p>\n        <p><em>(Kèm theo Nghị định số 128/2025/NĐ-CP (<a href="https://luatvietnam.vn/hanh-chinh/nghi-dinh-128-2025-nd-cp-phan-quyen-phan-cap-quan-ly-nha-nuoc-linh-vuc-noi-vu-402747-d1.html" target="_blank" rel="noopener noreferrer">https://luatvietnam.vn/hanh-chinh/nghi-dinh-128-2025-nd-cp-phan-quyen-phan-cap-quan-ly-nha-nuoc-linh-vuc-noi-vu-402747-d1.html</a>) ngày 11 tháng 6 năm 2025 của Chính phủ)</em></p>\n      </div>\n    </div>\n  </div>\n\n  <script src="../script.js"></script>
   <script src="../tncn/script.js"></script>
   <script src="script.js"></script>
   <script src="../tracking.js"></script>

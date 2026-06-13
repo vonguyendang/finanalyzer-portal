@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
         rowNam1Lan.style.display = 'none';
         rowBaseSalary.style.display = 'none';
         hintDays.style.display = 'none';
-        labelDays.innerHTML = 'Số ngày nghỉ ⓘ';
+        labelDays.innerHTML = 'Số ngày nghỉ <span title="Số ngày nghỉ hưởng chế độ thai sản tùy vào loại chế độ" style="cursor:help;">ⓘ</span>';
 
         if (salaryType === 'unchanged') {
             rowSalary1.style.display = 'flex';
