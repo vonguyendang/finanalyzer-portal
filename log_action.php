@@ -12,16 +12,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-// Chỉ chấp nhận POST request
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    echo json_encode(["status" => "error", "message" => "Method Not Allowed"]);
-    exit();
-}
+// Nhận dữ liệu từ GET hoặc POST
+$data = null;
 
-// Nhận dữ liệu JSON từ body
-$rawInput = file_get_contents('php://input');
-$data = json_decode($rawInput, true);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $rawInput = file_get_contents('php://input');
+    $data = json_decode($rawInput, true);
+} else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    if (isset($_GET['app_id']) && isset($_GET['action'])) {
+        $data = [
+            'app_id' => $_GET['app_id'],
+            'action' => $_GET['action'],
+            'timestamp' => isset($_GET['timestamp']) ? $_GET['timestamp'] : date('c'),
+            'url' => isset($_GET['url']) ? $_GET['url'] : ''
+        ];
+    }
+}
 
 if (!$data) {
     http_response_code(400);

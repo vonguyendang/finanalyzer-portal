@@ -11,18 +11,15 @@ function trackUtilityUsage(appId, action = 'visit') {
     // Log ra console để dễ debug
     console.log(`[Tracking] Tiện ích: ${appId} | Hành động: ${action}`);
 
-    fetch(TRACKING_API_ENDPOINT, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            app_id: appId,
-            action: action,
-            timestamp: new Date().toISOString(),
-            url: window.location.href,
-            // user_agent: navigator.userAgent
-        })
+    // Chuyển sang dùng GET thay vì POST để tránh bị Hosting chặn (rất phổ biến ở InfinityFree)
+    const url = new URL(TRACKING_API_ENDPOINT, window.location.origin);
+    url.searchParams.append('app_id', appId);
+    url.searchParams.append('action', action);
+    url.searchParams.append('timestamp', new Date().toISOString());
+    url.searchParams.append('url', window.location.href);
+
+    fetch(url.toString(), {
+        method: 'GET'
     }).catch(err => console.error('[Tracking] Lỗi khi gửi dữ liệu:', err));
 }
 
