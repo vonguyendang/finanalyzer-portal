@@ -11,16 +11,19 @@ function trackUtilityUsage(appId, action = 'visit') {
     // Log ra console để dễ debug
     console.log(`[Tracking] Tiện ích: ${appId} | Hành động: ${action}`);
 
-    // Chuyển sang dùng GET thay vì POST để tránh bị Hosting chặn (rất phổ biến ở InfinityFree)
+    // Sử dụng cơ chế Image Ping (tải 1 hình ảnh vô hình) thay cho hàm fetch().
+    // Image Ping miễn nhiễm với lỗi CORS, miễn nhiễm với sự cố Mixed Content và cực kỳ khó bị Adblock chặn!
     const url = new URL(TRACKING_API_ENDPOINT, window.location.origin);
     url.searchParams.append('app_id', appId);
     url.searchParams.append('action', action);
-    url.searchParams.append('timestamp', new Date().toISOString());
-    url.searchParams.append('url', window.location.href);
+    url.searchParams.append('timestamp', new Date().getTime()); // dùng getTime thay cho toISOString cho gọn
+    url.searchParams.append('url', encodeURIComponent(window.location.pathname));
 
-    fetch(url.toString(), {
-        method: 'GET'
-    }).catch(err => console.error('[Tracking] Lỗi khi gửi dữ liệu:', err));
+    // Kích hoạt việc gọi API bằng cách gán đường dẫn vào 1 đối tượng Image
+    const img = new Image();
+    img.src = url.toString();
+    
+    // Xóa hàm fetch cũ gây ra NetworkError
 }
 
 document.addEventListener('DOMContentLoaded', () => {
