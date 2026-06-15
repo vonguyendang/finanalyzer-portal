@@ -38,28 +38,29 @@ if (!$data) {
 // Thêm thông tin IP (tuỳ chọn)
 // $data['ip'] = $_SERVER['REMOTE_ADDR'];
 
-$file_path = __DIR__ . '/tracking_data.json';
+// 1. Ghi log chi tiết (siêu nhanh, không tốn RAM)
+$log_file = __DIR__ . '/tracking_logs.jsonl';
+$log_line = json_encode($data, JSON_UNESCAPED_UNICODE) . "\n";
+file_put_contents($log_file, $log_line, FILE_APPEND | LOCK_EX);
 
-// Đọc dữ liệu cũ (nếu có)
-$current_data = [];
-if (file_exists($file_path)) {
-    $file_contents = file_get_contents($file_path);
-    $decoded = json_decode($file_contents, true);
-    if (is_array($decoded)) {
-        $current_data = $decoded;
+// 2. Cập nhật biến đếm nhanh để get_stats.php dùng (O(1))
+$app = isset($data['app_id']) ? $data['app_id'] : 'unknown';
+if ($app !== 'home' && $app !== 'unknown') {
+    $stats_file = __DIR__ . '/real_stats.json';
+    $stats = [];
+    if (file_exists($stats_file)) {
+        $stats = json_decode(file_get_contents($stats_file), true);
+        if (!is_array($stats)) $stats = [];
     }
+    
+    if (!isset($stats[$app])) {
+        $stats[$app] = 0;
+    }
+    $stats[$app]++;
+    
+    file_put_contents($stats_file, json_encode($stats, JSON_PRETTY_PRINT));
 }
 
-// Thêm dữ liệu mới vào mảng
-$current_data[] = $data;
+echo json_encode(["status" => "success", "message" => "Tracking data saved"]);
 
-// Ghi đè file với dữ liệu đã cập nhật, định dạng JSON cho dễ nhìn
-$result = file_put_contents($file_path, json_encode($current_data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-
-if ($result !== false) {
-    echo json_encode(["status" => "success", "message" => "Tracking data saved"]);
-} else {
-    http_response_code(500);
-    echo json_encode(["status" => "error", "message" => "Failed to write data"]);
-}
 ?>

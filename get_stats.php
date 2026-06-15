@@ -4,25 +4,13 @@
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json; charset=utf-8');
 
-$file_path = __DIR__ . '/tracking_data.json';
+$stats_file = __DIR__ . '/real_stats.json';
 $stats = [];
 
-if (file_exists($file_path)) {
-    $file_contents = file_get_contents($file_path);
-    $data = json_decode($file_contents, true);
-    
-    if (is_array($data)) {
-        foreach ($data as $row) {
-            $app = isset($row['app_id']) ? $row['app_id'] : 'unknown';
-            // Bỏ qua nếu là tracking truy cập trang chủ (tùy chọn)
-            if ($app === 'home' || $app === 'unknown') continue;
-            
-            if (!isset($stats[$app])) {
-                $stats[$app] = 0;
-            }
-            // Mỗi dòng log được coi là 1 lượt sử dụng
-            $stats[$app]++;
-        }
+if (file_exists($stats_file)) {
+    $stats = json_decode(file_get_contents($stats_file), true);
+    if (!is_array($stats)) {
+        $stats = [];
     }
 }
 
