@@ -1,6 +1,6 @@
 // tracking.js
 // API Endpoint (trỏ đến file PHP vừa tạo ở thư mục gốc)
-const TRACKING_API_ENDPOINT = 'https://finance.dangvo.io.vn/track.php';
+const TRACKING_API_ENDPOINT = 'https://finance.dangvo.io.vn/log_action.php';
 
 /**
  * Hàm gửi dữ liệu tracking lên server
