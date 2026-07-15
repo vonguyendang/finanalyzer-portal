@@ -19,6 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
   
   const periodToggle = document.querySelector('.tncn-period-toggle');
   if (periodToggle) {
-    periodToggle.addEventListener('change', () => { if(typeof saveData === 'function') saveData() });
+    periodToggle.addEventListener('change', () => { 
+      if (typeof updatePeriodRules === 'function') updatePeriodRules();
+      if(typeof saveData === 'function') saveData(); 
+    });
   }
 });
