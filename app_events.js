@@ -1,6 +1,6 @@
 // tracking.js
-// API Endpoint (trỏ đến file PHP vừa tạo ở thư mục gốc)
-const TRACKING_API_ENDPOINT = '/log_action.php';
+// API Endpoint (trỏ đến Cloudflare Pages Function)
+const TRACKING_API_ENDPOINT = '/log_action';
 
 /**
  * Hàm gửi dữ liệu tracking lên server
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Gọi API lấy thống kê lượt sử dụng để hiển thị lên thẻ card
-        const STATS_API_ENDPOINT = '/get_stats.php';
+        const STATS_API_ENDPOINT = '/get_stats';
         fetch(STATS_API_ENDPOINT)
             .then(res => res.json())
             .then(res => {

@@ -119,6 +119,61 @@ Dự án phần lớn được viết bằng Front-end thuần (HTML, CSS, JavaS
   - [SheetJS (xlsx)](https://sheetjs.com/) - Xử lý dữ liệu và xuất file Excel cho báo cáo kế toán.
   - [Google Fonts](https://fonts.google.com/) - Sử dụng bộ font `Inter` và `Lexend`.
 
+## ☁️ Hướng Dẫn Triển Khai Lên Cloudflare Pages (Miễn Phí 100%)
+
+Dự án này đã được cấu hình lại phần Backend bằng **Cloudflare Pages Functions** (Serverless) kết hợp với **Cloudflare KV** (Key-Value Database) để hoàn toàn tương thích với hệ sinh thái miễn phí của Cloudflare.
+
+Để đưa website lên Internet, bạn làm theo các bước chi tiết sau:
+
+### Bước 1: Chuẩn bị mã nguồn trên Github
+Cloudflare Pages sẽ tự động lấy code từ Github để build.
+1. Tạo một Repository (kho lưu trữ) mới trên tài khoản [Github](https://github.com) của bạn.
+2. Mở Terminal (hoặc Command Prompt) tại thư mục dự án này ở máy tính của bạn và chạy các lệnh:
+   ```bash
+   git init
+   git add .
+   git commit -m "Khởi tạo dự án FinAnalyzer"
+   git branch -M main
+   git remote add origin https://github.com/TÊN_TÀI_KHOẢN_CỦA_BẠN/TÊN_REPO_CỦA_BẠN.git
+   git push -u origin main
+   ```
+
+### Bước 2: Khởi tạo Database (Cloudflare KV)
+Dự án sử dụng Cloudflare KV để lưu trữ số lượt sử dụng của các tiện ích thay vì dùng file JSON tĩnh.
+1. Đăng nhập vào [Cloudflare Dashboard](https://dash.cloudflare.com/).
+2. Ở thanh menu bên trái, tìm đến mục **Workers & Pages** -> Chọn **KV**.
+3. Nhấp vào nút **Create a namespace** (Tạo không gian tên).
+4. Nhập tên là: `FINANALYZER_KV` rồi bấm **Add**.
+5. Trong danh sách các KV vừa hiện ra, hãy copy **ID** của `FINANALYZER_KV` (Đó là một chuỗi ký tự dài gồm số và chữ).
+6. Quay lại mã nguồn trên máy tính của bạn, mở file `wrangler.toml` lên.
+7. Tìm đến dòng `id = "..."` và dán cái ID bạn vừa copy vào.
+8. Lưu file lại và chạy lệnh để đẩy file này lên Github:
+   ```bash
+   git add wrangler.toml
+   git commit -m "Cập nhật KV ID"
+   git push
+   ```
+
+### Bước 3: Triển khai dự án lên Cloudflare Pages
+1. Quay lại [Cloudflare Dashboard](https://dash.cloudflare.com/), vào lại mục **Workers & Pages**.
+2. Bấm vào nút màu xanh **Create application**.
+3. Chuyển sang thẻ (tab) **Pages** -> Chọn **Connect to Git**.
+4. Bạn sẽ được yêu cầu cấp quyền cho Cloudflare truy cập Github. Hãy đồng ý và chọn Repository mà bạn vừa tạo ở Bước 1. Sau đó bấm **Begin setup**.
+5. Trong màn hình **Set up builds and deployments**:
+   - **Project name**: Đặt tên miền miễn phí (VD: `finanalyzer-portal`). Link web của bạn sau này sẽ là `https://finanalyzer-portal.pages.dev`.
+   - **Production branch**: `main`
+   - **Framework preset**: Chọn `None` (Để trống).
+   - **Build command**: Để trống (Không nhập gì).
+   - **Build output directory**: Để trống (Hoặc nhập `.`).
+6. **Rất quan trọng:** Kéo xuống dưới cùng và mở phần **Environment variables (advanced)** ra.
+   - Chuyển sang tab **KV Namespace Bindings**.
+   - Bấm **Add binding**.
+   - Ở ô **Variable name**: Nhập chính xác chữ `FINANALYZER_KV` (Viết hoa toàn bộ).
+   - Ở ô **KV namespace**: Bấm mũi tên trỏ xuống và chọn cái `FINANALYZER_KV` mà bạn đã tạo ở Bước 2.
+7. Cuối cùng, bấm nút **Save and Deploy**.
+
+Cloudflare sẽ tốn khoảng 30 giây để xử lý. Sau khi hoàn tất, bạn sẽ nhận được một đường link (ví dụ: `https://finanalyzer-portal.pages.dev`). Nhấp vào đó và tận hưởng thành quả! Mỗi khi bạn có thay đổi code và dùng lệnh `git push` lên Github, website của bạn sẽ tự động được cập nhật.
+
 ## ⚠️ Lưu Ý Pháp Lý
 Website hoạt động hoàn toàn với mục đích **phi thương mại**, phục vụ cho nhu cầu học tập, tham khảo và hỗ trợ tính toán nhanh. Các công cụ tính toán được xây dựng dựa trên việc tham khảo các quy định pháp luật và nguồn tài liệu uy tín, tuy nhiên chúng tôi **không chịu trách nhiệm** pháp lý đối với bất kỳ quyết định tài chính, kế toán hay thuế nào dựa trên các kết quả từ hệ thống này.
 

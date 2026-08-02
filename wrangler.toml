@@ -1,0 +1,7 @@
+name = "finanalyzer-portal"
+compatibility_date = "2024-03-20"
+pages_build_output_dir = "."
+
+[[kv_namespaces]]
+binding = "FINANALYZER_KV"
+id = "c31f16d2aba14c2f897a715bbb6134f9" # Thay bằng ID thực tế trên Cloudflare Dashboard
