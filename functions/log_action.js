@@ -13,6 +13,33 @@ export async function onRequest(context) {
         return new Response(null, { headers: corsHeaders });
     }
 
+    // --- BỘ LỌC CHỐNG SPAM (ANTI-DDOS API) ---
+    // Ngăn chặn việc ai đó dùng Tool (Postman, cURL) bắn request rác làm đầy dung lượng KV
+    const requestUrl = new URL(request.url);
+    const host = requestUrl.hostname; // Lấy tên miền hiện tại đang chạy web
+    
+    // Nếu là môi trường chạy dưới máy (localhost) thì cho qua luôn
+    const isLocal = host === 'localhost' || host === '127.0.0.1';
+
+    if (!isLocal) {
+        const referer = request.headers.get('Referer') || '';
+        const origin = request.headers.get('Origin') || '';
+        
+        let isAllowed = false;
+        // Kiểm tra xem request có thực sự được gọi từ chính giao diện của web hay không
+        if (referer && referer.includes(host)) isAllowed = true;
+        if (origin && origin.includes(host)) isAllowed = true;
+
+        // Nếu không hợp lệ (Bị gọi từ tên miền khác, hoặc gọi trực tiếp bằng tool) -> CHẶN
+        if (!isAllowed) {
+            return new Response(JSON.stringify({ 
+                status: "error", 
+                message: "Truy cập bị từ chối. Request không hợp lệ." 
+            }), { status: 403, headers: corsHeaders });
+        }
+    }
+    // ------------------------------------------
+
     try {
         let appId = 'unknown';
         
