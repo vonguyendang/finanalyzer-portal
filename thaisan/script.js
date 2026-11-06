@@ -137,6 +137,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     loadData();
+    updateUI();
     document.querySelectorAll('input, select').forEach(el => {
         el.addEventListener('input', saveData);
         el.addEventListener('change', saveData);

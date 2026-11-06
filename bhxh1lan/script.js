@@ -779,4 +779,5 @@ document.addEventListener('DOMContentLoaded', () => {
   renderTruotGiaBatBuocTable();
   renderTruotGiaTuNguyenTable();
   loadFromLocalStorage();
+  updateUIForTab(true);
 });

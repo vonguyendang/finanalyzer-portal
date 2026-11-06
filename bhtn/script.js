@@ -1,6 +1,9 @@
 // --- Dữ liệu các mốc quy định pháp lý ---
 document.addEventListener('DOMContentLoaded', () => {
   loadData();
+  const rules = getCurrentRules();
+  const list = document.getElementById('dynamic-legal-list');
+  if(list) list.innerHTML = rules.LEGAL.map(item => `<li>${item}</li>`).join('');
   const inputs = document.querySelectorAll('input, select');
   inputs.forEach(el => {
     el.addEventListener('input', saveData);

@@ -18,9 +18,9 @@
   <link rel="icon" type="image/png" sizes="16x16" href="../favicon_io/favicon-16x16.png">
   <link rel="shortcut icon" href="../favicon_io/favicon.ico">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lexend:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="../tncn/style.css"> <!-- Tái sử dụng CSS report của TNCN -->
+  <link rel="stylesheet" href="../style.css?v=20261106">
+  <link rel="stylesheet" href="style.css?v=20261106">
+  <link rel="stylesheet" href="../tncn/style.css?v=20261106"> <!-- Tái sử dụng CSS report của TNCN -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7233790992400404"
      crossorigin="anonymous"></script>
 </head>
@@ -156,10 +156,12 @@
       <div class="legal-basis">
         <h3 class="mb-10">Căn cứ pháp lý:</h3>
         <ul id="dynamic-legal-list">
-          <!-- Render by JS based on period -->
-          <li>- Áp dụng mức tham chiếu 2.340.000 đồng (Theo Luật Bảo hiểm xã hội 2024 và Nghị định 73/2024/NĐ-CP)</li>
-          <li>- Luật Bảo hiểm xã hội 2024 có hiệu lực từ 01/7/2025 quyết định sử dụng mức tham chiếu trong bảo hiểm xã hội thay thế mức lương cơ sở.</li>
-          <li>- Áp dụng mức giảm trừ gia cảnh mới nhất 11 triệu đồng/tháng.</li>
+          <!-- Render tự động theo kỳ quy định -->
+          <li>- Áp dụng mức lương tối thiểu vùng mới nhất theo Nghị định số 293/2025/NĐ-CP (Vùng I: 5.310.000đ, Vùng II: 4.730.000đ, Vùng III: 4.140.000đ, Vùng IV: 3.700.000đ)</li>
+          <li>- Áp dụng mức tham chiếu 2.340.000 đồng/tháng (Theo Luật Bảo hiểm xã hội 2024 số 41/2024/QH15 và Nghị định 73/2024/NĐ-CP)</li>
+          <li>- Áp dụng mức giảm trừ gia cảnh mới: Bản thân 15.500.000 đồng/tháng (186 triệu đồng/năm), Phụ thuộc 6.200.000 đồng/tháng (theo Nghị quyết 110/2025/UBTVQH15)</li>
+          <li>- Biểu thuế lũy tiến từng phần rút gọn 5 bậc theo Luật Thuế TNCN số 109/2025/QH15</li>
+          <li>- <em>Thông tin mới: Chính phủ đã ban hành Nghị định số 399/2026/NĐ-CP ngày 02/11/2026 điều chỉnh mức lương tối thiểu vùng áp dụng từ ngày 01/01/2027.</em></li>
         </ul>
       </div>
 
@@ -171,18 +173,30 @@
           <p><b>Lương gross</b> là tổng thu nhập mỗi tháng người lao động nhận được gồm cả lương cơ bản và các khoản trợ cấp, phụ cấp, hoa hồng... trong đó có cả các khoản đóng bảo hiểm và thuế thu nhập cá nhân.</p>
           <p>Trong trường hợp nhận lương gross, người lao động phải tự đóng bảo hiểm, thuế thu nhập cá nhân. Tiền lương được nhận bao gồm cả các khoản phí này.</p>
 
-          <h3 class="mt-30">2. CÁCH TÍNH LƯƠNG NET NHƯ THẾ NÀO?</h3>
-          <p>Công thức sau thể hiện cách tính lương net:</p>
+          <h3 class="mt-30">2. CÁCH TÍNH LƯƠNG NET NHƯ THẾ NÀO? (CẬP NHẬT 2026)</h3>
+          <p>Công thức thể hiện cách tính lương net:</p>
           <p><b style="color: #ff4757;">Lương net = Lương gross - Tiền đóng bảo hiểm bắt buộc - Thuế TNCN (nếu có)</b></p>
           <p>Trong đó:</p>
-          <p>* <b>Tiền đóng bảo hiểm bắt buộc</b> của người lao động được tính trên cơ sở tiền lương của người lao động. Cụ thể:</p>
+          <p>* <b>Tiền đóng bảo hiểm bắt buộc</b> của người lao động (tổng 10,5%):</p>
           <ul>
-            <li>8% đóng quỹ hưu trí - tử tuất.</li>
-            <li>1% đóng quỹ bảo hiểm thất nghiệp.</li>
-            <li>1,5% đóng quỹ bảo hiểm y tế.</li>
+            <li>8% đóng quỹ hưu trí - tử tuất (Trần đóng: 20 lần mức tham chiếu = 46.800.000đ).</li>
+            <li>1% đóng quỹ bảo hiểm thất nghiệp (Trần đóng: 20 lần lương tối thiểu vùng NĐ 293/2025/NĐ-CP).</li>
+            <li>1,5% đóng quỹ bảo hiểm y tế (Trần đóng: 20 lần mức tham chiếu = 46.800.000đ).</li>
           </ul>
           <p>* <b>Tiền thuế thu nhập cá nhân:</b></p>
-          <p><b style="color: #ff4757;">Thuế TNCN = (Tổng thu nhập - Các khoản được miễn - Khoản giảm trừ) x Thuế suất</b></p>
+          <p><b style="color: #ff4757;">Thuế TNCN = Thu nhập tính thuế x Thuế suất theo Biểu lũy tiến từng phần 5 bậc</b></p>
+          <ul>
+            <li><b>Mức giảm trừ gia cảnh 2026 (NQ 110/2025/UBTVQH15):</b> Bản thân <b>15,5 triệu đồng/tháng</b> (186 triệu/năm), Mỗi người phụ thuộc <b>6,2 triệu đồng/tháng</b>.</li>
+            <li><b>Biểu thuế TNCN 5 bậc mới (Luật 109/2025/QH15):</b>
+              <ul>
+                <li>Bậc 1: Đến 10 triệu đồng: 5%</li>
+                <li>Bậc 2: Trên 10 triệu đến 30 triệu đồng: 10%</li>
+                <li>Bậc 3: Trên 30 triệu đến 60 triệu đồng: 20%</li>
+                <li>Bậc 4: Trên 60 triệu đến 100 triệu đồng: 30%</li>
+                <li>Bậc 5: Trên 100 triệu đồng: 35%</li>
+              </ul>
+            </li>
+          </ul>
 
           <h3 class="mt-30">3. VÌ SAO CẦN BIẾT CÁCH CHUYỂN LƯƠNG GROSS SANG NET?</h3>
           <p>Người lao động cần biết cách tính lương gross sang net để biết được chính xác số tiền mà mình nhận được và số tiền phải trừ để đóng thuế thu nhập cá nhân và bảo hiểm.</p>
@@ -420,8 +434,8 @@
     </div>
   </div>
 
-  <script src="../script.js"></script>
-  <script src="script.js"></script>
-  <script src="../app_events.js"></script>
+  <script src="../script.js?v=20261106"></script>
+  <script src="script.js?v=20261106"></script>
+  <script src="../app_events.js?v=20261106"></script>
 </body>
 </html>
