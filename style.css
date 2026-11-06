@@ -233,13 +233,56 @@
     .site-footer p { margin-bottom: 8px; }
     .site-footer .footer-copyright { margin-top: 16px; opacity: 0.7; }
 
-    /* Responsive adjustments for top buttons overlapping header */
+    /* Responsive adjustments for mobile screens */
     @media (max-width: 768px) {
+      body {
+        padding: 60px 12px 30px 12px;
+      }
+      .float-home-btn {
+        position: absolute;
+        top: 14px;
+        left: 12px;
+        padding: 6px 11px;
+        font-size: 11px;
+      }
+      .theme-float {
+        position: absolute;
+        top: 14px;
+        right: 12px;
+        padding: 6px 11px;
+        font-size: 11px;
+      }
       .header {
-        margin-top: 40px;
+        margin-top: 15px;
+        margin-bottom: 25px;
       }
       .title {
-        font-size: 28px;
+        font-size: 22px;
+        line-height: 1.35;
+      }
+      .subtitle {
+        font-size: 13px;
+        margin-top: 10px;
+        line-height: 1.5;
+      }
+      .btn-calculate-large, .btn-reset-large {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 13px 20px;
+        font-size: 14px;
+      }
+      .tax-breakdown-table .b-row {
+        padding: 10px 12px;
+        font-size: 13px;
+      }
+      .tax-breakdown-table .b-col-name {
+        font-size: 13px;
+      }
+      .tax-breakdown-table .b-col-val {
+        font-size: 13px;
+      }
+      .tax-report {
+        padding: 18px 12px !important;
       }
     }
 

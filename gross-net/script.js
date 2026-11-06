@@ -336,15 +336,15 @@ function renderReport(data) {
 
   container.innerHTML = `
     <h2 class="section-title" style="text-align: center; margin-bottom: 20px;">KẾT QUẢ CHUYỂN ĐỔI</h2>
-    <div style="display: flex; gap: 30px; margin-bottom: 30px; justify-content: center; align-items: center; background: var(--bg); padding: 20px; border-radius: 12px; border: 1px dashed var(--blue);">
-      <div style="text-align: center;">
-        <div style="font-size: 14px; color: var(--text2); font-weight: 700; margin-bottom: 5px;">LƯƠNG GROSS</div>
-        <div style="font-size: 24px; color: var(--blue); font-weight: 800;">${formatCurrency(Math.round(data.gross))} VNĐ</div>
+    <div class="gn-conversion-summary">
+      <div class="gn-conversion-item">
+        <div class="gn-conversion-label">LƯƠNG GROSS</div>
+        <div class="gn-conversion-val" style="color: var(--blue);">${formatCurrency(Math.round(data.gross))} VNĐ</div>
       </div>
-      <div style="font-size: 24px; color: var(--text3);">→</div>
-      <div style="text-align: center;">
-        <div style="font-size: 14px; color: var(--text2); font-weight: 700; margin-bottom: 5px;">LƯƠNG NET (Thực nhận)</div>
-        <div style="font-size: 24px; color: var(--green); font-weight: 800;">${formatCurrency(Math.round(data.net))} VNĐ</div>
+      <div class="gn-conversion-arrow">→</div>
+      <div class="gn-conversion-item">
+        <div class="gn-conversion-label">LƯƠNG NET (Thực nhận)</div>
+        <div class="gn-conversion-val" style="color: var(--green);">${formatCurrency(Math.round(data.net))} VNĐ</div>
       </div>
     </div>
 
