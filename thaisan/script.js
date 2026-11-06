@@ -566,8 +566,8 @@ function renderSEOContent() {
     if (mode === 'nu_sinh_con') {
         legalHtml = `
            <p><strong>Căn cứ pháp lý:</strong></p>
-           <p>- Điều 50, Điều 53, Điều 58 và Điều 59 <span style="color: #d35400;">Luật Bảo hiểm xã hội năm 2024</span> và <span style="color: #d35400;">Quyết định 166/QĐ-BHXH</span>.</p>
-           <p>- Trợ cấp 1 lần = 2 × Mức tham chiếu × Số con. Mức tham chiếu 2.340.000 đồng/tháng (theo <span style="color: #d35400;">Nghị định 73/2024/NĐ-CP</span>).</p>
+           <p>- Điều 50, Điều 53, Điều 58 và Điều 59 <span style="color: #d35400;">Luật Bảo hiểm xã hội năm 2024 số 41/2024/QH15</span> (có hiệu lực từ ngày 01/7/2025), <span style="color: #d35400;">Nghị định 158/2025/NĐ-CP</span> và <span style="color: #d35400;">Quyết định 166/QĐ-BHXH</span>.</p>
+           <p>- Trợ cấp 1 lần = 2 × Mức tham chiếu × Số con. Mức tham chiếu 2.340.000 đồng/tháng (theo <span style="color: #d35400;">Nghị định 73/2024/NĐ-CP</span> và Luật BHXH 2024).</p>
         `;
         html = `
             <h3>ĐIỀU KIỆN, THỦ TỤC HƯỞNG VÀ CÁCH TÍNH TIỀN CHẾ ĐỘ THAI SẢN KHI LAO ĐỘNG NỮ SINH CON</h3>
@@ -582,7 +582,7 @@ function renderSEOContent() {
             <p><strong style="color: #d35400; font-size: 15px;">Tiền thai sản khi sinh con = Tiền trợ cấp 1 lần khi sinh con + Tiền trợ cấp thai sản</strong></p>
             <p><em>Trong đó:</em></p>
             <ul>
-                <li><strong>Tiền trợ cấp 1 lần khi sinh con</strong> = <strong style="color: #d35400;">2</strong> x Mức lương cơ sở x Số con</li>
+                <li><strong>Tiền trợ cấp 1 lần khi sinh con</strong> = <strong style="color: #d35400;">2</strong> x Mức tham chiếu x Số con</li>
                 <li><strong>Tiền trợ cấp thai sản</strong> = <strong style="color: #d35400;">100%</strong> x Mức bình quân tiền lương tháng đóng BHXH của 06 tháng liền kề x Số tháng nghỉ</li>
             </ul>
             <p><strong>4. Thủ tục hưởng chế độ thai sản khi sinh con:</strong></p>
@@ -608,8 +608,8 @@ function renderSEOContent() {
     } else if (mode === 'nam_co_vo_sinh_con') {
         legalHtml = `
            <p><strong>Căn cứ pháp lý:</strong></p>
-           <p>- Điều 50, Điều 53, Điều 58 và Điều 59 <span style="color: #d35400;">Luật Bảo hiểm xã hội năm 2024</span> và <span style="color: #d35400;">Quyết định 166/QĐ-BHXH</span>.</p>
-           <p>- Trợ cấp 1 lần = 2 × Mức tham chiếu × Số con. Mức tham chiếu 2.340.000 đồng/tháng (theo <span style="color: #d35400;">Nghị định 73/2024/NĐ-CP</span>).</p>
+           <p>- Điều 50, Điều 53, Điều 58 và Điều 59 <span style="color: #d35400;">Luật Bảo hiểm xã hội năm 2024 số 41/2024/QH15</span>, <span style="color: #d35400;">Nghị định 158/2025/NĐ-CP</span> và <span style="color: #d35400;">Quyết định 166/QĐ-BHXH</span>.</p>
+           <p>- Trợ cấp 1 lần = 2 × Mức tham chiếu × Số con. Mức tham chiếu 2.340.000 đồng/tháng (theo <span style="color: #d35400;">Nghị định 73/2024/NĐ-CP</span> và Luật BHXH 2024).</p>
         `;
         html = `
             <h3>ĐIỀU KIỆN, THỦ TỤC HƯỞNG VÀ CÁCH TÍNH TIỀN CHẾ ĐỘ THAI SẢN KHI LAO ĐỘNG NAM CÓ VỢ SINH CON</h3>
@@ -651,9 +651,8 @@ function renderSEOContent() {
     } else if (mode === 'nghi_duong_suc') {
         legalHtml = `
            <p><strong>Căn cứ pháp lý:</strong></p>
-           <p>- Điều 41 <span style="color: #d35400;">Luật Bảo hiểm xã hội năm 2014</span>.</p>
-           <p>- <span style="color: #d35400;">Quyết định 166/QĐ-BHXH</span>.</p>
-           <p>- Mức lương cơ sở hiện đang áp dụng là 2,340 triệu đồng/tháng (theo Điều 3 <span style="color: #d35400;">Nghị định 73/2024/NĐ-CP</span>).</p>
+           <p>- Điều 60 <span style="color: #d35400;">Luật Bảo hiểm xã hội năm 2024 số 41/2024/QH15</span>, <span style="color: #d35400;">Nghị định 158/2025/NĐ-CP</span> và <span style="color: #d35400;">Quyết định 166/QĐ-BHXH</span>.</p>
+           <p>- Mức tham chiếu hiện đang áp dụng là 2,340 triệu đồng/tháng (theo Điều 3 <span style="color: #d35400;">Nghị định 73/2024/NĐ-CP</span> và Luật BHXH 2024).</p>
         `;
         html = `
             <h3>ĐIỀU KIỆN, THỦ TỤC HƯỞNG VÀ CÁCH TÍNH TIỀN CHẾ ĐỘ THAI SẢN KHI NGHỈ DƯỠNG SỨC SAU THAI SẢN</h3>
@@ -668,7 +667,7 @@ function renderSEOContent() {
             </ul>
             <p><em>Tính cả ngày nghỉ lễ, Tết và nghỉ hằng tuần.</em></p>
             <p><strong>3. Cách tính tiền chế độ:</strong></p>
-            <p><strong style="color: #d35400; font-size: 15px;">Tiền dưỡng sức = 30% x Mức lương cơ sở x Số ngày nghỉ</strong></p>
+            <p><strong style="color: #d35400; font-size: 15px;">Tiền dưỡng sức = 30% x Mức tham chiếu x Số ngày nghỉ</strong></p>
             <p><strong>4. Thủ tục hưởng chế độ dưỡng sức sau thai sản:</strong></p>
             <p>Người thực hiện thủ tục: Người sử dụng lao động.</p>
             <p><strong style="color: #3498db;">Bước 1:</strong> Người sử dụng lao động lập Danh sách đề nghị giải quyết hưởng chế độ ốm đau, thai sản, dưỡng sức phục hồi sức khỏe (theo Mẫu 01B-HSB).</p>
@@ -686,8 +685,7 @@ function renderSEOContent() {
     } else if (mode === 'kham_thai') {
         legalHtml = `
            <p><strong>Căn cứ pháp lý:</strong></p>
-           <p>- Điều 30, Điều 31, Điều 32 và Điều 39 <span style="color: #d35400;">Luật Bảo hiểm xã hội năm 2014</span>.</p>
-           <p>- <span style="color: #d35400;">Quyết định 166/QĐ-BHXH</span>.</p>
+           <p>- Điều 51 và Điều 58 <span style="color: #d35400;">Luật Bảo hiểm xã hội năm 2024 số 41/2024/QH15</span>, <span style="color: #d35400;">Nghị định 158/2025/NĐ-CP</span> và <span style="color: #d35400;">Quyết định 166/QĐ-BHXH</span>.</p>
         `;
         html = `
             <h3>ĐIỀU KIỆN, THỦ TỤC HƯỞNG VÀ CÁCH TÍNH TIỀN CHẾ ĐỘ THAI SẢN KHI KHÁM THAI</h3>
@@ -717,8 +715,7 @@ function renderSEOContent() {
     } else if (mode === 'say_thai') {
         legalHtml = `
            <p><strong>Căn cứ pháp lý:</strong></p>
-           <p>- Điều 30, Điều 31, Điều 33 và Điều 39 <span style="color: #d35400;">Luật Bảo hiểm xã hội năm 2014</span>.</p>
-           <p>- <span style="color: #d35400;">Quyết định 166/QĐ-BHXH</span>.</p>
+           <p>- Điều 52 và Điều 58 <span style="color: #d35400;">Luật Bảo hiểm xã hội năm 2024 số 41/2024/QH15</span>, <span style="color: #d35400;">Nghị định 158/2025/NĐ-CP</span> và <span style="color: #d35400;">Quyết định 166/QĐ-BHXH</span>.</p>
         `;
         html = `
             <h3>ĐIỀU KIỆN, THỦ TỤC HƯỞNG VÀ CÁCH TÍNH TIỀN CHẾ ĐỘ THAI SẢN KHI KHI SẨY THAI, NẠO, HÚT THAI, THAI CHẾT LƯU HOẶC PHÁ THAI BỆNH LÝ</h3>
@@ -757,8 +754,8 @@ function renderSEOContent() {
     } else if (mode === 'nhan_con_nuoi') {
         legalHtml = `
            <p><strong>Căn cứ pháp lý:</strong></p>
-           <p>- Điều 50, Điều 56, Điều 58 và Điều 59 <span style="color: #d35400;">Luật Bảo hiểm xã hội năm 2024</span> và <span style="color: #d35400;">Quyết định 166/QĐ-BHXH</span>.</p>
-           <p>- Trợ cấp 1 lần = 2 × Mức tham chiếu × Số con. Mức tham chiếu 2.340.000 đồng/tháng (theo Điều 3 <span style="color: #d35400;">Nghị định 73/2024/NĐ-CP</span>).</p>
+           <p>- Điều 50, Điều 56, Điều 58 và Điều 59 <span style="color: #d35400;">Luật Bảo hiểm xã hội năm 2024 số 41/2024/QH15</span>, <span style="color: #d35400;">Nghị định 158/2025/NĐ-CP</span> và <span style="color: #d35400;">Quyết định 166/QĐ-BHXH</span>.</p>
+           <p>- Trợ cấp 1 lần = 2 × Mức tham chiếu × Số con. Mức tham chiếu 2.340.000 đồng/tháng (theo Điều 3 <span style="color: #d35400;">Nghị định 73/2024/NĐ-CP</span> và Luật BHXH 2024).</p>
         `;
         html = `
             <h3>ĐIỀU KIỆN, THỦ TỤC HƯỞNG VÀ CÁCH TÍNH TIỀN CHẾ ĐỘ THAI SẢN KHI NHẬN CON NUÔI</h3>
@@ -769,7 +766,7 @@ function renderSEOContent() {
             <p><strong>3. Cách tính tiền chế độ thai sản khi nhận nuôi con nuôi:</strong></p>
             <p><strong style="color: #d35400; font-size: 15px;">Tiền thai sản khi nhận con nuôi = Tiền trợ cấp 1 lần khi nhận con nuôi + Tiền trợ cấp thai sản</strong></p>
             <p><em>Trong đó:</em></p>
-            <p><strong>Tiền trợ cấp 1 lần khi sinh con</strong> = <strong style="color: #d35400;">2</strong> x Mức lương cơ sở x Số con</p>
+            <p><strong>Tiền trợ cấp 1 lần khi nhận con nuôi</strong> = <strong style="color: #d35400;">2</strong> x Mức tham chiếu x Số con</p>
             <p><strong>Tiền trợ cấp thai sản được tính như sau:</strong></p>
             <p>Nếu nghỉ tròn tháng:</p>
             <p><strong style="color: #d35400;">Tiền trợ cấp thai sản = 100% x Mức bình quân tiền lương tháng đóng BHXH của 06 tháng liền kề trước khi nghỉ chế độ x Số tháng nghỉ</strong></p>
@@ -798,8 +795,8 @@ function renderSEOContent() {
     } else if (mode === 'tranh_thai') {
         legalHtml = `
            <p><strong>Căn cứ pháp lý:</strong></p>
-           <p>- Điều 30, Điều 31, Điều 37 và Điều 39 <span style="color: #d35400;">Luật Bảo hiểm xã hội năm 2014</span> và <span style="color: #d35400;">Quyết định 166/QĐ-BHXH</span>.</p>
-           <p>- Mức lương cơ sở hiện đang áp dụng là 2,340 triệu đồng/tháng (theo Điều 3 <span style="color: #d35400;">Nghị định 73/2024/NĐ-CP</span>).</p>
+           <p>- Điều 54 và Điều 58 <span style="color: #d35400;">Luật Bảo hiểm xã hội năm 2024 số 41/2024/QH15</span>, <span style="color: #d35400;">Nghị định 158/2025/NĐ-CP</span> và <span style="color: #d35400;">Quyết định 166/QĐ-BHXH</span>.</p>
+           <p>- Mức tham chiếu hiện đang áp dụng là 2,340 triệu đồng/tháng (theo Điều 3 <span style="color: #d35400;">Nghị định 73/2024/NĐ-CP</span> và Luật BHXH 2024).</p>
         `;
         html = `
             <h3>ĐIỀU KIỆN, THỦ TỤC HƯỞNG VÀ CÁCH TÍNH TIỀN CHẾ ĐỘ THAI SẢN KHI THỰC HIỆN BIỆN PHÁP TRÁNH THAI</h3>

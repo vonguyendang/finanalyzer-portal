@@ -73,13 +73,22 @@ const rulesDB = {
   "2026": {
     label: "Từ 01/01/2026",
     BASE_SALARY: 2340000, // Mức tham chiếu mới
-    MIN_WAGE: { "1": 4960000, "2": 4410000, "3": 3860000, "4": 3450000 },
-    PERSONAL_DEDUCTION: 15500000, // Cập nhật theo TNCN (giả định theo yêu cầu TNCN trước đó)
+    MIN_WAGE: { "1": 5310000, "2": 4730000, "3": 4140000, "4": 3700000 },
+    PERSONAL_DEDUCTION: 15500000,
     DEPENDENT_DEDUCTION: 6200000,
+    taxBrackets: [
+      { limit: 10000000, rate: 0.05 },
+      { limit: 30000000, rate: 0.10 },
+      { limit: 60000000, rate: 0.20 },
+      { limit: 100000000, rate: 0.30 },
+      { limit: Infinity, rate: 0.35 }
+    ],
     LEGAL: [
-      "- Áp dụng mức tham chiếu 2.340.000 đồng (Theo Luật Bảo hiểm xã hội 2024 và Nghị định 73/2024/NĐ-CP)",
-      "- Luật Bảo hiểm xã hội 2024 có hiệu lực quyết định sử dụng mức tham chiếu thay thế mức lương cơ sở.",
-      "- Áp dụng mức giảm trừ gia cảnh mới: Bản thân 15.5 triệu đồng/tháng, Phụ thuộc 6.2 triệu đồng/người."
+      "- Áp dụng mức tham chiếu 2.340.000 đồng (Theo Luật Bảo hiểm xã hội 2024 số 41/2024/QH15 và Nghị định 73/2024/NĐ-CP)",
+      "- Áp dụng mức lương tối thiểu vùng mới nhất theo Nghị định số 293/2025/NĐ-CP có hiệu lực từ ngày 01/01/2026 (Vùng I: 5.310.000đ, Vùng II: 4.730.000đ, Vùng III: 4.140.000đ, Vùng IV: 3.700.000đ)",
+      "- Áp dụng mức giảm trừ gia cảnh mới: Bản thân 15.500.000 đồng/tháng (186 triệu đồng/năm), Phụ thuộc 6.200.000 đồng/tháng (theo Nghị quyết 110/2025/UBTVQH15)",
+      "- Áp dụng Biểu thuế lũy tiến từng phần rút gọn 5 bậc theo Luật Thuế TNCN số 109/2025/QH15 (Bậc 1: đến 10tr - 5%, Bậc 2: 10-30tr - 10%, Bậc 3: 30-60tr - 20%, Bậc 4: 60-100tr - 30%, Bậc 5: trên 100tr - 35%)",
+      "- <em>Thông tin mới: Chính phủ đã ban hành Nghị định số 399/2026/NĐ-CP ngày 02/11/2026 điều chỉnh mức lương tối thiểu vùng áp dụng từ ngày 01/01/2027.</em>"
     ]
   },
   "2025_2": {
@@ -88,10 +97,20 @@ const rulesDB = {
     MIN_WAGE: { "1": 4960000, "2": 4410000, "3": 3860000, "4": 3450000 },
     PERSONAL_DEDUCTION: 11000000,
     DEPENDENT_DEDUCTION: 4400000,
+    taxBrackets: [
+      { limit: 5000000, rate: 0.05 },
+      { limit: 10000000, rate: 0.10 },
+      { limit: 18000000, rate: 0.15 },
+      { limit: 32000000, rate: 0.20 },
+      { limit: 52000000, rate: 0.25 },
+      { limit: 80000000, rate: 0.30 },
+      { limit: Infinity, rate: 0.35 }
+    ],
     LEGAL: [
       "- Áp dụng mức tham chiếu 2.340.000 đồng (Theo Luật Bảo hiểm xã hội 2024 và Nghị định 73/2024/NĐ-CP)",
       "- Áp dụng mức lương tối thiểu vùng theo Nghị định 74/2024/NĐ-CP",
-      "- Áp dụng mức giảm trừ gia cảnh 11 triệu đồng/tháng với người nộp thuế và 4,4 triệu đồng/tháng với mỗi người phụ thuộc (Nghị quyết số 954/2020/UBTVQH14)"
+      "- Áp dụng mức giảm trừ gia cảnh 11 triệu đồng/tháng với người nộp thuế và 4,4 triệu đồng/tháng với mỗi người phụ thuộc (Nghị quyết số 954/2020/UBTVQH14)",
+      "- Áp dụng Biểu thuế lũy tiến từng phần 7 bậc theo Luật Thuế TNCN 2007"
     ]
   },
   "2024_2": {
@@ -100,10 +119,20 @@ const rulesDB = {
     MIN_WAGE: { "1": 4960000, "2": 4410000, "3": 3860000, "4": 3450000 },
     PERSONAL_DEDUCTION: 11000000,
     DEPENDENT_DEDUCTION: 4400000,
+    taxBrackets: [
+      { limit: 5000000, rate: 0.05 },
+      { limit: 10000000, rate: 0.10 },
+      { limit: 18000000, rate: 0.15 },
+      { limit: 32000000, rate: 0.20 },
+      { limit: 52000000, rate: 0.25 },
+      { limit: 80000000, rate: 0.30 },
+      { limit: Infinity, rate: 0.35 }
+    ],
     LEGAL: [
       "- Áp dụng mức lương cơ sở 2.340.000 đồng (Nghị định 73/2024/NĐ-CP)",
       "- Áp dụng mức lương tối thiểu vùng mới nhất (Nghị định 74/2024/NĐ-CP)",
-      "- Áp dụng mức giảm trừ gia cảnh 11 triệu đồng/tháng"
+      "- Áp dụng mức giảm trừ gia cảnh 11 triệu đồng/tháng",
+      "- Áp dụng Biểu thuế lũy tiến từng phần 7 bậc theo Luật Thuế TNCN 2007"
     ]
   },
   "2023_2": {
@@ -112,6 +141,15 @@ const rulesDB = {
     MIN_WAGE: { "1": 4680000, "2": 4160000, "3": 3640000, "4": 3250000 },
     PERSONAL_DEDUCTION: 11000000,
     DEPENDENT_DEDUCTION: 4400000,
+    taxBrackets: [
+      { limit: 5000000, rate: 0.05 },
+      { limit: 10000000, rate: 0.10 },
+      { limit: 18000000, rate: 0.15 },
+      { limit: 32000000, rate: 0.20 },
+      { limit: 52000000, rate: 0.25 },
+      { limit: 80000000, rate: 0.30 },
+      { limit: Infinity, rate: 0.35 }
+    ],
     LEGAL: [
       "- Áp dụng mức lương cơ sở 1.800.000 đồng (Nghị định 24/2023/NĐ-CP)",
       "- Áp dụng mức lương tối thiểu vùng (Nghị định 38/2022/NĐ-CP)"
@@ -123,6 +161,15 @@ const rulesDB = {
     MIN_WAGE: { "1": 4680000, "2": 4160000, "3": 3640000, "4": 3250000 },
     PERSONAL_DEDUCTION: 11000000,
     DEPENDENT_DEDUCTION: 4400000,
+    taxBrackets: [
+      { limit: 5000000, rate: 0.05 },
+      { limit: 10000000, rate: 0.10 },
+      { limit: 18000000, rate: 0.15 },
+      { limit: 32000000, rate: 0.20 },
+      { limit: 52000000, rate: 0.25 },
+      { limit: 80000000, rate: 0.30 },
+      { limit: Infinity, rate: 0.35 }
+    ],
     LEGAL: [
       "- Áp dụng mức lương cơ sở 1.490.000 đồng",
       "- Áp dụng mức lương tối thiểu vùng (Nghị định 38/2022/NĐ-CP)"
@@ -191,9 +238,9 @@ if (btnReadMore && seoContent) {
 }
 
 // --- THUẬT TOÁN TÍNH TOÁN ---
-function calculateTax(taxableIncome) {
+function calculateTax(taxableIncome, rules) {
   if (taxableIncome <= 0) return 0;
-  const brackets = [
+  const brackets = (rules && rules.taxBrackets) ? rules.taxBrackets : [
     { limit: 5000000, rate: 0.05 },
     { limit: 10000000, rate: 0.1 },
     { limit: 18000000, rate: 0.15 },
@@ -242,7 +289,7 @@ function calcGrossToNetLogic(gross, insType, insOther, region, dependents, rules
   let incomeBeforeTax = gross - totalIns;
   let taxableIncome = incomeBeforeTax - deduction;
   
-  let tax = calculateTax(taxableIncome);
+  let tax = calculateTax(taxableIncome, rules);
   let net = gross - totalIns - tax;
 
   return {

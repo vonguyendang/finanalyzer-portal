@@ -8,21 +8,40 @@ function triggerCalculations() {
   calculateRefund();
 }
 
+// Hàm lấy kỳ tính thuế hiện tại
+function getSelectedTaxPeriod() {
+  const radio = document.querySelector('input[name="tax_period"]:checked');
+  return radio ? radio.value : '2026';
+}
+
 // Tính Thuế Lũy Tiến Từng Phần Chi Tiết (Tháng)
-function calculateMonthlyTaxDetailed(taxableIncome) {
+function calculateMonthlyTaxDetailed(taxableIncome, period = null) {
   let details = [];
   let remaining = taxableIncome;
   let totalTax = 0;
+  const currentPeriod = period || getSelectedTaxPeriod();
 
-  let brackets = [
-    { limit: 5000000, rate: 0.05 },
-    { limit: 5000000, rate: 0.10 },
-    { limit: 8000000, rate: 0.15 },
-    { limit: 14000000, rate: 0.20 },
-    { limit: 20000000, rate: 0.25 },
-    { limit: 28000000, rate: 0.30 },
-    { limit: Infinity, rate: 0.35 }
-  ];
+  // Biểu thuế 5 bậc (từ năm 2026) hoặc 7 bậc (năm 2025 trở về trước)
+  let brackets = [];
+  if (currentPeriod === '2026') {
+    brackets = [
+      { limit: 10000000, rate: 0.05 }, // Đến 10 triệu
+      { limit: 20000000, rate: 0.10 }, // Trên 10 đến 30 triệu (khoảng 20tr)
+      { limit: 30000000, rate: 0.20 }, // Trên 30 đến 60 triệu (khoảng 30tr)
+      { limit: 40000000, rate: 0.30 }, // Trên 60 đến 100 triệu (khoảng 40tr)
+      { limit: Infinity, rate: 0.35 }  // Trên 100 triệu
+    ];
+  } else {
+    brackets = [
+      { limit: 5000000, rate: 0.05 },
+      { limit: 5000000, rate: 0.10 },
+      { limit: 8000000, rate: 0.15 },
+      { limit: 14000000, rate: 0.20 },
+      { limit: 20000000, rate: 0.25 },
+      { limit: 28000000, rate: 0.30 },
+      { limit: Infinity, rate: 0.35 }
+    ];
+  }
 
   for (let i = 0; i < brackets.length; i++) {
     if (remaining <= 0) break;
@@ -32,7 +51,7 @@ function calculateMonthlyTaxDetailed(taxableIncome) {
     
     details.push({
       level: i + 1,
-      rate: b.rate * 100,
+      rate: Math.round(b.rate * 100),
       amount: amountInBracket,
       tax: taxInBracket
     });
@@ -45,8 +64,20 @@ function calculateMonthlyTaxDetailed(taxableIncome) {
 }
 
 // Tính Thuế Lũy Tiến Từng Phần (Năm)
-function calculateAnnualTax(taxableIncome) {
+function calculateAnnualTax(taxableIncome, period = null) {
   if (taxableIncome <= 0) return 0;
+  const currentPeriod = period || getSelectedTaxPeriod();
+
+  if (currentPeriod === '2026') {
+    // Biểu thuế 5 bậc năm
+    if (taxableIncome <= 120000000) return taxableIncome * 0.05;
+    if (taxableIncome <= 360000000) return taxableIncome * 0.10 - 6000000;
+    if (taxableIncome <= 720000000) return taxableIncome * 0.20 - 42000000;
+    if (taxableIncome <= 1200000000) return taxableIncome * 0.30 - 114000000;
+    return taxableIncome * 0.35 - 174000000;
+  }
+
+  // Biểu thuế 7 bậc năm (2025)
   if (taxableIncome <= 60000000) return taxableIncome * 0.05;
   if (taxableIncome <= 120000000) return taxableIncome * 0.1 - 3000000;
   if (taxableIncome <= 216000000) return taxableIncome * 0.15 - 9000000;
@@ -73,19 +104,30 @@ function calculateNetToGross() {
   let net = parseCurrency(netInput);
   let deductions = PERSONAL_DEDUCTION + (deps * DEPENDENT_DEDUCTION);
   let convertedIncome = net - deductions; // Thu nhập quy đổi
+  const currentPeriod = getSelectedTaxPeriod();
   
   let taxableIncome = 0;
   if (convertedIncome > 0) {
-    if (convertedIncome <= 4750000) taxableIncome = convertedIncome / 0.95;
-    else if (convertedIncome <= 9250000) taxableIncome = (convertedIncome - 250000) / 0.9;
-    else if (convertedIncome <= 16050000) taxableIncome = (convertedIncome - 750000) / 0.85;
-    else if (convertedIncome <= 27250000) taxableIncome = (convertedIncome - 1650000) / 0.8;
-    else if (convertedIncome <= 42250000) taxableIncome = (convertedIncome - 3250000) / 0.75;
-    else if (convertedIncome <= 61850000) taxableIncome = (convertedIncome - 5850000) / 0.7;
-    else taxableIncome = (convertedIncome - 9850000) / 0.65;
+    if (currentPeriod === '2026') {
+      // Bảng quy đổi 5 bậc từ năm 2026
+      if (convertedIncome <= 9500000) taxableIncome = convertedIncome / 0.95;
+      else if (convertedIncome <= 27500000) taxableIncome = (convertedIncome - 500000) / 0.9;
+      else if (convertedIncome <= 51500000) taxableIncome = (convertedIncome - 3500000) / 0.8;
+      else if (convertedIncome <= 79500000) taxableIncome = (convertedIncome - 9500000) / 0.7;
+      else taxableIncome = (convertedIncome - 14500000) / 0.65;
+    } else {
+      // Bảng quy đổi 7 bậc (2025 trở về trước)
+      if (convertedIncome <= 4750000) taxableIncome = convertedIncome / 0.95;
+      else if (convertedIncome <= 9250000) taxableIncome = (convertedIncome - 250000) / 0.9;
+      else if (convertedIncome <= 16050000) taxableIncome = (convertedIncome - 750000) / 0.85;
+      else if (convertedIncome <= 27250000) taxableIncome = (convertedIncome - 1650000) / 0.8;
+      else if (convertedIncome <= 42250000) taxableIncome = (convertedIncome - 3250000) / 0.75;
+      else if (convertedIncome <= 61850000) taxableIncome = (convertedIncome - 5850000) / 0.7;
+      else taxableIncome = (convertedIncome - 9850000) / 0.65;
+    }
   }
 
-  let taxData = calculateMonthlyTaxDetailed(taxableIncome);
+  let taxData = calculateMonthlyTaxDetailed(taxableIncome, currentPeriod);
   let tax = taxData.totalTax;
   
   let takeHomePay = net - tax;

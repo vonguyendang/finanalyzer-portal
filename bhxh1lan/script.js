@@ -1,8 +1,8 @@
-// Dữ liệu Hệ số trượt giá 2026
+// Dữ liệu Hệ số trượt giá 2026 (Công văn 340/BHXH-CSXH)
 const truotGia = {
   "Truoc1995": 5.81, "1995": 4.91, "1996": 4.65, "1997": 4.5, "1998": 4.18, "1999": 4.01,
   "2000": 4.07, "2001": 4.09, "2002": 3.94, "2003": 3.81, "2004": 3.54, "2005": 3.27,
-  "2006": 3.05, "2007": 2.29, "2008": 2.81, "2009": 2.14, "2010": 1.96, "2011": 1.65,
+  "2006": 3.05, "2007": 2.81, "2008": 2.29, "2009": 2.14, "2010": 1.96, "2011": 1.65,
   "2012": 1.51, "2013": 1.42, "2014": 1.36, "2015": 1.36, "2016": 1.32, "2017": 1.28,
   "2018": 1.23, "2019": 1.2, "2020": 1.16, "2021": 1.14, "2022": 1.11, "2023": 1.07,
   "2024": 1.03, "2025": 1.0, "2026": 1.0
@@ -101,8 +101,8 @@ function updateUIForTab(skipClear = false) {
     if (sidebarNote && sidebarLegal) {
       sidebarNote.innerHTML = '<strong>- Đối tượng áp dụng:</strong> Người lao động có toàn thời gian đóng BHXH bắt buộc theo tiền lương do doanh nghiệp quyết định.';
       sidebarLegal.innerHTML = `
-        <li>1. Luật Bảo hiểm xã hội 2024</li>
-        <li>2. Nghị định 158/2025/NĐ-CP</li>
+        <li>1. Luật Bảo hiểm xã hội 2024 số 41/2024/QH15 (hiệu lực từ 01/7/2025)</li>
+        <li>2. Nghị định 158/2025/NĐ-CP (quy định chi tiết BHXH bắt buộc)</li>
         <li>3. Thông tư 25/2025/TT-BYT</li>
         <li>4. Công văn 340/BHXH-CSXH ngày 03/02/2026</li>
       `;
@@ -119,10 +119,10 @@ function updateUIForTab(skipClear = false) {
     if(containerBatBuoc) containerBatBuoc.style.display = 'none';
     if(containerTuNguyen) containerTuNguyen.style.display = 'block';
     if (sidebarNote && sidebarLegal) {
-      sidebarNote.innerHTML = '<strong>- Đối tượng áp dụng:</strong> Người lao động có toàn thời gian đóng BHXH bắt buộc theo tiền lương do doanh nghiệp quyết định.';
+      sidebarNote.innerHTML = '<strong>- Đối tượng áp dụng:</strong> Người tham gia toàn thời gian theo diện bảo hiểm xã hội tự nguyện.';
       sidebarLegal.innerHTML = `
-        <li>1. Luật Bảo hiểm xã hội 2024</li>
-        <li>2. Nghị định 159/2025/NĐ-CP</li>
+        <li>1. Luật Bảo hiểm xã hội 2024 số 41/2024/QH15 (hiệu lực từ 01/7/2025)</li>
+        <li>2. Nghị định 159/2025/NĐ-CP (quy định chi tiết BHXH tự nguyện)</li>
         <li>3. Công văn 340/BHXH-CSXH ngày 03/02/2026</li>
       `;
     }
@@ -141,9 +141,9 @@ function updateUIForTab(skipClear = false) {
     if (sidebarNote && sidebarLegal) {
       sidebarNote.innerHTML = '<strong>- Đối tượng áp dụng:</strong> Người lao động vừa có thời gian đóng BHXH bắt buộc theo tiền lương do doanh nghiệp quyết định, vừa có thời gian tham gia BHXH tự nguyện.';
       sidebarLegal.innerHTML = `
-        <li>1. Luật Bảo hiểm xã hội 2024</li>
-        <li>2. Nghị định 158/2025/NĐ-CP</li>
-        <li>3. Nghị định 159/2025/NĐ-CP</li>
+        <li>1. Luật Bảo hiểm xã hội 2024 số 41/2024/QH15 (hiệu lực từ 01/7/2025)</li>
+        <li>2. Nghị định 158/2025/NĐ-CP (BHXH bắt buộc)</li>
+        <li>3. Nghị định 159/2025/NĐ-CP (BHXH tự nguyện)</li>
         <li>4. Thông tư 25/2025/TT-BYT</li>
         <li>5. Công văn 340/BHXH-CSXH ngày 03/02/2026</li>
       `;
