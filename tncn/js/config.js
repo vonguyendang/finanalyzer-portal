@@ -1,5 +1,5 @@
-// Constants (2024 onwards)
-const BASE_SALARY = 2340000;
+// Constants
+let BASE_SALARY = 2530000; // Áp dụng mức tham chiếu mới theo Nghị định 161/2026/NĐ-CP từ 01/07/2026
 
 // Mức lương tối thiểu vùng theo từng thời kỳ
 const REGION_MIN_SALARY_2026 = {
@@ -34,7 +34,7 @@ const legalBasis2025 = `
 
 const legalBasis2026 = `
   <li>Luật Thuế TNCN số 109/2025/QH15 (Cải cách Biểu thuế lũy tiến từng phần còn 5 bậc)</li>
-  <li>Nghị định số 73/2024/NĐ-CP &amp; Luật BHXH số 41/2024/QH15: Áp dụng mức tham chiếu 2.340.000 đồng/tháng</li>
+  <li>Nghị định số 161/2026/NĐ-CP &amp; Luật BHXH số 41/2024/QH15: Áp dụng Mức tham chiếu mới 2.530.000 đồng/tháng từ 01/07/2026 (trần đóng BHXH, BHYT tối đa là 50.600.000 đồng/tháng)</li>
   <li>Nghị định số 293/2025/NĐ-CP: Mức lương tối thiểu vùng từ ngày 01/01/2026 (Vùng I: 5.310.000đ, Vùng II: 4.730.000đ, Vùng III: 4.140.000đ, Vùng IV: 3.700.000đ)</li>
   <li>Nghị quyết số 110/2025/UBTVQH15: Mức giảm trừ gia cảnh mới (Bản thân 15.500.000 đ/tháng, Phụ thuộc 6.200.000 đ/tháng)</li>
   <li><em>Cập nhật mới: Nghị định số 399/2026/NĐ-CP ngày 02/11/2026 điều chỉnh mức lương tối thiểu vùng mới (có hiệu lực từ 01/01/2027)</em></li>
@@ -46,6 +46,7 @@ function updatePeriodRules() {
   const regionSelect = document.getElementById('gross-region');
   
   if (selectedPeriod === '2025') {
+    BASE_SALARY = 2340000;
     PERSONAL_DEDUCTION = 11000000;
     DEPENDENT_DEDUCTION = 4400000;
     REGION_MIN_SALARY = { ...REGION_MIN_SALARY_2025 };
@@ -62,6 +63,7 @@ function updatePeriodRules() {
     }
   } else {
     // 2026
+    BASE_SALARY = 2530000;
     PERSONAL_DEDUCTION = 15500000;
     DEPENDENT_DEDUCTION = 6200000;
     REGION_MIN_SALARY = { ...REGION_MIN_SALARY_2026 };

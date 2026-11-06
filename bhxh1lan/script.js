@@ -103,8 +103,9 @@ function updateUIForTab(skipClear = false) {
       sidebarLegal.innerHTML = `
         <li>1. Luật Bảo hiểm xã hội 2024 số 41/2024/QH15 (hiệu lực từ 01/7/2025)</li>
         <li>2. Nghị định 158/2025/NĐ-CP (quy định chi tiết BHXH bắt buộc)</li>
-        <li>3. Thông tư 25/2025/TT-BYT</li>
-        <li>4. Công văn 340/BHXH-CSXH ngày 03/02/2026</li>
+        <li>3. Nghị định 161/2026/NĐ-CP (mức tham chiếu 2,53 triệu/tháng từ 01/7/2026)</li>
+        <li>4. Thông tư 25/2025/TT-BYT</li>
+        <li>5. Công văn 340/BHXH-CSXH ngày 03/02/2026</li>
       `;
     }
   } else if (currentTab === 'tunguyen') {
@@ -123,7 +124,8 @@ function updateUIForTab(skipClear = false) {
       sidebarLegal.innerHTML = `
         <li>1. Luật Bảo hiểm xã hội 2024 số 41/2024/QH15 (hiệu lực từ 01/7/2025)</li>
         <li>2. Nghị định 159/2025/NĐ-CP (quy định chi tiết BHXH tự nguyện)</li>
-        <li>3. Công văn 340/BHXH-CSXH ngày 03/02/2026</li>
+        <li>3. Nghị định 161/2026/NĐ-CP (mức tham chiếu 2,53 triệu/tháng từ 01/7/2026)</li>
+        <li>4. Công văn 340/BHXH-CSXH ngày 03/02/2026</li>
       `;
     }
   } else {
@@ -144,8 +146,9 @@ function updateUIForTab(skipClear = false) {
         <li>1. Luật Bảo hiểm xã hội 2024 số 41/2024/QH15 (hiệu lực từ 01/7/2025)</li>
         <li>2. Nghị định 158/2025/NĐ-CP (BHXH bắt buộc)</li>
         <li>3. Nghị định 159/2025/NĐ-CP (BHXH tự nguyện)</li>
-        <li>4. Thông tư 25/2025/TT-BYT</li>
-        <li>5. Công văn 340/BHXH-CSXH ngày 03/02/2026</li>
+        <li>4. Nghị định 161/2026/NĐ-CP (mức tham chiếu 2,53 triệu/tháng từ 01/7/2026)</li>
+        <li>5. Thông tư 25/2025/TT-BYT</li>
+        <li>6. Công văn 340/BHXH-CSXH ngày 03/02/2026</li>
       `;
     }
   }

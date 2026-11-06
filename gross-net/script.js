@@ -59,7 +59,8 @@ function clearData() {
   document.getElementById('gn-insurance').disabled = true;
   document.getElementById('gn-dependents').value = '';
   
-  document.querySelector('input[name="rule-period"][value="2026"]').checked = true;
+  const defaultPeriod = document.querySelector('input[name="rule-period"][value="2026_2"]') || document.querySelector('input[name="rule-period"][value="2026"]');
+  if (defaultPeriod) defaultPeriod.checked = true;
   document.querySelector('input[name="ins-type"][value="official"]').checked = true;
   document.querySelector('input[name="region"][value="1"]').checked = true;
   
@@ -73,9 +74,9 @@ function clearData() {
 }
 
 const rulesDB = {
-  "2026": {
-    label: "Từ 01/01/2026",
-    BASE_SALARY: 2340000, // Mức tham chiếu mới
+  "2026_2": {
+    label: "Từ 01/7/2026",
+    BASE_SALARY: 2530000, // Mức tham chiếu mới theo Nghị định 161/2026/NĐ-CP
     MIN_WAGE: { "1": 5310000, "2": 4730000, "3": 4140000, "4": 3700000 },
     PERSONAL_DEDUCTION: 15500000,
     DEPENDENT_DEDUCTION: 6200000,
@@ -87,7 +88,48 @@ const rulesDB = {
       { limit: Infinity, rate: 0.35 }
     ],
     LEGAL: [
-      "- Áp dụng mức tham chiếu 2.340.000 đồng (Theo Luật Bảo hiểm xã hội 2024 số 41/2024/QH15 và Nghị định 73/2024/NĐ-CP)",
+      "- Áp dụng Mức tham chiếu mới 2.530.000 đồng/tháng theo Nghị định số 161/2026/NĐ-CP (hiệu lực từ 01/07/2026), trần đóng BHXH, BHYT tối đa là 50.600.000 đồng/tháng.",
+      "- Áp dụng mức lương tối thiểu vùng mới nhất theo Nghị định số 293/2025/NĐ-CP có hiệu lực từ ngày 01/01/2026 (Vùng I: 5.310.000đ, Vùng II: 4.730.000đ, Vùng III: 4.140.000đ, Vùng IV: 3.700.000đ)",
+      "- Áp dụng mức giảm trừ gia cảnh mới: Bản thân 15.500.000 đồng/tháng (186 triệu đồng/năm), Phụ thuộc 6.200.000 đồng/tháng (theo Nghị quyết 110/2025/UBTVQH15)",
+      "- Áp dụng Biểu thuế lũy tiến từng phần rút gọn 5 bậc theo Luật Thuế TNCN số 109/2025/QH15 (Bậc 1: đến 10tr - 5%, Bậc 2: 10-30tr - 10%, Bậc 3: 30-60tr - 20%, Bậc 4: 60-100tr - 30%, Bậc 5: trên 100tr - 35%)",
+      "- <em>Thông tin mới: Chính phủ đã ban hành Nghị định số 399/2026/NĐ-CP ngày 02/11/2026 điều chỉnh mức lương tối thiểu vùng áp dụng từ ngày 01/01/2027.</em>"
+    ]
+  },
+  "2026_1": {
+    label: "Từ 01/01/2026 - 30/6/2026",
+    BASE_SALARY: 2340000, // Mức tham chiếu theo Nghị định 73/2024/NĐ-CP
+    MIN_WAGE: { "1": 5310000, "2": 4730000, "3": 4140000, "4": 3700000 },
+    PERSONAL_DEDUCTION: 15500000,
+    DEPENDENT_DEDUCTION: 6200000,
+    taxBrackets: [
+      { limit: 10000000, rate: 0.05 },
+      { limit: 30000000, rate: 0.10 },
+      { limit: 60000000, rate: 0.20 },
+      { limit: 100000000, rate: 0.30 },
+      { limit: Infinity, rate: 0.35 }
+    ],
+    LEGAL: [
+      "- Áp dụng mức tham chiếu 2.340.000 đồng/tháng theo Nghị định số 73/2024/NĐ-CP (trần đóng BHXH, BHYT tối đa là 46.800.000 đồng/tháng).",
+      "- Áp dụng mức lương tối thiểu vùng theo Nghị định số 293/2025/NĐ-CP (Vùng I: 5.310.000đ, Vùng II: 4.730.000đ, Vùng III: 4.140.000đ, Vùng IV: 3.700.000đ)",
+      "- Áp dụng mức giảm trừ gia cảnh: Bản thân 15.500.000 đồng/tháng, Phụ thuộc 6.200.000 đồng/tháng (Nghị quyết 110/2025/UBTVQH15)",
+      "- Áp dụng Biểu thuế lũy tiến từng phần 5 bậc theo Luật Thuế TNCN số 109/2025/QH15"
+    ]
+  },
+  "2026": {
+    label: "Từ 01/7/2026 (Mới nhất)",
+    BASE_SALARY: 2530000,
+    MIN_WAGE: { "1": 5310000, "2": 4730000, "3": 4140000, "4": 3700000 },
+    PERSONAL_DEDUCTION: 15500000,
+    DEPENDENT_DEDUCTION: 6200000,
+    taxBrackets: [
+      { limit: 10000000, rate: 0.05 },
+      { limit: 30000000, rate: 0.10 },
+      { limit: 60000000, rate: 0.20 },
+      { limit: 100000000, rate: 0.30 },
+      { limit: Infinity, rate: 0.35 }
+    ],
+    LEGAL: [
+      "- Áp dụng Mức tham chiếu mới 2.530.000 đồng/tháng theo Nghị định số 161/2026/NĐ-CP (hiệu lực từ 01/07/2026), trần đóng BHXH, BHYT tối đa là 50.600.000 đồng/tháng.",
       "- Áp dụng mức lương tối thiểu vùng mới nhất theo Nghị định số 293/2025/NĐ-CP có hiệu lực từ ngày 01/01/2026 (Vùng I: 5.310.000đ, Vùng II: 4.730.000đ, Vùng III: 4.140.000đ, Vùng IV: 3.700.000đ)",
       "- Áp dụng mức giảm trừ gia cảnh mới: Bản thân 15.500.000 đồng/tháng (186 triệu đồng/năm), Phụ thuộc 6.200.000 đồng/tháng (theo Nghị quyết 110/2025/UBTVQH15)",
       "- Áp dụng Biểu thuế lũy tiến từng phần rút gọn 5 bậc theo Luật Thuế TNCN số 109/2025/QH15 (Bậc 1: đến 10tr - 5%, Bậc 2: 10-30tr - 10%, Bậc 3: 30-60tr - 20%, Bậc 4: 60-100tr - 30%, Bậc 5: trên 100tr - 35%)",
@@ -182,8 +224,8 @@ const rulesDB = {
 
 // Lấy bộ rules hiện tại
 function getCurrentRules() {
-  const period = document.querySelector('input[name="rule-period"]:checked').value;
-  return rulesDB[period];
+  const period = document.querySelector('input[name="rule-period"]:checked')?.value || '2026_2';
+  return rulesDB[period] || rulesDB['2026_2'] || rulesDB['2026'];
 }
 
 // Cập nhật text pháp lý khi đổi thời gian

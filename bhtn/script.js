@@ -95,12 +95,12 @@ function clearData() {
 
 const rulesDB = {
   "2026": {
-    BASE_SALARY: 2340000,
+    BASE_SALARY: 2530000,
     MIN_WAGE: { "1": 5310000, "2": 4730000, "3": 4140000, "4": 3700000 },
     LEGAL: [
       "- Mức hưởng bảo hiểm thất nghiệp được quy định tại Điều 50 Luật Việc làm 2013 và được hướng dẫn chi tiết tại Điều 8 Nghị định 28/2015/NĐ-CP.",
+      "- Áp dụng mức tham chiếu mới 2.530.000 đồng/tháng theo Nghị định số 161/2026/NĐ-CP từ ngày 01/07/2026 (trần hưởng BHTN tối đa khối Nhà nước là 12.650.000 đồng/tháng). Giai đoạn trước 01/07/2026 là 2.340.000 đồng/tháng (NĐ 73/2024/NĐ-CP).",
       "- Áp dụng mức lương tối thiểu vùng mới nhất theo Nghị định số 293/2025/NĐ-CP có hiệu lực từ ngày 01/01/2026 (Vùng I: 5.310.000đ, Vùng II: 4.730.000đ, Vùng III: 4.140.000đ, Vùng IV: 3.700.000đ).",
-      "- Áp dụng mức tham chiếu 2.340.000 đồng (Theo Luật Bảo hiểm xã hội 2024 số 41/2024/QH15 và Nghị định 73/2024/NĐ-CP).",
       "- <em>Thông tin mới: Chính phủ đã ban hành Nghị định số 399/2026/NĐ-CP ngày 02/11/2026 quy định mức lương tối thiểu vùng mới áp dụng từ ngày 01/01/2027.</em>"
     ]
   },

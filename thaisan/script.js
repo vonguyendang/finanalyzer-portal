@@ -305,7 +305,7 @@ function calculateThaiSan() {
         }
     }
 
-    const baseSalary = 2340000; // Mức tham chiếu mới
+    const baseSalary = 2530000; // Mức tham chiếu mới theo Nghị định 161/2026/NĐ-CP (từ 01/07/2026)
     const numChildren = parseInt(document.getElementById('num-children').value) || 1;
     let numDays = parseInt(document.getElementById('num-days').value) || 0;
     const numMonths = parseInt(document.getElementById('num-months')?.value) || 0;
@@ -567,8 +567,8 @@ function renderSEOContent() {
     if (mode === 'nu_sinh_con') {
         legalHtml = `
            <p><strong>Căn cứ pháp lý:</strong></p>
-           <p>- Điều 50, Điều 53, Điều 58 và Điều 59 <span style="color: #d35400;">Luật Bảo hiểm xã hội năm 2024 số 41/2024/QH15</span> (có hiệu lực từ ngày 01/7/2025), <span style="color: #d35400;">Nghị định 158/2025/NĐ-CP</span> và <span style="color: #d35400;">Quyết định 166/QĐ-BHXH</span>.</p>
-           <p>- Trợ cấp 1 lần = 2 × Mức tham chiếu × Số con. Mức tham chiếu 2.340.000 đồng/tháng (theo <span style="color: #d35400;">Nghị định 73/2024/NĐ-CP</span> và Luật BHXH 2024).</p>
+           <p>- Điều 50, Điều 53, Điều 58 và Điều 59 <span style="color: #d35400;">Luật Bảo hiểm xã hội năm 2024 số 41/2024/QH15</span>, <span style="color: #d35400;">Nghị định 158/2025/NĐ-CP</span> và <span style="color: #d35400;">Quyết định 166/QĐ-BHXH</span>.</p>
+           <p>- Trợ cấp 1 lần = 2 × Mức tham chiếu × Số con = <strong>5.060.000 đồng/con</strong>. Mức tham chiếu 2.530.000 đồng/tháng từ 01/07/2026 (theo <span style="color: #d35400;">Nghị định 161/2026/NĐ-CP</span> và Luật BHXH 2024; giai đoạn trước 01/07/2026 là 2.340.000 đồng/tháng theo <span style="color: #d35400;">Nghị định 73/2024/NĐ-CP</span>).</p>
         `;
         html = `
             <h3>ĐIỀU KIỆN, THỦ TỤC HƯỞNG VÀ CÁCH TÍNH TIỀN CHẾ ĐỘ THAI SẢN KHI LAO ĐỘNG NỮ SINH CON</h3>
@@ -610,7 +610,7 @@ function renderSEOContent() {
         legalHtml = `
            <p><strong>Căn cứ pháp lý:</strong></p>
            <p>- Điều 50, Điều 53, Điều 58 và Điều 59 <span style="color: #d35400;">Luật Bảo hiểm xã hội năm 2024 số 41/2024/QH15</span>, <span style="color: #d35400;">Nghị định 158/2025/NĐ-CP</span> và <span style="color: #d35400;">Quyết định 166/QĐ-BHXH</span>.</p>
-           <p>- Trợ cấp 1 lần = 2 × Mức tham chiếu × Số con. Mức tham chiếu 2.340.000 đồng/tháng (theo <span style="color: #d35400;">Nghị định 73/2024/NĐ-CP</span> và Luật BHXH 2024).</p>
+           <p>- Trợ cấp 1 lần = 2 × Mức tham chiếu × Số con = <strong>5.060.000 đồng/con</strong>. Mức tham chiếu 2.530.000 đồng/tháng từ 01/07/2026 (theo <span style="color: #d35400;">Nghị định 161/2026/NĐ-CP</span>; giai đoạn trước 01/07/2026 là 2.340.000 đồng/tháng theo <span style="color: #d35400;">Nghị định 73/2024/NĐ-CP</span>).</p>
         `;
         html = `
             <h3>ĐIỀU KIỆN, THỦ TỤC HƯỞNG VÀ CÁCH TÍNH TIỀN CHẾ ĐỘ THAI SẢN KHI LAO ĐỘNG NAM CÓ VỢ SINH CON</h3>
@@ -653,7 +653,7 @@ function renderSEOContent() {
         legalHtml = `
            <p><strong>Căn cứ pháp lý:</strong></p>
            <p>- Điều 60 <span style="color: #d35400;">Luật Bảo hiểm xã hội năm 2024 số 41/2024/QH15</span>, <span style="color: #d35400;">Nghị định 158/2025/NĐ-CP</span> và <span style="color: #d35400;">Quyết định 166/QĐ-BHXH</span>.</p>
-           <p>- Mức tham chiếu hiện đang áp dụng là 2,340 triệu đồng/tháng (theo Điều 3 <span style="color: #d35400;">Nghị định 73/2024/NĐ-CP</span> và Luật BHXH 2024).</p>
+           <p>- Mức tham chiếu hiện đang áp dụng là 2,530 triệu đồng/tháng (theo <span style="color: #d35400;">Nghị định 161/2026/NĐ-CP</span> từ 01/07/2026; trước 01/07/2026 là 2,340 triệu đồng/tháng theo <span style="color: #d35400;">Nghị định 73/2024/NĐ-CP</span>). Mức tiền dưỡng sức = 30% × 2.530.000 = <strong>759.000 đồng/ngày</strong>.</p>
         `;
         html = `
             <h3>ĐIỀU KIỆN, THỦ TỤC HƯỞNG VÀ CÁCH TÍNH TIỀN CHẾ ĐỘ THAI SẢN KHI NGHỈ DƯỠNG SỨC SAU THAI SẢN</h3>
@@ -756,7 +756,7 @@ function renderSEOContent() {
         legalHtml = `
            <p><strong>Căn cứ pháp lý:</strong></p>
            <p>- Điều 50, Điều 56, Điều 58 và Điều 59 <span style="color: #d35400;">Luật Bảo hiểm xã hội năm 2024 số 41/2024/QH15</span>, <span style="color: #d35400;">Nghị định 158/2025/NĐ-CP</span> và <span style="color: #d35400;">Quyết định 166/QĐ-BHXH</span>.</p>
-           <p>- Trợ cấp 1 lần = 2 × Mức tham chiếu × Số con. Mức tham chiếu 2.340.000 đồng/tháng (theo Điều 3 <span style="color: #d35400;">Nghị định 73/2024/NĐ-CP</span> và Luật BHXH 2024).</p>
+           <p>- Trợ cấp 1 lần = 2 × Mức tham chiếu × Số con = <strong>5.060.000 đồng/con</strong>. Mức tham chiếu 2.530.000 đồng/tháng từ 01/07/2026 (theo <span style="color: #d35400;">Nghị định 161/2026/NĐ-CP</span>; trước 01/07/2026 là 2.340.000 đồng/tháng theo <span style="color: #d35400;">Nghị định 73/2024/NĐ-CP</span>).</p>
         `;
         html = `
             <h3>ĐIỀU KIỆN, THỦ TỤC HƯỞNG VÀ CÁCH TÍNH TIỀN CHẾ ĐỘ THAI SẢN KHI NHẬN CON NUÔI</h3>
@@ -797,7 +797,7 @@ function renderSEOContent() {
         legalHtml = `
            <p><strong>Căn cứ pháp lý:</strong></p>
            <p>- Điều 54 và Điều 58 <span style="color: #d35400;">Luật Bảo hiểm xã hội năm 2024 số 41/2024/QH15</span>, <span style="color: #d35400;">Nghị định 158/2025/NĐ-CP</span> và <span style="color: #d35400;">Quyết định 166/QĐ-BHXH</span>.</p>
-           <p>- Mức tham chiếu hiện đang áp dụng là 2,340 triệu đồng/tháng (theo Điều 3 <span style="color: #d35400;">Nghị định 73/2024/NĐ-CP</span> và Luật BHXH 2024).</p>
+           <p>- Mức tham chiếu hiện đang áp dụng là 2,530 triệu đồng/tháng (theo <span style="color: #d35400;">Nghị định 161/2026/NĐ-CP</span> từ 01/07/2026; trước 01/07/2026 là 2,340 triệu đồng/tháng theo <span style="color: #d35400;">Nghị định 73/2024/NĐ-CP</span>).</p>
         `;
         html = `
             <h3>ĐIỀU KIỆN, THỦ TỤC HƯỞNG VÀ CÁCH TÍNH TIỀN CHẾ ĐỘ THAI SẢN KHI THỰC HIỆN BIỆN PHÁP TRÁNH THAI</h3>
