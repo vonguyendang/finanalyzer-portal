@@ -265,6 +265,22 @@
         margin-top: 10px;
         line-height: 1.5;
       }
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .card {
+        padding: 24px 18px;
+        border-radius: 16px;
+      }
+      .form-actions {
+        flex-direction: column !important;
+        width: 100%;
+        gap: 12px !important;
+      }
+      .form-actions button, .form-actions .btn-action, .form-actions .btn-calculate-large, .form-actions .btn-reset-large {
+        width: 100% !important;
+      }
       .btn-calculate-large, .btn-reset-large {
         width: 100%;
         box-sizing: border-box;
@@ -274,12 +290,17 @@
       .tax-breakdown-table .b-row {
         padding: 10px 12px;
         font-size: 13px;
+        gap: 8px;
       }
       .tax-breakdown-table .b-col-name {
         font-size: 13px;
+        word-break: break-word;
       }
       .tax-breakdown-table .b-col-val {
         font-size: 13px;
+        white-space: nowrap;
+        margin-left: 8px;
+        text-align: right;
       }
       .tax-report {
         padding: 18px 12px !important;

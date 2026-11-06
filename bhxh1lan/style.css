@@ -95,7 +95,10 @@
 }
 
 .col-stt { width: 40px; flex-shrink: 0; text-align: center; font-size: 13px; color: var(--text2); }
-.col-period { width: 460px; flex-shrink: 0; display: flex; align-items: center; gap: 8px; }
+.col-period { width: 460px; flex-shrink: 0; display: flex; align-items: center; gap: 12px; }
+.period-subgroup { display: flex; align-items: center; gap: 6px; flex: 1; }
+.period-label { font-size: 13px; font-weight: 600; color: var(--text2); min-width: 24px; }
+.period-subgroup select { flex: 1; min-width: 0; }
 .col-salary { flex: 1; min-width: 0; }
 .col-type { flex: 1; min-width: 0; }
 .col-action { width: 40px; flex-shrink: 0; text-align: center; }
@@ -288,13 +291,113 @@
   .bhxh-main, .bhxh-sidebar {
     width: 100%;
   }
-  .period-row {
-    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .bhxh-form-container {
+    padding: 16px 12px;
+    border-radius: 10px;
   }
-  .col-period { width: 100%; flex: none; margin-bottom: 10px; }
-  .col-salary, .col-type { flex: 1; }
-  .col-stt { display: none; }
-  .form-grid-header { display: none; }
+  .form-grid-header {
+    display: none;
+  }
+  .period-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 14px;
+    position: relative;
+  }
+  .col-stt {
+    width: auto;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--blue);
+    margin-bottom: 2px;
+  }
+  .col-stt::before {
+    content: "Giai đoạn ";
+  }
+  .col-action {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: auto;
+  }
+  .col-period {
+    width: 100%;
+    flex: none;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 0;
+  }
+  .period-subgroup {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .period-label {
+    width: 32px;
+    flex-shrink: 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text2);
+  }
+  .period-subgroup select {
+    flex: 1;
+    min-width: 0;
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+  .col-salary {
+    width: 100%;
+  }
+  .col-salary input {
+    width: 100%;
+  }
+  .col-type {
+    width: 100%;
+  }
+  .col-type select {
+    width: 100%;
+  }
+  .bhxh-tabs {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 4px;
+    padding-bottom: 4px;
+  }
+  .bhxh-tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .bhxh-tab {
+    padding: 10px 14px;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .form-actions-add {
+    flex-direction: column;
+    width: 100%;
+  }
+  .form-actions-add button {
+    width: 100% !important;
+  }
+  .form-actions-main {
+    flex-direction: column;
+    width: 100%;
+  }
+  .btn-calculate-large, .btn-reset-large {
+    width: 100% !important;
+  }
 }
 
 /* Toast Notification */

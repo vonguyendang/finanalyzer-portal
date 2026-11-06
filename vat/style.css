@@ -327,3 +327,19 @@
     padding: 20px;
   }
 }
+
+@media (max-width: 480px) {
+  .result-row {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .result-number {
+    font-size: 18px;
+  }
+  .highlight-number {
+    font-size: 20px;
+  }
+  .card-body, .result-body, .guide-body {
+    padding: 16px 12px;
+  }
+}

@@ -192,7 +192,7 @@ function generateMonthOptions() {
   let opts = '';
   for(let i=1; i<=12; i++) {
     let m = i < 10 ? '0'+i : i;
-    opts += `<option value="${m}">Tháng ${m}</option>`;
+    opts += `<option value="${m}">Tháng ${i}</option>`;
   }
   return opts;
 }
@@ -263,17 +263,21 @@ function addPeriodRow(type, skipSave = false) {
   row.innerHTML = `
     <div class="col-stt">${stt}</div>
     <div class="col-period">
-      Từ 
-      <select class="input-from-m">${generateMonthOptions()}</select>
-      <select class="input-from-y">${generateYearOptions()}</select>
-      Đến
-      <select class="input-to-m">${generateMonthOptions()}</select>
-      <select class="input-to-y">${generateYearOptions()}</select>
+      <div class="period-subgroup">
+        <span class="period-label">Từ</span>
+        <select class="input-from-m" aria-label="Từ tháng">${generateMonthOptions()}</select>
+        <select class="input-from-y" aria-label="Từ năm">${generateYearOptions()}</select>
+      </div>
+      <div class="period-subgroup">
+        <span class="period-label">Đến</span>
+        <select class="input-to-m" aria-label="Đến tháng">${generateMonthOptions()}</select>
+        <select class="input-to-y" aria-label="Đến năm">${generateYearOptions()}</select>
+      </div>
     </div>
     ${salaryHTML}
     ${typeHTML}
     <div class="col-action">
-      ${rowCount > 1 ? `<button class="btn-remove" onclick="removeRow(${rowCount})">✕</button>` : ''}
+      ${rowCount > 1 ? `<button class="btn-remove" onclick="removeRow(${rowCount})" title="Xóa giai đoạn">✕</button>` : ''}
     </div>
   `;
 

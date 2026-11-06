@@ -76,13 +76,38 @@
 /* Các classes kế thừa từ gross-net: gn-card, gn-form, radio-grid-4, radio-group-vertical, input-with-suffix, btn-action... */
 
 @media (max-width: 768px) {
+  .gn-form {
+    padding: 20px 14px;
+  }
+  .form-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .form-label {
+    flex: none;
+    padding-top: 0;
+  }
   .salary-6-grid {
     grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .form-actions {
+    flex-direction: column !important;
+    width: 100%;
+    gap: 12px !important;
+  }
+  .form-actions button, .form-actions .btn-calculate-large {
+    width: 100% !important;
   }
 }
 
 @media (max-width: 480px) {
   .salary-6-grid {
     grid-template-columns: 1fr;
+  }
+  .radio-grid-4 {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
   }
 }
