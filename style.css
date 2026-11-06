@@ -7,6 +7,7 @@
       --green:#00e87a;--blue:#3d8ef8;--purple:#a78bfa;
       --text:#dce6f5;--text2:#8fa3c0;--text3:#4d6484;
       --sans:'Be Vietnam Pro',sans-serif;
+      color-scheme: dark;
     }
 
     /* ════════════════ LIGHT THEME ════════════════ */
@@ -17,6 +18,7 @@
       --gold:#d4820a;--gold2:#e8950f;
       --green:#0a7c42;--blue:#1a5fba;--purple:#6d4fc7;
       --text:#0d1b2e;--text2:#374d6e;--text3:#6b82a0;
+      color-scheme: light;
     }
 
     *, *::before, *::after {
@@ -199,8 +201,32 @@
     .b-row:last-child { border-bottom: none; }
     .b-header { background: var(--bg); font-weight: 700; color: var(--text2); }
     .b-main { font-weight: 700; color: var(--text); background: rgba(0,0,0,0.1); }
-    .b-col-name { flex: 1; }
-    .b-col-val { font-weight: 600; }
+    .tax-breakdown-table .b-col-name { flex: 1; }
+    .tax-breakdown-table .b-col-val { font-weight: 600; }
+
+    /* Input With Suffix Global */
+    .input-with-suffix {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+    .input-with-suffix input[type="number"] {
+      padding-right: 75px !important;
+    }
+    .input-with-suffix .suffix {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 13px;
+      color: var(--text3);
+      font-weight: 600;
+      pointer-events: none;
+      user-select: none;
+    }
+    .input-with-suffix input[type="number"] ~ .suffix {
+      right: 32px !important;
+    }
 
     .help-icon {
       display: inline-flex;
