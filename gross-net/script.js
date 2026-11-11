@@ -181,7 +181,7 @@ function loadData() {
       const rules = getCurrentRules();
       const list = document.getElementById('dynamic-legal-list');
       if (list) list.innerHTML = rules.LEGAL.map(item => `<li>${item}</li>`).join('');
-    } catch (e) {}
+    } catch (e) { }
   }
 }
 
@@ -425,7 +425,7 @@ function parseCurrency(str) {
 }
 
 document.querySelectorAll('.number-format').forEach(input => {
-  input.addEventListener('input', function() {
+  input.addEventListener('input', function () {
     let val = parseCurrency(this.value);
     this.value = val === 0 && this.value.trim() === '' ? '' : formatCurrency(val);
   });
@@ -733,7 +733,7 @@ function renderReport(data, conversionType = 'gross_to_net') {
     </div>
 
     <div class="gn-report-footer" style="margin-top: 20px; padding-top: 14px; border-top: 1px dashed var(--border2); display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; color: var(--text3); flex-wrap: wrap; gap: 8px;">
-      <span>🌐 FinAnalyzer Portal • finanalyzer.vn</span>
+      <span>🌐 FinAnalyzer Portal • finance.dangvo.io.vn</span>
       <span>Quy đổi Lương Gross ⇄ Net chính xác</span>
     </div>
 
@@ -854,7 +854,7 @@ function copyReportText() {
   lines.push(`----------------------------------------`);
   lines.push(`👉 LƯƠNG NET THỰC NHẬN: ${formatCurrency(Math.round(d.net))} VNĐ`);
   lines.push(`----------------------------------------`);
-  lines.push(`Tính tại: FinAnalyzer Portal (https://finanalyzer-portal.web.app/gross-net/)`);
+  lines.push(`Tính tại: FinAnalyzer Portal (https://finance.dangvo.io.vn/gross-net/)`);
 
   const fullText = lines.join('\n');
 
@@ -1066,7 +1066,7 @@ function closeRegionModal() {
 }
 
 // Đóng modal khi click ra ngoài
-window.addEventListener('click', function(e) {
+window.addEventListener('click', function (e) {
   const modal = document.getElementById('regionModal');
   if (e.target === modal) {
     closeRegionModal();
