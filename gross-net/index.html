@@ -18,9 +18,9 @@
   <link rel="icon" type="image/png" sizes="16x16" href="../favicon_io/favicon-16x16.png">
   <link rel="shortcut icon" href="../favicon_io/favicon.ico">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lexend:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=20261106">
-  <link rel="stylesheet" href="style.css?v=20261106">
-  <link rel="stylesheet" href="../tncn/style.css?v=20261106"> <!-- Tái sử dụng CSS report của TNCN -->
+  <link rel="stylesheet" href="../style.css?v=20261111_v3">
+  <link rel="stylesheet" href="style.css?v=20261111_v3">
+  <link rel="stylesheet" href="../tncn/style.css?v=20261111_v3"> <!-- Tái sử dụng CSS report của TNCN -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7233790992400404"
      crossorigin="anonymous"></script>
 </head>
@@ -174,25 +174,25 @@
         </div>
 
         <!-- Tùy chọn nâng cao (Mở rộng) -->
-        <div class="advanced-accordion">
-          <button type="button" class="adv-accordion-header" id="adv-accordion-btn" onclick="toggleAdvancedAccordion()" aria-expanded="false">
-            <div class="adv-header-title">
-              <span class="adv-icon">⚙️</span>
-              <span class="adv-title-text">Tùy chọn nâng cao (FDI, Thử việc, Công chức, Phụ cấp &amp; Giảm trừ)</span>
+        <div class="more-options-box" id="more-options-box">
+          <button type="button" class="opt-box-header" id="opt-accordion-btn" onclick="toggleAdvancedAccordion()" aria-expanded="false">
+            <div class="opt-header-title">
+              <span class="opt-icon">⚙️</span>
+              <span class="opt-title-text">Tùy chọn nâng cao (FDI, Thử việc, Công chức, Phụ cấp &amp; Giảm trừ)</span>
             </div>
-            <span class="adv-arrow-icon" id="adv-arrow-icon">▾</span>
+            <span class="opt-arrow-icon" id="opt-arrow-icon">▾</span>
           </button>
           
-          <div class="adv-accordion-body" id="adv-accordion-body">
-            <div class="adv-grid">
+          <div class="opt-box-body" id="opt-box-body">
+            <div class="opt-fields-grid">
               
               <!-- 1. Đối tượng lao động -->
-              <div class="adv-field-group">
-                <label class="adv-label" for="gn-worker-type">
+              <div class="opt-field-group">
+                <div class="opt-field-title">
                   <span>1. Đối tượng lao động:</span>
                   <span class="info-tooltip-icon" title="Xác định tỷ lệ đóng BHXH, BHYT, BHTN và chế độ thuế." style="cursor: help;">ⓘ</span>
-                </label>
-                <select id="gn-worker-type" class="adv-select" onchange="onWorkerTypeChange()">
+                </div>
+                <select id="gn-worker-type" class="opt-select-control" onchange="onWorkerTypeChange()">
                   <option value="tu_nhan" selected>Tư nhân / Viên chức (8% BHXH, 1.5% BHYT, 1% BHTN)</option>
                   <option value="cong_chuc">Cán bộ, công chức nhà nước (8% BHXH, 1.5% BHYT, 0% BHTN)</option>
                   <option value="nn_cu_tru">Người nước ngoài cư trú &gt;= 183 ngày (8% BHXH, 1.5% BHYT, 0% BHTN)</option>
@@ -202,23 +202,23 @@
               </div>
 
               <!-- 2. Chế độ Thuế TNCN -->
-              <div class="adv-field-group">
-                <label class="adv-label" for="gn-tax-regime">
+              <div class="opt-field-group">
+                <div class="opt-field-title">
                   <span>2. Chế độ Thuế TNCN:</span>
                   <span class="info-tooltip-icon" title="Chế độ tính thuế lũy tiến từng phần hoặc khấu trừ cố định tại nguồn." style="cursor: help;">ⓘ</span>
-                </label>
-                <select id="gn-tax-regime" class="adv-select">
+                </div>
+                <select id="gn-tax-regime" class="opt-select-control">
                   <option value="chinh_thuc" selected>Chính thức (Biểu lũy tiến 5 bậc)</option>
                   <option value="thu_viec">Thử việc / HĐ dưới 3 tháng (Khấu trừ 10% nếu &gt;= 2 triệu)</option>
                 </select>
               </div>
 
               <!-- 3. Phụ cấp miễn thuế TNCN -->
-              <div class="adv-field-group">
-                <label class="adv-label" for="gn-allowance">
+              <div class="opt-field-group">
+                <div class="opt-field-title">
                   <span>Phụ cấp miễn thuế TNCN (Ăn trưa, trang phục, OT...):</span>
                   <span class="info-tooltip-icon" title="Nhập tổng các khoản không chịu thuế TNCN và không đóng bảo hiểm gồm: Phụ cấp ăn trưa/ăn ca, tiền trang phục (tối đa 5 triệu/năm), khoán chi điện thoại/công tác phí theo định mức và phần lương trả cao hơn do làm thêm giờ (OT)/ban đêm." style="cursor: help;">ⓘ</span>
-                </label>
+                </div>
                 <div class="input-with-suffix">
                   <input type="text" id="gn-allowance" class="number-format" placeholder="0">
                   <span class="suffix">VNĐ</span>
@@ -230,36 +230,36 @@
               </div>
 
               <!-- 4. Đoàn phí công đoàn -->
-              <div class="adv-field-group">
-                <label class="adv-label" for="gn-union-fee">
+              <div class="opt-field-group">
+                <div class="opt-field-title">
                   <span>Đoàn phí công đoàn (QĐ 61/QĐ-TLĐ):</span>
                   <span class="info-tooltip-icon" title="Áp dụng mức đóng đoàn phí công đoàn 0,5% tiền lương làm căn cứ đóng BHXH (tối đa 10% mức tham chiếu theo QĐ 61/QĐ-TLĐ)." style="cursor: help;">ⓘ</span>
-                </label>
-                <div class="adv-checkbox-card">
+                </div>
+                <div class="opt-check-card">
                   <label class="checkbox-item" for="gn-union-fee">
                     <input type="checkbox" id="gn-union-fee">
                     <span>Trừ đoàn phí công đoàn (0.5% lương đóng BHXH, tối đa 10% mức tham chiếu)</span>
                   </label>
                 </div>
-                <div class="adv-sublabel-note mt-8">Tự động trừ vào thu nhập sau thuế đối với đoàn viên công đoàn</div>
+                <div class="opt-sublabel-note mt-8">Tự động trừ vào thu nhập sau thuế đối với đoàn viên công đoàn</div>
               </div>
 
               <!-- 5. Giảm trừ & Khấu trừ khác -->
-              <div class="adv-field-group adv-span-2">
-                <label class="adv-label">
+              <div class="opt-field-group opt-span-2">
+                <div class="opt-field-title">
                   <span>5. Giảm trừ thuế &amp; Khấu trừ sau thuế khác:</span>
                   <span class="info-tooltip-icon" title="Các khoản giảm trừ bổ sung trước khi tính thuế TNCN hoặc các khoản khấu trừ trực tiếp vào thu nhập thực nhận sau thuế." style="cursor: help;">ⓘ</span>
-                </label>
-                <div class="adv-two-col">
+                </div>
+                <div class="opt-two-col">
                   <div>
-                    <span class="adv-sublabel">Giảm trừ thuế khác (Hưu trí tự nguyện, từ thiện...):</span>
+                    <span class="opt-sublabel-text">Giảm trừ thuế khác (Hưu trí tự nguyện, từ thiện...):</span>
                     <div class="input-with-suffix">
                       <input type="text" id="gn-other-tax-deduction" class="number-format" placeholder="0">
                       <span class="suffix">VNĐ</span>
                     </div>
                   </div>
                   <div>
-                    <span class="adv-sublabel">Khấu trừ sau thuế khác (Gửi xe, quỹ phòng ban...):</span>
+                    <span class="opt-sublabel-text">Khấu trừ sau thuế khác (Gửi xe, quỹ phòng ban...):</span>
                     <div class="input-with-suffix">
                       <input type="text" id="gn-other-post-tax-deduction" class="number-format" placeholder="0">
                       <span class="suffix">VNĐ</span>
@@ -268,9 +268,9 @@
                 </div>
               </div>
 
-            </div> <!-- End adv-grid -->
-          </div> <!-- End adv-accordion-body -->
-        </div> <!-- End advanced-accordion -->
+            </div> <!-- End opt-fields-grid -->
+          </div> <!-- End opt-box-body -->
+        </div> <!-- End more-options-box -->
 
         <!-- Buttons -->
         <div class="form-actions mt-30" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; align-items: center;">
@@ -576,8 +576,8 @@
   <div id="toast-container" class="toast-container"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="../script.js?v=20261106"></script>
-  <script src="script.js?v=20261106"></script>
+  <script src="../script.js?v=20261111_v3"></script>
+  <script src="script.js?v=20261111_v3"></script>
   <script src="../app_events.js?v=20261106"></script>
 </body>
 </html>

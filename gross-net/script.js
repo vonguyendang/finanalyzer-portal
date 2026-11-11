@@ -67,8 +67,8 @@ function updateHesoPreview() {
 
 // Mở / Đóng Accordion Tùy chọn nâng cao
 function toggleAdvancedAccordion() {
-  const accordion = document.querySelector('.advanced-accordion');
-  const btn = document.getElementById('adv-accordion-btn');
+  const accordion = document.querySelector('.more-options-box') || document.querySelector('.advanced-accordion');
+  const btn = document.getElementById('opt-accordion-btn') || document.getElementById('adv-accordion-btn');
   if (!accordion || !btn) return;
   const isOpen = accordion.classList.contains('open');
   if (isOpen) {
@@ -212,10 +212,10 @@ function clearData() {
   document.getElementById('gn-other-tax-deduction').value = '';
   document.getElementById('gn-other-post-tax-deduction').value = '';
 
-  const accordion = document.querySelector('.advanced-accordion');
+  const accordion = document.querySelector('.more-options-box') || document.querySelector('.advanced-accordion');
   if (accordion) accordion.classList.remove('open');
-  const advBtn = document.getElementById('adv-accordion-btn');
-  if (advBtn) advBtn.setAttribute('aria-expanded', 'false');
+  const optBtn = document.getElementById('opt-accordion-btn') || document.getElementById('adv-accordion-btn');
+  if (optBtn) optBtn.setAttribute('aria-expanded', 'false');
 
   document.getElementById('gn-report-container').style.display = 'none';
 

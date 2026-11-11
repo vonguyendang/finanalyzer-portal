@@ -231,7 +231,7 @@
 }
 
 /* Tùy chọn nâng cao (Accordion) */
-.advanced-accordion {
+.more-options-box {
   background: var(--card2);
   border: 1px solid var(--border2);
   border-radius: 10px;
@@ -240,11 +240,11 @@
   transition: border-color 0.2s;
 }
 
-.advanced-accordion:hover {
+.more-options-box:hover {
   border-color: var(--blue);
 }
 
-.adv-accordion-header {
+.opt-box-header {
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -258,61 +258,61 @@
   font-family: var(--sans);
 }
 
-.adv-header-title {
+.opt-header-title {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.adv-icon {
+.opt-icon {
   font-size: 15px;
 }
 
-.adv-title-text {
+.opt-title-text {
   font-size: 13.5px;
   font-weight: 700;
   color: var(--text);
 }
 
-.adv-arrow-icon {
+.opt-arrow-icon {
   font-size: 13px;
   color: var(--text3);
   transition: transform 0.25s ease;
   font-weight: bold;
 }
 
-.advanced-accordion.open .adv-arrow-icon {
+.more-options-box.open .opt-arrow-icon {
   transform: rotate(180deg);
 }
 
-.adv-accordion-body {
+.opt-box-body {
   display: none;
   padding: 18px 20px 22px;
   border-top: 1px solid var(--border2);
   background: rgba(0,0,0,0.15);
 }
 
-.advanced-accordion.open .adv-accordion-body {
+.more-options-box.open .opt-box-body {
   display: block;
 }
 
-.adv-grid {
+.opt-fields-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px 22px;
 }
 
-.adv-field-group {
+.opt-field-group {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
-.adv-span-2 {
+.opt-span-2 {
   grid-column: span 2;
 }
 
-.adv-label {
+.opt-field-title {
   font-size: 12.5px;
   font-weight: 700;
   color: var(--text);
@@ -346,7 +346,7 @@
   transform: scale(1.1);
 }
 
-.adv-checkbox-card {
+.opt-check-card {
   width: 100%;
   min-height: 42px;
   background: var(--bg);
@@ -358,30 +358,30 @@
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.adv-checkbox-card:hover,
-.adv-checkbox-card:focus-within {
+.opt-check-card:hover,
+.opt-check-card:focus-within {
   border-color: var(--blue);
 }
 
-.adv-checkbox-card .checkbox-item {
+.opt-check-card .checkbox-item {
   width: 100%;
   margin: 0;
 }
 
-.adv-sublabel-note {
+.opt-sublabel-note {
   font-size: 11.5px;
   color: var(--text3);
   line-height: 1.4;
 }
 
-.adv-sublabel {
+.opt-sublabel-text {
   font-size: 12px;
   color: var(--text2);
   margin-bottom: 6px;
   display: block;
 }
 
-.adv-select {
+.opt-select-control {
   width: 100%;
   padding: 10px 12px;
   border-radius: 6px;
@@ -394,7 +394,7 @@
   transition: border-color 0.2s;
 }
 
-.adv-select:focus {
+.opt-select-control:focus {
   border-color: var(--blue);
 }
 
@@ -417,7 +417,7 @@
   flex-shrink: 0;
 }
 
-.adv-two-col {
+.opt-two-col {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 18px;
@@ -650,14 +650,14 @@ html[data-theme="light"] .read-more-wrapper {
     align-items: flex-start;
     gap: 12px;
   }
-  .adv-grid {
+  .opt-fields-grid {
     grid-template-columns: 1fr;
     gap: 14px;
   }
-  .adv-span-2 {
+  .opt-span-2 {
     grid-column: span 1;
   }
-  .adv-two-col {
+  .opt-two-col {
     grid-template-columns: 1fr;
     gap: 14px;
   }
