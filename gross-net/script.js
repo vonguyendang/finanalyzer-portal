@@ -639,7 +639,11 @@ function renderReport(data, conversionType = 'gross_to_net') {
   const isNetToGross = conversionType === 'net_to_gross';
 
   container.innerHTML = `
-    <h2 class="section-title" style="text-align: center; margin-bottom: 20px;">KẾT QUẢ CHUYỂN ĐỔI</h2>
+    <div class="gn-report-header" style="text-align: center; margin-bottom: 22px;">
+      <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--blue); margin-bottom: 6px;">FinAnalyzer Portal • Báo cáo lương</div>
+      <h2 class="section-title" style="margin: 0; font-size: 22px; font-weight: 800;">KẾT QUẢ CHUYỂN ĐỔI</h2>
+      <div style="font-size: 12px; color: var(--text3); margin-top: 4px;">Áp dụng chính sách BHXH &amp; Biểu thuế TNCN 2026 - 2027</div>
+    </div>
     <div class="gn-conversion-summary">
       <div class="gn-conversion-item">
         <div class="gn-conversion-label">${isNetToGross ? 'LƯƠNG NET (Nhập vào)' : 'LƯƠNG GROSS'}</div>
@@ -726,6 +730,11 @@ function renderReport(data, conversionType = 'gross_to_net') {
         <div class="b-col-name">4. Lương NET (Thực nhận)</div>
         <div class="b-col-val" style="color: var(--green); font-size: 16px;">${formatCurrency(Math.round(data.net))}</div>
       </div>
+    </div>
+
+    <div class="gn-report-footer" style="margin-top: 20px; padding-top: 14px; border-top: 1px dashed var(--border2); display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; color: var(--text3); flex-wrap: wrap; gap: 8px;">
+      <span>🌐 FinAnalyzer Portal • finanalyzer.vn</span>
+      <span>Quy đổi Lương Gross ⇄ Net chính xác</span>
     </div>
 
     <div class="report-actions-row">
@@ -872,15 +881,31 @@ async function copyReportImage() {
 
   const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
   const bgColor = isDark ? '#0b1220' : '#ffffff';
+  const scale = Math.min(3, Math.max(2, window.devicePixelRatio || 2));
 
-  showToast('Đang chụp ảnh kết quả...', 'info', '⏳');
+  showToast('Đang tạo ảnh sắc nét...', 'info', '⏳');
 
   try {
     const canvas = await html2canvas(reportEl, {
-      scale: 2,
+      scale: scale,
       backgroundColor: bgColor,
       useCORS: true,
-      logging: false
+      logging: false,
+      onclone: (clonedDoc) => {
+        const clone = clonedDoc.getElementById('gn-report-container');
+        if (clone) {
+          clone.style.animation = 'none';
+          clone.style.transition = 'none';
+          clone.style.opacity = '1';
+          clone.style.transform = 'none';
+          clone.style.boxShadow = 'none';
+          clone.querySelectorAll('*').forEach(el => {
+            el.style.animation = 'none';
+            el.style.transition = 'none';
+            el.style.opacity = '1';
+          });
+        }
+      }
     });
     if (actionRow) actionRow.style.display = 'flex';
 
@@ -893,7 +918,7 @@ async function copyReportImage() {
         try {
           const item = new ClipboardItem({ 'image/png': blob });
           await navigator.clipboard.write([item]);
-          showToast('Đã sao chép ảnh vào bộ nhớ tạm! Bạn có thể dán (Ctrl+V) ngay.', 'success', '🖼️');
+          showToast('Đã sao chép ảnh sắc nét vào bộ nhớ tạm! Bạn có thể dán (Ctrl+V) ngay.', 'success', '🖼️');
         } catch (clipErr) {
           console.warn('Lỗi ghi clipboard ảnh, chuyển sang tải ảnh:', clipErr);
           showToast('Trình duyệt chưa hỗ trợ dán ảnh. Đang tự động tải ảnh về máy...', 'info', 'ℹ️');
@@ -926,12 +951,30 @@ function downloadReportImage() {
 
   const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
   const bgColor = isDark ? '#0b1220' : '#ffffff';
+  const scale = Math.min(3, Math.max(2, window.devicePixelRatio || 2));
+
+  showToast('Đang xuất ảnh PNG chất lượng cao...', 'info', '⏳');
 
   html2canvas(reportEl, {
-    scale: 2,
+    scale: scale,
     backgroundColor: bgColor,
     useCORS: true,
-    logging: false
+    logging: false,
+    onclone: (clonedDoc) => {
+      const clone = clonedDoc.getElementById('gn-report-container');
+      if (clone) {
+        clone.style.animation = 'none';
+        clone.style.transition = 'none';
+        clone.style.opacity = '1';
+        clone.style.transform = 'none';
+        clone.style.boxShadow = 'none';
+        clone.querySelectorAll('*').forEach(el => {
+          el.style.animation = 'none';
+          el.style.transition = 'none';
+          el.style.opacity = '1';
+        });
+      }
+    }
   }).then(canvas => {
     if (actionRow) actionRow.style.display = 'flex';
     const link = document.createElement('a');
@@ -942,7 +985,7 @@ function downloadReportImage() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    showToast('Đã tải file ảnh kết quả thành công!', 'success', '📸');
+    showToast('Đã tải file ảnh kết quả sắc nét thành công!', 'success', '📸');
   }).catch(err => {
     if (actionRow) actionRow.style.display = 'flex';
     console.error('Lỗi xuất ảnh:', err);

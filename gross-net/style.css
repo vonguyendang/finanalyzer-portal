@@ -774,6 +774,33 @@ html[data-theme="light"] .read-more-wrapper {
   to { transform: translateY(0); }
 }
 
+/* Container Báo cáo kết quả Gross - Net (Đảm bảo 100% độ nét, không animation mờ khi chụp ảnh) */
+#gn-report-container {
+  padding: 30px 28px 32px;
+  background: var(--bg2);
+  border-top: 1px solid var(--border2);
+  border-radius: 0 0 12px 12px;
+  animation: none !important;
+  opacity: 1 !important;
+  transition: none !important;
+}
+
+#gn-report-container.tax-report {
+  animation: none !important;
+  opacity: 1 !important;
+  transition: none !important;
+}
+
+html[data-theme="light"] #gn-report-container {
+  background: #ffffff;
+}
+
+@media (max-width: 600px) {
+  #gn-report-container {
+    padding: 20px 16px 24px;
+  }
+}
+
 /* Report action buttons (Sao chép text, Sao chép ảnh, Tải ảnh & In báo cáo) */
 .report-actions-row {
   margin-top: 24px;
