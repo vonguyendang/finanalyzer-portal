@@ -626,6 +626,9 @@ function calcNetToGrossLogic(targetNet, insType, insOther, region, dependents, r
 }
 
 function renderReport(data, conversionType = 'gross_to_net') {
+  window.currentReportData = data;
+  window.currentConversionType = conversionType;
+
   const container = document.getElementById('gn-report-container');
 
   const pctNet = data.gross > 0 ? ((data.net / data.gross) * 100).toFixed(1) : 0;
@@ -726,8 +729,14 @@ function renderReport(data, conversionType = 'gross_to_net') {
     </div>
 
     <div class="report-actions-row">
+      <button type="button" class="btn-action-report btn-copy-text" onclick="copyReportText()">
+        <span>📋 Sao chép text</span>
+      </button>
+      <button type="button" class="btn-action-report btn-copy-img" onclick="copyReportImage()">
+        <span>🖼️ Sao chép ảnh</span>
+      </button>
       <button type="button" class="btn-action-report btn-download-img" onclick="downloadReportImage()">
-        <span>📸 Tải ảnh kết quả (PNG)</span>
+        <span>📸 Tải ảnh (PNG)</span>
       </button>
       <button type="button" class="btn-action-report btn-print-report" onclick="window.print()">
         <span>🖨️ In / Lưu PDF</span>
@@ -740,13 +749,175 @@ function renderReport(data, conversionType = 'gross_to_net') {
   container.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
-// Tải ảnh kết quả chất lượng cao (PNG)
+// Hiển thị thông báo Toast
+function showToast(message, type = 'success', icon = '✅') {
+  let container = document.getElementById('toast-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'toast-container';
+    container.className = 'toast-container';
+    document.body.appendChild(container);
+  }
+
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.innerHTML = `<span style="font-size: 18px; flex-shrink: 0;">${icon}</span><span>${message}</span>`;
+  container.appendChild(toast);
+
+  setTimeout(() => {
+    toast.style.animation = 'toastSlideOut 0.3s ease forwards';
+    setTimeout(() => {
+      if (toast.parentNode) toast.parentNode.removeChild(toast);
+    }, 300);
+  }, 3200);
+}
+
+// Tiện ích sao chép văn bản vào clipboard
+function copyTextToClipboard(text) {
+  if (navigator.clipboard && window.isSecureContext) {
+    return navigator.clipboard.writeText(text);
+  } else {
+    return new Promise((resolve, reject) => {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.left = '-999999px';
+      textarea.style.top = '-999999px';
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      try {
+        const success = document.execCommand('copy');
+        textarea.remove();
+        if (success) resolve();
+        else reject(new Error('execCommand copy failed'));
+      } catch (err) {
+        textarea.remove();
+        reject(err);
+      }
+    });
+  }
+}
+
+// 1. Sao chép kết quả dạng text
+function copyReportText() {
+  if (!window.currentReportData) {
+    showToast('Chưa có kết quả để sao chép', 'warning', '⚠️');
+    return;
+  }
+
+  const d = window.currentReportData;
+  const isNetToGross = window.currentConversionType === 'net_to_gross';
+  const rules = getCurrentRules();
+
+  let lines = [];
+  lines.push(`=== KẾT QUẢ TÍNH LƯƠNG GROSS - NET (${rules.label || '2026'}) ===`);
+  lines.push(`• Hình thức: ${isNetToGross ? 'Quy đổi NET sang GROSS' : 'Quy đổi GROSS sang NET'}`);
+  lines.push(`• Lương GROSS: ${formatCurrency(Math.round(d.gross))} VNĐ`);
+
+  if (d.allowance > 0) {
+    lines.push(`• Phụ cấp miễn thuế: ${formatCurrency(Math.round(d.allowance))} VNĐ`);
+  }
+
+  lines.push(`- BHXH (${(d.rateBHXH * 100).toFixed(1).replace('.0', '')}%): -${formatCurrency(Math.round(d.bhxh))} VNĐ`);
+  lines.push(`- BHYT (${(d.rateBHYT * 100).toFixed(1).replace('.0', '')}%): -${formatCurrency(Math.round(d.bhyt))} VNĐ`);
+  lines.push(`- BHTN (${(d.rateBHTN * 100).toFixed(1).replace('.0', '')}%): -${formatCurrency(Math.round(d.bhtn))} VNĐ`);
+  lines.push(`  ➔ Tổng bảo hiểm: -${formatCurrency(Math.round(d.totalIns))} VNĐ`);
+
+  lines.push(`• Thu nhập trước thuế: ${formatCurrency(Math.round(d.incomeBeforeTax))} VNĐ`);
+  if (d.deduction > 0) {
+    lines.push(`- Giảm trừ gia cảnh: -${formatCurrency(Math.round(d.deduction))} VNĐ`);
+  }
+  if (d.otherTaxDeduction > 0) {
+    lines.push(`- Giảm trừ thuế khác: -${formatCurrency(Math.round(d.otherTaxDeduction))} VNĐ`);
+  }
+
+  lines.push(`• Thu nhập chịu thuế: ${formatCurrency(Math.round(Math.max(0, d.taxableIncome)))} VNĐ`);
+  lines.push(`- Thuế TNCN: -${formatCurrency(Math.round(d.tax))} VNĐ`);
+
+  if (d.unionFee > 0) {
+    lines.push(`- Đoàn phí công đoàn (0.5%): -${formatCurrency(Math.round(d.unionFee))} VNĐ`);
+  }
+  if (d.otherPostTaxDeduction > 0) {
+    lines.push(`- Khấu trừ sau thuế khác: -${formatCurrency(Math.round(d.otherPostTaxDeduction))} VNĐ`);
+  }
+
+  lines.push(`----------------------------------------`);
+  lines.push(`👉 LƯƠNG NET THỰC NHẬN: ${formatCurrency(Math.round(d.net))} VNĐ`);
+  lines.push(`----------------------------------------`);
+  lines.push(`Tính tại: FinAnalyzer Portal (https://finanalyzer-portal.web.app/gross-net/)`);
+
+  const fullText = lines.join('\n');
+
+  copyTextToClipboard(fullText).then(() => {
+    showToast('Đã sao chép kết quả dạng text vào bộ nhớ tạm!', 'success', '📋');
+  }).catch(err => {
+    console.error('Copy text error:', err);
+    showToast('Không thể sao chép văn bản tự động.', 'error', '❌');
+  });
+}
+
+// 2. Sao chép ảnh kết quả vào clipboard
+async function copyReportImage() {
+  const reportEl = document.getElementById('gn-report-container');
+  if (!reportEl) return;
+
+  if (typeof html2canvas === 'undefined') {
+    showToast('Thư viện tạo ảnh chưa sẵn sàng hoặc kết nối mạng bị gián đoạn.', 'warning', '⏳');
+    return;
+  }
+
+  const actionRow = reportEl.querySelector('.report-actions-row');
+  if (actionRow) actionRow.style.display = 'none';
+
+  const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+  const bgColor = isDark ? '#0b1220' : '#ffffff';
+
+  showToast('Đang chụp ảnh kết quả...', 'info', '⏳');
+
+  try {
+    const canvas = await html2canvas(reportEl, {
+      scale: 2,
+      backgroundColor: bgColor,
+      useCORS: true,
+      logging: false
+    });
+    if (actionRow) actionRow.style.display = 'flex';
+
+    if (navigator.clipboard && window.ClipboardItem) {
+      canvas.toBlob(async blob => {
+        if (!blob) {
+          showToast('Không thể tạo file ảnh để sao chép', 'error', '❌');
+          return;
+        }
+        try {
+          const item = new ClipboardItem({ 'image/png': blob });
+          await navigator.clipboard.write([item]);
+          showToast('Đã sao chép ảnh vào bộ nhớ tạm! Bạn có thể dán (Ctrl+V) ngay.', 'success', '🖼️');
+        } catch (clipErr) {
+          console.warn('Lỗi ghi clipboard ảnh, chuyển sang tải ảnh:', clipErr);
+          showToast('Trình duyệt chưa hỗ trợ dán ảnh. Đang tự động tải ảnh về máy...', 'info', 'ℹ️');
+          downloadReportImage();
+        }
+      }, 'image/png');
+    } else {
+      showToast('Trình duyệt chưa hỗ trợ sao chép ảnh. Đang tải ảnh về máy...', 'info', 'ℹ️');
+      downloadReportImage();
+    }
+  } catch (err) {
+    if (actionRow) actionRow.style.display = 'flex';
+    console.error('Lỗi khi sao chép ảnh:', err);
+    showToast('Không thể tạo ảnh kết quả. Vui lòng thử lại.', 'error', '❌');
+  }
+}
+
+// 3. Tải ảnh kết quả chất lượng cao (PNG)
 function downloadReportImage() {
   const reportEl = document.getElementById('gn-report-container');
   if (!reportEl) return;
 
   if (typeof html2canvas === 'undefined') {
-    alert('Thư viện tạo ảnh chưa sẵn sàng hoặc kết nối mạng bị gián đoạn. Bạn có thể sử dụng nút "In / Lưu PDF" để lưu báo cáo.');
+    showToast('Thư viện tạo ảnh chưa sẵn sàng hoặc kết nối mạng bị gián đoạn. Bạn có thể sử dụng nút "In / Lưu PDF" để lưu báo cáo.', 'warning', '⏳');
     return;
   }
 
@@ -771,10 +942,11 @@ function downloadReportImage() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    showToast('Đã tải file ảnh kết quả thành công!', 'success', '📸');
   }).catch(err => {
     if (actionRow) actionRow.style.display = 'flex';
     console.error('Lỗi xuất ảnh:', err);
-    alert('Không thể tạo file ảnh. Vui lòng thử lại hoặc sử dụng nút "In / Lưu PDF".');
+    showToast('Không thể tạo file ảnh. Vui lòng thử lại hoặc sử dụng nút "In / Lưu PDF".', 'error', '❌');
   });
 }
 

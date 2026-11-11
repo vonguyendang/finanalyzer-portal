@@ -721,11 +721,11 @@ html[data-theme="light"] .read-more-wrapper {
   to { transform: translateY(0); }
 }
 
-/* Report action buttons (Tải ảnh & In báo cáo) */
+/* Report action buttons (Sao chép text, Sao chép ảnh, Tải ảnh & In báo cáo) */
 .report-actions-row {
   margin-top: 24px;
   display: flex;
-  gap: 14px;
+  gap: 12px;
   justify-content: center;
   flex-wrap: wrap;
 }
@@ -734,8 +734,8 @@ html[data-theme="light"] .read-more-wrapper {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 10px 22px;
+  gap: 7px;
+  padding: 10px 18px;
   border-radius: 8px;
   font-size: 13.5px;
   font-weight: 600;
@@ -743,6 +743,30 @@ html[data-theme="light"] .read-more-wrapper {
   transition: all 0.2s ease;
   font-family: var(--sans);
   border: 1px solid var(--border2);
+}
+
+.btn-copy-text {
+  background: #10b981;
+  color: #fff;
+  border-color: #10b981;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
+}
+
+.btn-copy-text:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.btn-copy-img {
+  background: #8b5cf6;
+  color: #fff;
+  border-color: #8b5cf6;
+  box-shadow: 0 4px 14px rgba(139, 92, 246, 0.25);
+}
+
+.btn-copy-img:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
 }
 
 .btn-download-img {
@@ -766,6 +790,90 @@ html[data-theme="light"] .read-more-wrapper {
 .btn-print-report:hover {
   background: var(--bg2);
   border-color: var(--blue);
+}
+
+/* Toast Notifications */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  background: var(--card2);
+  border: 1px solid var(--border2);
+  color: var(--text);
+  padding: 12px 18px;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13.5px;
+  font-weight: 500;
+  animation: toastSlideIn 0.3s ease forwards;
+  max-width: 360px;
+}
+
+.toast.success {
+  border-left: 4px solid #10b981;
+}
+
+.toast.info {
+  border-left: 4px solid var(--blue);
+}
+
+.toast.warning {
+  border-left: 4px solid var(--gold);
+}
+
+.toast.error {
+  border-left: 4px solid #ef4444;
+}
+
+@keyframes toastSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes toastSlideOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+@media (max-width: 480px) {
+  .toast-container {
+    left: 14px;
+    right: 14px;
+    bottom: 14px;
+  }
+  .toast {
+    max-width: 100%;
+  }
+  .report-actions-row {
+    flex-direction: column;
+  }
+  .report-actions-row button {
+    width: 100%;
+  }
 }
 
 @media print {
