@@ -318,7 +318,60 @@
   color: var(--text);
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
+  min-height: 22px;
+  line-height: 1.35;
+}
+
+.info-tooltip-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(61, 142, 248, 0.15);
+  color: var(--blue);
+  font-size: 11px;
+  font-weight: bold;
+  cursor: help;
+  user-select: none;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.info-tooltip-icon:hover {
+  background: var(--blue);
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.adv-checkbox-card {
+  width: 100%;
+  min-height: 42px;
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.adv-checkbox-card:hover,
+.adv-checkbox-card:focus-within {
+  border-color: var(--blue);
+}
+
+.adv-checkbox-card .checkbox-item {
+  width: 100%;
+  margin: 0;
+}
+
+.adv-sublabel-note {
+  font-size: 11.5px;
+  color: var(--text3);
+  line-height: 1.4;
 }
 
 .adv-sublabel {

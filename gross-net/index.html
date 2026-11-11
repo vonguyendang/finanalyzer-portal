@@ -189,8 +189,8 @@
               <!-- 1. Đối tượng lao động -->
               <div class="adv-field-group">
                 <label class="adv-label" for="gn-worker-type">
-                  1. Đối tượng lao động
-                  <span title="Xác định tỷ lệ đóng BHXH, BHYT, BHTN và chế độ thuế." style="cursor: help;">ⓘ</span>
+                  <span>1. Đối tượng lao động:</span>
+                  <span class="info-tooltip-icon" title="Xác định tỷ lệ đóng BHXH, BHYT, BHTN và chế độ thuế." style="cursor: help;">ⓘ</span>
                 </label>
                 <select id="gn-worker-type" class="adv-select" onchange="onWorkerTypeChange()">
                   <option value="tu_nhan" selected>Tư nhân / Viên chức (8% BHXH, 1.5% BHYT, 1% BHTN)</option>
@@ -204,8 +204,8 @@
               <!-- 2. Chế độ Thuế TNCN -->
               <div class="adv-field-group">
                 <label class="adv-label" for="gn-tax-regime">
-                  2. Chế độ Thuế TNCN
-                  <span title="Chế độ tính thuế lũy tiến từng phần hoặc khấu trừ cố định tại nguồn." style="cursor: help;">ⓘ</span>
+                  <span>2. Chế độ Thuế TNCN:</span>
+                  <span class="info-tooltip-icon" title="Chế độ tính thuế lũy tiến từng phần hoặc khấu trừ cố định tại nguồn." style="cursor: help;">ⓘ</span>
                 </label>
                 <select id="gn-tax-regime" class="adv-select">
                   <option value="chinh_thuc" selected>Chính thức (Biểu lũy tiến 5 bậc)</option>
@@ -216,31 +216,40 @@
               <!-- 3. Phụ cấp miễn thuế TNCN -->
               <div class="adv-field-group">
                 <label class="adv-label" for="gn-allowance">
-                  3. Phụ cấp miễn thuế TNCN (VNĐ)
-                  <span title="Các khoản phụ cấp ăn trưa, trang phục, làm thêm giờ OT... không chịu thuế và không đóng BH." style="cursor: help;">ⓘ</span>
+                  <span>Phụ cấp miễn thuế TNCN (Ăn trưa, trang phục, OT...):</span>
+                  <span class="info-tooltip-icon" title="Nhập tổng các khoản không chịu thuế TNCN và không đóng bảo hiểm gồm: Phụ cấp ăn trưa/ăn ca, tiền trang phục (tối đa 5 triệu/năm), khoán chi điện thoại/công tác phí theo định mức và phần lương trả cao hơn do làm thêm giờ (OT)/ban đêm." style="cursor: help;">ⓘ</span>
                 </label>
                 <div class="input-with-suffix">
                   <input type="text" id="gn-allowance" class="number-format" placeholder="0">
                   <span class="suffix">VNĐ</span>
                 </div>
-                <label class="checkbox-item mt-8">
+                <label class="checkbox-item mt-8" for="gn-allowance-included">
                   <input type="checkbox" id="gn-allowance-included" checked>
-                  <span>Đã bao gồm trong thu nhập ở trên</span>
+                  <span>Đã tính gộp trong "Thu nhập của bạn" ở trên (bỏ tích nếu cộng thêm ngoài)</span>
                 </label>
               </div>
 
               <!-- 4. Đoàn phí công đoàn -->
               <div class="adv-field-group">
-                <label class="adv-label">4. Đoàn phí công đoàn</label>
-                <label class="checkbox-item mt-4">
-                  <input type="checkbox" id="gn-union-fee">
-                  <span>Trừ đoàn phí công đoàn (0.5% lương đóng BHXH, tối đa 10% mức tham chiếu theo QĐ 61/QĐ-TLĐ)</span>
+                <label class="adv-label" for="gn-union-fee">
+                  <span>Đoàn phí công đoàn (QĐ 61/QĐ-TLĐ):</span>
+                  <span class="info-tooltip-icon" title="Áp dụng mức đóng đoàn phí công đoàn 0,5% tiền lương làm căn cứ đóng BHXH (tối đa 10% mức tham chiếu theo QĐ 61/QĐ-TLĐ)." style="cursor: help;">ⓘ</span>
                 </label>
+                <div class="adv-checkbox-card">
+                  <label class="checkbox-item" for="gn-union-fee">
+                    <input type="checkbox" id="gn-union-fee">
+                    <span>Trừ đoàn phí công đoàn (0.5% lương đóng BHXH, tối đa 10% mức tham chiếu)</span>
+                  </label>
+                </div>
+                <div class="adv-sublabel-note mt-8">Tự động trừ vào thu nhập sau thuế đối với đoàn viên công đoàn</div>
               </div>
 
               <!-- 5. Giảm trừ & Khấu trừ khác -->
               <div class="adv-field-group adv-span-2">
-                <label class="adv-label">5. Giảm trừ thuế &amp; Khấu trừ sau thuế khác</label>
+                <label class="adv-label">
+                  <span>5. Giảm trừ thuế &amp; Khấu trừ sau thuế khác:</span>
+                  <span class="info-tooltip-icon" title="Các khoản giảm trừ bổ sung trước khi tính thuế TNCN hoặc các khoản khấu trừ trực tiếp vào thu nhập thực nhận sau thuế." style="cursor: help;">ⓘ</span>
+                </label>
                 <div class="adv-two-col">
                   <div>
                     <span class="adv-sublabel">Giảm trừ thuế khác (Hưu trí tự nguyện, từ thiện...):</span>
