@@ -3,22 +3,129 @@ document.addEventListener('DOMContentLoaded', () => {
   loadData();
   const rules = getCurrentRules();
   const list = document.getElementById('dynamic-legal-list');
-  if(list) list.innerHTML = rules.LEGAL.map(item => `<li>${item}</li>`).join('');
+  if (list) list.innerHTML = rules.LEGAL.map(item => `<li>${item}</li>`).join('');
+
   const inputs = document.querySelectorAll('input, select');
   inputs.forEach(el => {
     el.addEventListener('input', saveData);
     el.addEventListener('change', saveData);
   });
+
+  const hesoL = document.getElementById('gn-heso-luong');
+  const hesoP = document.getElementById('gn-heso-phucap');
+  if (hesoL) hesoL.addEventListener('input', updateHesoPreview);
+  if (hesoP) hesoP.addEventListener('input', updateHesoPreview);
 });
 
+// Chuyển đổi chế độ nhập thu nhập (VNĐ hoặc Hệ số lương)
+function setIncomeMode(mode) {
+  const btnVnd = document.getElementById('btn-mode-vnd');
+  const btnHeso = document.getElementById('btn-mode-heso');
+  const wrapVnd = document.getElementById('wrapper-mode-vnd');
+  const wrapHeso = document.getElementById('wrapper-mode-heso');
+  if (!btnVnd || !btnHeso || !wrapVnd || !wrapHeso) return;
+
+  if (mode === 'heso') {
+    btnHeso.classList.add('active');
+    btnVnd.classList.remove('active');
+    wrapHeso.style.display = 'block';
+    wrapVnd.style.display = 'none';
+    updateHesoPreview();
+  } else {
+    btnVnd.classList.add('active');
+    btnHeso.classList.remove('active');
+    wrapVnd.style.display = 'block';
+    wrapHeso.style.display = 'none';
+  }
+  saveData();
+}
+
+// Cập nhật xem trước số tiền từ Hệ số lương
+function updateHesoPreview() {
+  const rules = getCurrentRules();
+  const hesoLuong = parseFloat(document.getElementById('gn-heso-luong')?.value) || 0;
+  const hesoPhucap = parseFloat(document.getElementById('gn-heso-phucap')?.value) || 0;
+  const baseSalary = rules.BASE_SALARY;
+  const totalHeso = hesoLuong + hesoPhucap;
+  const computedSalary = Math.round(totalHeso * baseSalary);
+
+  const previewEl = document.getElementById('heso-preview-text');
+  if (previewEl) {
+    previewEl.innerHTML = `= (${hesoLuong} + ${hesoPhucap}) × ${formatCurrency(baseSalary)}đ = <b style="color: var(--green);">${formatCurrency(computedSalary)} VNĐ</b>`;
+  }
+
+  // Đồng bộ sang trường gn-income nếu đang ở chế độ hệ số
+  const isHesoMode = document.getElementById('btn-mode-heso')?.classList.contains('active');
+  if (isHesoMode) {
+    const incomeInput = document.getElementById('gn-income');
+    if (incomeInput) {
+      incomeInput.value = computedSalary > 0 ? formatCurrency(computedSalary) : '';
+    }
+  }
+  saveData();
+}
+
+// Mở / Đóng Accordion Tùy chọn nâng cao
+function toggleAdvancedAccordion() {
+  const accordion = document.querySelector('.advanced-accordion');
+  const btn = document.getElementById('adv-accordion-btn');
+  if (!accordion || !btn) return;
+  const isOpen = accordion.classList.contains('open');
+  if (isOpen) {
+    accordion.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+  } else {
+    accordion.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+  }
+}
+
+// Xử lý khi thay đổi Đối tượng lao động
+function onWorkerTypeChange() {
+  const workerType = document.getElementById('gn-worker-type')?.value;
+  const taxRegimeSelect = document.getElementById('gn-tax-regime');
+  const unionFeeCheckbox = document.getElementById('gn-union-fee');
+
+  if (workerType === 'nn_khong_cu_tru') {
+    // Cá nhân nước ngoài không cư trú: 0% BH, 20% phẳng
+    if (taxRegimeSelect) taxRegimeSelect.disabled = true;
+    if (unionFeeCheckbox) {
+      unionFeeCheckbox.disabled = true;
+      unionFeeCheckbox.checked = false;
+    }
+  } else if (workerType === 'nghi_huu') {
+    // Nghỉ hưu: 0% BH
+    if (taxRegimeSelect) taxRegimeSelect.disabled = false;
+    if (unionFeeCheckbox) {
+      unionFeeCheckbox.disabled = true;
+      unionFeeCheckbox.checked = false;
+    }
+  } else {
+    if (taxRegimeSelect) taxRegimeSelect.disabled = false;
+    if (unionFeeCheckbox) unionFeeCheckbox.disabled = false;
+  }
+  saveData();
+}
+
 function saveData() {
+  const isHeso = document.getElementById('btn-mode-heso')?.classList.contains('active');
   const data = {
-    period: document.querySelector('input[name="rule-period"]:checked').value,
-    income: document.getElementById('gn-income').value,
-    insType: document.querySelector('input[name="ins-type"]:checked').value,
-    insOther: document.getElementById('gn-insurance').value,
-    region: document.querySelector('input[name="region"]:checked').value,
-    dependents: document.getElementById('gn-dependents').value
+    period: document.querySelector('input[name="rule-period"]:checked')?.value || '2026_2',
+    incomeMode: isHeso ? 'heso' : 'vnd',
+    income: document.getElementById('gn-income')?.value || '',
+    hesoLuong: document.getElementById('gn-heso-luong')?.value || '',
+    hesoPhucap: document.getElementById('gn-heso-phucap')?.value || '',
+    insType: document.querySelector('input[name="ins-type"]:checked')?.value || 'official',
+    insOther: document.getElementById('gn-insurance')?.value || '',
+    region: document.querySelector('input[name="region"]:checked')?.value || '1',
+    dependents: document.getElementById('gn-dependents')?.value || '',
+    workerType: document.getElementById('gn-worker-type')?.value || 'tu_nhan',
+    taxRegime: document.getElementById('gn-tax-regime')?.value || 'chinh_thuc',
+    allowance: document.getElementById('gn-allowance')?.value || '',
+    allowanceIncluded: document.getElementById('gn-allowance-included')?.checked ?? true,
+    unionFee: document.getElementById('gn-union-fee')?.checked ?? false,
+    otherTaxDeduction: document.getElementById('gn-other-tax-deduction')?.value || '',
+    otherPostTaxDeduction: document.getElementById('gn-other-post-tax-deduction')?.value || ''
   };
   localStorage.setItem('gross_net_data', JSON.stringify(data));
 }
@@ -28,49 +135,95 @@ function loadData() {
   if (dataStr) {
     try {
       const data = JSON.parse(dataStr);
-      if(data.period) {
-        document.querySelector(`input[name="rule-period"][value="${data.period}"]`).checked = true;
+      if (data.period) {
+        const pRadio = document.querySelector(`input[name="rule-period"][value="${data.period}"]`);
+        if (pRadio) pRadio.checked = true;
       }
-      if(data.income) document.getElementById('gn-income').value = data.income;
-      if(data.insType) {
-        document.querySelector(`input[name="ins-type"][value="${data.insType}"]`).checked = true;
-        if(data.insType === 'other') {
+      if (data.incomeMode === 'heso') {
+        setIncomeMode('heso');
+      } else {
+        setIncomeMode('vnd');
+      }
+      if (data.income) document.getElementById('gn-income').value = data.income;
+      if (data.hesoLuong) document.getElementById('gn-heso-luong').value = data.hesoLuong;
+      if (data.hesoPhucap) document.getElementById('gn-heso-phucap').value = data.hesoPhucap;
+
+      if (data.insType) {
+        const insR = document.querySelector(`input[name="ins-type"][value="${data.insType}"]`);
+        if (insR) {
+          insR.checked = true;
           const insInput = document.getElementById('gn-insurance');
-          insInput.disabled = false;
+          if (insInput) insInput.disabled = (data.insType !== 'other');
         }
       }
-      if(data.insOther) document.getElementById('gn-insurance').value = data.insOther;
-      if(data.region) document.querySelector(`input[name="region"][value="${data.region}"]`).checked = true;
-      if(data.dependents) document.getElementById('gn-dependents').value = data.dependents;
-      
+      if (data.insOther) document.getElementById('gn-insurance').value = data.insOther;
+      if (data.region) {
+        const regR = document.querySelector(`input[name="region"][value="${data.region}"]`);
+        if (regR) regR.checked = true;
+      }
+      if (data.dependents !== undefined && data.dependents !== '') {
+        document.getElementById('gn-dependents').value = data.dependents;
+      }
+
+      if (data.workerType) document.getElementById('gn-worker-type').value = data.workerType;
+      if (data.taxRegime) document.getElementById('gn-tax-regime').value = data.taxRegime;
+      if (data.allowance) document.getElementById('gn-allowance').value = data.allowance;
+      if (data.allowanceIncluded !== undefined) document.getElementById('gn-allowance-included').checked = data.allowanceIncluded;
+      if (data.unionFee !== undefined) document.getElementById('gn-union-fee').checked = data.unionFee;
+      if (data.otherTaxDeduction) document.getElementById('gn-other-tax-deduction').value = data.otherTaxDeduction;
+      if (data.otherPostTaxDeduction) document.getElementById('gn-other-post-tax-deduction').value = data.otherPostTaxDeduction;
+
+      onWorkerTypeChange();
+      if (data.incomeMode === 'heso') {
+        updateHesoPreview();
+      }
+
       const rules = getCurrentRules();
       const list = document.getElementById('dynamic-legal-list');
-      if(list) list.innerHTML = rules.LEGAL.map(item => `<li>${item}</li>`).join('');
-    } catch(e) {}
+      if (list) list.innerHTML = rules.LEGAL.map(item => `<li>${item}</li>`).join('');
+    } catch (e) {}
   }
 }
 
 function clearData() {
-  if(!confirm('Bạn có chắc chắn muốn xóa toàn bộ dữ liệu đã nhập?')) return;
+  if (!confirm('Bạn có chắc chắn muốn xóa toàn bộ dữ liệu đã nhập?')) return;
   localStorage.removeItem('gross_net_data');
-  
+
+  setIncomeMode('vnd');
   document.getElementById('gn-income').value = '';
+  document.getElementById('gn-heso-luong').value = '2.34';
+  document.getElementById('gn-heso-phucap').value = '0';
   document.getElementById('gn-insurance').value = '';
   document.getElementById('gn-insurance').disabled = true;
   document.getElementById('gn-dependents').value = '';
-  
+
   const defaultPeriod = document.querySelector('input[name="rule-period"][value="2026_2"]') || document.querySelector('input[name="rule-period"][value="2026"]');
   if (defaultPeriod) defaultPeriod.checked = true;
   document.querySelector('input[name="ins-type"][value="official"]').checked = true;
   document.querySelector('input[name="region"][value="1"]').checked = true;
-  
+
+  document.getElementById('gn-worker-type').value = 'tu_nhan';
+  document.getElementById('gn-tax-regime').value = 'chinh_thuc';
+  document.getElementById('gn-tax-regime').disabled = false;
+  document.getElementById('gn-allowance').value = '';
+  document.getElementById('gn-allowance-included').checked = true;
+  document.getElementById('gn-union-fee').checked = false;
+  document.getElementById('gn-union-fee').disabled = false;
+  document.getElementById('gn-other-tax-deduction').value = '';
+  document.getElementById('gn-other-post-tax-deduction').value = '';
+
+  const accordion = document.querySelector('.advanced-accordion');
+  if (accordion) accordion.classList.remove('open');
+  const advBtn = document.getElementById('adv-accordion-btn');
+  if (advBtn) advBtn.setAttribute('aria-expanded', 'false');
+
   document.getElementById('gn-report-container').style.display = 'none';
-  
+
   const rules = getCurrentRules();
   const list = document.getElementById('dynamic-legal-list');
-  if(list) list.innerHTML = rules.LEGAL.map(item => `<li>${item}</li>`).join('');
-  
-  window.scrollTo({top: 0, behavior: 'smooth'});
+  if (list) list.innerHTML = rules.LEGAL.map(item => `<li>${item}</li>`).join('');
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 const rulesDB = {
@@ -92,6 +245,8 @@ const rulesDB = {
       "- Áp dụng mức lương tối thiểu vùng mới nhất theo Nghị định số 293/2025/NĐ-CP có hiệu lực từ ngày 01/01/2026 (Vùng I: 5.310.000đ, Vùng II: 4.730.000đ, Vùng III: 4.140.000đ, Vùng IV: 3.700.000đ)",
       "- Áp dụng mức giảm trừ gia cảnh mới: Bản thân 15.500.000 đồng/tháng (186 triệu đồng/năm), Phụ thuộc 6.200.000 đồng/tháng (theo Nghị quyết 110/2025/UBTVQH15)",
       "- Áp dụng Biểu thuế lũy tiến từng phần rút gọn 5 bậc theo Luật Thuế TNCN số 109/2025/QH15 (Bậc 1: đến 10tr - 5%, Bậc 2: 10-30tr - 10%, Bậc 3: 30-60tr - 20%, Bậc 4: 60-100tr - 30%, Bậc 5: trên 100tr - 35%)",
+      "- Áp dụng mức đóng đoàn phí công đoàn 0,5% tiền lương làm căn cứ đóng BHXH (tối đa 10% mức tham chiếu) theo Quyết định số 61/QĐ-TLĐ.",
+      "- Các khoản phụ cấp ăn trưa, trang phục trong định mức, phần lương làm thêm giờ/ban đêm trả cao hơn được miễn thuế TNCN theo quy định hiện hành.",
       "- <em>Thông tin mới: Chính phủ đã ban hành Nghị định số 399/2026/NĐ-CP ngày 02/11/2026 điều chỉnh mức lương tối thiểu vùng áp dụng từ ngày 01/01/2027.</em>"
     ]
   },
@@ -112,7 +267,9 @@ const rulesDB = {
       "- Áp dụng mức tham chiếu 2.340.000 đồng/tháng theo Nghị định số 73/2024/NĐ-CP (trần đóng BHXH, BHYT tối đa là 46.800.000 đồng/tháng).",
       "- Áp dụng mức lương tối thiểu vùng theo Nghị định số 293/2025/NĐ-CP (Vùng I: 5.310.000đ, Vùng II: 4.730.000đ, Vùng III: 4.140.000đ, Vùng IV: 3.700.000đ)",
       "- Áp dụng mức giảm trừ gia cảnh: Bản thân 15.500.000 đồng/tháng, Phụ thuộc 6.200.000 đồng/tháng (Nghị quyết 110/2025/UBTVQH15)",
-      "- Áp dụng Biểu thuế lũy tiến từng phần 5 bậc theo Luật Thuế TNCN số 109/2025/QH15"
+      "- Áp dụng Biểu thuế lũy tiến từng phần 5 bậc theo Luật Thuế TNCN số 109/2025/QH15",
+      "- Áp dụng mức đóng đoàn phí công đoàn 0,5% tiền lương làm căn cứ đóng BHXH (tối đa 10% mức tham chiếu) theo Quyết định số 61/QĐ-TLĐ.",
+      "- Các khoản phụ cấp ăn trưa, trang phục trong định mức, phần lương làm thêm giờ/ban đêm trả cao hơn được miễn thuế TNCN theo quy định hiện hành."
     ]
   },
   "2026": {
@@ -133,6 +290,8 @@ const rulesDB = {
       "- Áp dụng mức lương tối thiểu vùng mới nhất theo Nghị định số 293/2025/NĐ-CP có hiệu lực từ ngày 01/01/2026 (Vùng I: 5.310.000đ, Vùng II: 4.730.000đ, Vùng III: 4.140.000đ, Vùng IV: 3.700.000đ)",
       "- Áp dụng mức giảm trừ gia cảnh mới: Bản thân 15.500.000 đồng/tháng (186 triệu đồng/năm), Phụ thuộc 6.200.000 đồng/tháng (theo Nghị quyết 110/2025/UBTVQH15)",
       "- Áp dụng Biểu thuế lũy tiến từng phần rút gọn 5 bậc theo Luật Thuế TNCN số 109/2025/QH15 (Bậc 1: đến 10tr - 5%, Bậc 2: 10-30tr - 10%, Bậc 3: 30-60tr - 20%, Bậc 4: 60-100tr - 30%, Bậc 5: trên 100tr - 35%)",
+      "- Áp dụng mức đóng đoàn phí công đoàn 0,5% tiền lương làm căn cứ đóng BHXH (tối đa 10% mức tham chiếu) theo Quyết định số 61/QĐ-TLĐ.",
+      "- Các khoản phụ cấp ăn trưa, trang phục trong định mức, phần lương làm thêm giờ/ban đêm trả cao hơn được miễn thuế TNCN theo quy định hiện hành.",
       "- <em>Thông tin mới: Chính phủ đã ban hành Nghị định số 399/2026/NĐ-CP ngày 02/11/2026 điều chỉnh mức lương tối thiểu vùng áp dụng từ ngày 01/01/2027.</em>"
     ]
   },
@@ -233,7 +392,9 @@ document.querySelectorAll('input[name="rule-period"]').forEach(radio => {
   radio.addEventListener('change', () => {
     const rules = getCurrentRules();
     const list = document.getElementById('dynamic-legal-list');
-    list.innerHTML = rules.LEGAL.map(item => `<li>${item}</li>`).join('');
+    if (list) list.innerHTML = rules.LEGAL.map(item => `<li>${item}</li>`).join('');
+    updateHesoPreview();
+    saveData();
   });
 });
 
@@ -249,6 +410,7 @@ insRadios.forEach(r => {
       insInput.disabled = true;
       insInput.value = '';
     }
+    saveData();
   });
 });
 
@@ -258,7 +420,8 @@ function formatCurrency(num) {
 }
 
 function parseCurrency(str) {
-  return parseFloat(str.replace(/,/g, '')) || 0;
+  if (!str) return 0;
+  return parseFloat(str.toString().replace(/,/g, '')) || 0;
 }
 
 document.querySelectorAll('.number-format').forEach(input => {
@@ -312,81 +475,177 @@ function calculateTax(taxableIncome, rules) {
   return tax;
 }
 
-function calcGrossToNetLogic(gross, insType, insOther, region, dependents, rules) {
-  let luongBHXH = gross;
-  if (insType === 'other' && insOther > 0) {
+function calcGrossToNetLogic(gross, insType, insOther, region, dependents, rules, options = {}) {
+  const {
+    workerType = 'tu_nhan',
+    taxRegime = 'chinh_thuc',
+    allowance = 0,
+    allowanceIncluded = true,
+    unionFee = false,
+    otherTaxDeduction = 0,
+    otherPostTaxDeduction = 0
+  } = options;
+
+  let totalGross = allowanceIncluded ? gross : (gross + allowance);
+
+  // Lương làm căn cứ đóng bảo hiểm
+  let luongBHXH = 0;
+  if (insType === 'none' || workerType === 'nn_khong_cu_tru' || workerType === 'nghi_huu') {
+    luongBHXH = 0;
+  } else if (insType === 'other' && insOther > 0) {
     luongBHXH = insOther;
+  } else {
+    // official
+    luongBHXH = allowanceIncluded ? Math.max(0, gross - allowance) : gross;
   }
 
   // Trần bảo hiểm
-  const maxBHXH = rules.BASE_SALARY * 20; // Hưu trí, BHYT trần 20 lần lương cơ sở (tham chiếu)
+  const maxBHXH = rules.BASE_SALARY * 20; // Hưu trí, BHYT trần 20 lần mức tham chiếu
   const maxBHTN = rules.MIN_WAGE[region] * 20; // BHTN trần 20 lần lương tối thiểu vùng
 
-  let baseBHXH = Math.min(luongBHXH, maxBHXH);
-  let baseBHTN = Math.min(luongBHXH, maxBHTN);
+  const baseBHXH = Math.min(luongBHXH, maxBHXH);
+  const baseBHTN = Math.min(luongBHXH, maxBHTN);
 
-  let bhxh = baseBHXH * 0.08;
-  let bhyt = baseBHXH * 0.015;
-  let bhtn = baseBHTN * 0.01;
-  let totalIns = bhxh + bhyt + bhtn;
+  let rateBHXH = 0.08;
+  let rateBHYT = 0.015;
+  let rateBHTN = 0.01;
 
-  let deduction = rules.PERSONAL_DEDUCTION + (dependents * rules.DEPENDENT_DEDUCTION);
-  let incomeBeforeTax = gross - totalIns;
-  let taxableIncome = incomeBeforeTax - deduction;
-  
-  let tax = calculateTax(taxableIncome, rules);
-  let net = gross - totalIns - tax;
+  if (workerType === 'cong_chuc' || workerType === 'nn_cu_tru') {
+    rateBHTN = 0; // Công chức và người nước ngoài không đóng BHTN
+  } else if (workerType === 'nn_khong_cu_tru' || workerType === 'nghi_huu') {
+    rateBHXH = 0;
+    rateBHYT = 0;
+    rateBHTN = 0;
+  }
+
+  const bhxh = baseBHXH * rateBHXH;
+  const bhyt = baseBHXH * rateBHYT;
+  const bhtn = baseBHTN * rateBHTN;
+  const totalIns = bhxh + bhyt + bhtn;
+
+  // Đoàn phí công đoàn (QĐ 61/QĐ-TLĐ: 0.5% lương đóng BHXH, tối đa 10% mức tham chiếu)
+  let unionDues = 0;
+  if (unionFee && baseBHXH > 0 && rateBHXH > 0) {
+    const maxUnionFee = rules.BASE_SALARY * 0.10;
+    unionDues = Math.min(baseBHXH * 0.005, maxUnionFee);
+  }
+
+  const incomeBeforeTax = totalGross - totalIns;
+  const assessableIncome = Math.max(0, totalGross - allowance - totalIns);
+
+  let deduction = 0;
+  let otherTaxDeduct = 0;
+  let taxableIncome = 0;
+  let tax = 0;
+
+  if (workerType === 'nn_khong_cu_tru') {
+    // Người nước ngoài không cư trú: thuế suất 20% phẳng trên thu nhập, không giảm trừ
+    deduction = 0;
+    otherTaxDeduct = 0;
+    taxableIncome = Math.max(0, totalGross - allowance);
+    tax = taxableIncome * 0.20;
+  } else if (taxRegime === 'thu_viec') {
+    // Thử việc / HĐ dưới 3 tháng: Khấu trừ 10% nếu thu nhập >= 2 triệu, không giảm trừ
+    deduction = 0;
+    otherTaxDeduct = 0;
+    taxableIncome = assessableIncome;
+    if (taxableIncome >= 2000000) {
+      tax = taxableIncome * 0.10;
+    } else {
+      tax = 0;
+    }
+  } else {
+    // Chính thức: Biểu lũy tiến từng phần
+    deduction = rules.PERSONAL_DEDUCTION + (dependents * rules.DEPENDENT_DEDUCTION);
+    otherTaxDeduct = otherTaxDeduction || 0;
+    taxableIncome = Math.max(0, assessableIncome - deduction - otherTaxDeduct);
+    tax = calculateTax(taxableIncome, rules);
+  }
+
+  const otherPostTax = otherPostTaxDeduction || 0;
+  const net = Math.max(0, totalGross - totalIns - tax - unionDues - otherPostTax);
 
   return {
-    gross: gross,
+    gross: totalGross,
+    originalIncome: gross,
     net: net,
     bhxh: bhxh,
     bhyt: bhyt,
     bhtn: bhtn,
+    rateBHXH: rateBHXH,
+    rateBHYT: rateBHYT,
+    rateBHTN: rateBHTN,
     totalIns: totalIns,
+    incomeBeforeTax: incomeBeforeTax,
+    allowance: allowance,
+    allowanceIncluded: allowanceIncluded,
     deduction: deduction,
+    otherTaxDeduction: otherTaxDeduct,
     taxableIncome: taxableIncome,
-    tax: tax
+    tax: tax,
+    unionFee: unionDues,
+    otherPostTaxDeduction: otherPostTax,
+    workerType: workerType,
+    taxRegime: taxRegime
   };
 }
 
-// Convert Net to Gross (Binary Search method)
-function calcNetToGrossLogic(net, insType, insOther, region, dependents, rules) {
-  let low = net;
-  let high = net * 3;
+// Chuyển đổi Net sang Gross (Thuật toán Binary Search 60 vòng lặp)
+function calcNetToGrossLogic(targetNet, insType, insOther, region, dependents, rules, options = {}) {
+  let low = 0;
+  let high = Math.max(targetNet * 4, 100000000);
   let mid = 0;
-  let result = null;
 
   for (let i = 0; i < 60; i++) {
     mid = (low + high) / 2;
-    result = calcGrossToNetLogic(mid, insType, insOther, region, dependents, rules);
-    if (result.net < net) {
+    let res = calcGrossToNetLogic(mid, insType, insOther, region, dependents, rules, options);
+    if (res.net < targetNet) {
       low = mid;
     } else {
       high = mid;
     }
   }
-  return result;
+
+  // Tinh chỉnh làm tròn nguyên đồng VNĐ
+  let cand = Math.round(mid);
+  let bestGross = cand;
+  let bestDiff = Math.abs(calcGrossToNetLogic(cand, insType, insOther, region, dependents, rules, options).net - targetNet);
+
+  for (let delta of [-2, -1, 1, 2]) {
+    let testGross = cand + delta;
+    if (testGross >= 0) {
+      let testDiff = Math.abs(calcGrossToNetLogic(testGross, insType, insOther, region, dependents, rules, options).net - targetNet);
+      if (testDiff < bestDiff) {
+        bestDiff = testDiff;
+        bestGross = testGross;
+      }
+    }
+  }
+
+  return calcGrossToNetLogic(bestGross, insType, insOther, region, dependents, rules, options);
 }
 
-function renderReport(data) {
+function renderReport(data, conversionType = 'gross_to_net') {
   const container = document.getElementById('gn-report-container');
-  
-  const pctNet = ((data.net / data.gross) * 100).toFixed(1);
-  const pctIns = ((data.totalIns / data.gross) * 100).toFixed(1);
-  const pctTax = ((data.tax / data.gross) * 100).toFixed(1);
+
+  const pctNet = data.gross > 0 ? ((data.net / data.gross) * 100).toFixed(1) : 0;
+  const pctIns = data.gross > 0 ? ((data.totalIns / data.gross) * 100).toFixed(1) : 0;
+  const pctTax = data.gross > 0 ? ((data.tax / data.gross) * 100).toFixed(1) : 0;
+  const pctOther = data.gross > 0 ? (((data.unionFee + data.otherPostTaxDeduction) / data.gross) * 100).toFixed(1) : 0;
+
+  const isNetToGross = conversionType === 'net_to_gross';
 
   container.innerHTML = `
     <h2 class="section-title" style="text-align: center; margin-bottom: 20px;">KẾT QUẢ CHUYỂN ĐỔI</h2>
     <div class="gn-conversion-summary">
       <div class="gn-conversion-item">
-        <div class="gn-conversion-label">LƯƠNG GROSS</div>
-        <div class="gn-conversion-val" style="color: var(--blue);">${formatCurrency(Math.round(data.gross))} VNĐ</div>
+        <div class="gn-conversion-label">${isNetToGross ? 'LƯƠNG NET (Nhập vào)' : 'LƯƠNG GROSS'}</div>
+        <div class="gn-conversion-val" style="color: ${isNetToGross ? 'var(--green)' : 'var(--blue)'};">${formatCurrency(Math.round(isNetToGross ? data.net : data.gross))} VNĐ</div>
       </div>
       <div class="gn-conversion-arrow">→</div>
       <div class="gn-conversion-item">
-        <div class="gn-conversion-label">LƯƠNG NET (Thực nhận)</div>
-        <div class="gn-conversion-val" style="color: var(--green);">${formatCurrency(Math.round(data.net))} VNĐ</div>
+        <div class="gn-conversion-label">${isNetToGross ? 'LƯƠNG GROSS (Quy đổi)' : 'LƯƠNG NET (Thực nhận)'}</div>
+        <div class="gn-conversion-val" style="color: ${isNetToGross ? 'var(--blue)' : 'var(--green)'};">${formatCurrency(Math.round(isNetToGross ? data.gross : data.net))} VNĐ</div>
       </div>
     </div>
 
@@ -394,11 +653,13 @@ function renderReport(data) {
       <div class="segment segment-net" style="width: ${pctNet}%"></div>
       <div class="segment segment-ins" style="width: ${pctIns}%"></div>
       <div class="segment segment-tax" style="width: ${pctTax}%"></div>
+      ${pctOther > 0 ? `<div class="segment" style="width: ${pctOther}%; background-color: #8e44ad;"></div>` : ''}
     </div>
     <div class="tax-legend">
       <div class="legend-item"><span class="color-dot dot-net"></span> Lương NET (${pctNet}%)</div>
       <div class="legend-item"><span class="color-dot dot-ins"></span> Bảo hiểm (${pctIns}%)</div>
       <div class="legend-item"><span class="color-dot dot-tax"></span> Thuế TNCN (${pctTax}%)</div>
+      ${pctOther > 0 ? `<div class="legend-item"><span class="color-dot" style="background-color: #8e44ad;"></span> Khấu trừ khác (${pctOther}%)</div>` : ''}
     </div>
 
     <div class="tax-breakdown-table mt-30">
@@ -410,34 +671,54 @@ function renderReport(data) {
         <div class="b-col-name">1. Lương GROSS ban đầu</div>
         <div class="b-col-val" style="color: var(--blue);">${formatCurrency(Math.round(data.gross))}</div>
       </div>
+      ${data.allowance > 0 ? `
       <div class="b-row">
-        <div class="b-col-name">- Bảo hiểm xã hội (8%)</div>
+        <div class="b-col-name">• Phụ cấp miễn thuế TNCN (Ăn trưa, trang phục, OT...)</div>
+        <div class="b-col-val" style="color: var(--green);">${formatCurrency(Math.round(data.allowance))}</div>
+      </div>` : ''}
+      <div class="b-row">
+        <div class="b-col-name">- Bảo hiểm xã hội (${(data.rateBHXH * 100).toFixed(1).replace('.0', '')}%)</div>
         <div class="b-col-val">-${formatCurrency(Math.round(data.bhxh))}</div>
       </div>
       <div class="b-row">
-        <div class="b-col-name">- Bảo hiểm y tế (1.5%)</div>
+        <div class="b-col-name">- Bảo hiểm y tế (${(data.rateBHYT * 100).toFixed(1).replace('.0', '')}%)</div>
         <div class="b-col-val">-${formatCurrency(Math.round(data.bhyt))}</div>
       </div>
       <div class="b-row">
-        <div class="b-col-name">- Bảo hiểm thất nghiệp (1%)</div>
+        <div class="b-col-name">- Bảo hiểm thất nghiệp (${(data.rateBHTN * 100).toFixed(1).replace('.0', '')}%)</div>
         <div class="b-col-val">-${formatCurrency(Math.round(data.bhtn))}</div>
       </div>
       <div class="b-row b-main">
         <div class="b-col-name">2. Thu nhập trước thuế</div>
-        <div class="b-col-val">${formatCurrency(Math.round(data.gross - data.totalIns))}</div>
+        <div class="b-col-val">${formatCurrency(Math.round(data.incomeBeforeTax))}</div>
       </div>
       <div class="b-row">
-        <div class="b-col-name">- Giảm trừ gia cảnh</div>
+        <div class="b-col-name">- Giảm trừ gia cảnh (${data.deduction > 0 ? 'Bản thân & Phụ thuộc' : 'Không áp dụng'})</div>
         <div class="b-col-val">-${formatCurrency(Math.round(data.deduction))}</div>
       </div>
+      ${data.otherTaxDeduction > 0 ? `
+      <div class="b-row">
+        <div class="b-col-name">- Giảm trừ thuế khác (Hưu trí tự nguyện, từ thiện...)</div>
+        <div class="b-col-val">-${formatCurrency(Math.round(data.otherTaxDeduction))}</div>
+      </div>` : ''}
       <div class="b-row b-main">
         <div class="b-col-name">3. Thu nhập chịu thuế</div>
         <div class="b-col-val">${formatCurrency(Math.round(Math.max(0, data.taxableIncome)))}</div>
       </div>
       <div class="b-row">
-        <div class="b-col-name">- Thuế Thu nhập cá nhân</div>
+        <div class="b-col-name">- Thuế Thu nhập cá nhân ${data.taxRegime === 'thu_viec' ? '(10% thử việc)' : data.workerType === 'nn_khong_cu_tru' ? '(20% không cư trú)' : ''}</div>
         <div class="b-col-val" style="color: #ff4757;">-${formatCurrency(Math.round(data.tax))}</div>
       </div>
+      ${data.unionFee > 0 ? `
+      <div class="b-row">
+        <div class="b-col-name">- Đoàn phí công đoàn (0.5%)</div>
+        <div class="b-col-val" style="color: #ff4757;">-${formatCurrency(Math.round(data.unionFee))}</div>
+      </div>` : ''}
+      ${data.otherPostTaxDeduction > 0 ? `
+      <div class="b-row">
+        <div class="b-col-name">- Khấu trừ sau thuế khác (Gửi xe, quỹ...)</div>
+        <div class="b-col-val" style="color: #ff4757;">-${formatCurrency(Math.round(data.otherPostTaxDeduction))}</div>
+      </div>` : ''}
       <div class="b-row b-header" style="margin-top: 10px; border-top: 2px solid var(--border);">
         <div class="b-col-name">4. Lương NET (Thực nhận)</div>
         <div class="b-col-val" style="color: var(--green); font-size: 16px;">${formatCurrency(Math.round(data.net))}</div>
@@ -445,38 +726,70 @@ function renderReport(data) {
     </div>
   `;
   container.style.display = 'block';
-  
-  // Scroll to report
+
+  // Cuộn mượt đến bảng kết quả
   container.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 function getFormValues() {
   const rules = getCurrentRules();
-  const income = parseCurrency(document.getElementById('gn-income').value);
-  const insType = document.querySelector('input[name="ins-type"]:checked').value;
+  const isHeso = document.getElementById('btn-mode-heso')?.classList.contains('active');
+  let income = 0;
+
+  if (isHeso) {
+    const hesoLuong = parseFloat(document.getElementById('gn-heso-luong')?.value) || 0;
+    const hesoPhucap = parseFloat(document.getElementById('gn-heso-phucap')?.value) || 0;
+    if (hesoLuong <= 0) {
+      alert("Vui lòng nhập hệ số lương lớn hơn 0");
+      return null;
+    }
+    income = Math.round((hesoLuong + hesoPhucap) * rules.BASE_SALARY);
+  } else {
+    income = parseCurrency(document.getElementById('gn-income').value);
+    if (income <= 0) {
+      alert("Vui lòng nhập thu nhập lớn hơn 0");
+      return null;
+    }
+  }
+
+  const insType = document.querySelector('input[name="ins-type"]:checked')?.value || 'official';
   const insOther = parseCurrency(document.getElementById('gn-insurance').value);
-  const region = document.querySelector('input[name="region"]:checked').value;
+  const region = document.querySelector('input[name="region"]:checked')?.value || '1';
   const dependents = parseInt(document.getElementById('gn-dependents').value) || 0;
 
-  if (income <= 0) {
-    alert("Vui lòng nhập thu nhập lớn hơn 0");
-    return null;
-  }
-  return { rules, income, insType, insOther, region, dependents };
+  const workerType = document.getElementById('gn-worker-type')?.value || 'tu_nhan';
+  const taxRegime = document.getElementById('gn-tax-regime')?.value || 'chinh_thuc';
+  const allowance = parseCurrency(document.getElementById('gn-allowance')?.value || '0');
+  const allowanceIncluded = document.getElementById('gn-allowance-included')?.checked ?? true;
+  const unionFee = document.getElementById('gn-union-fee')?.checked ?? false;
+  const otherTaxDeduction = parseCurrency(document.getElementById('gn-other-tax-deduction')?.value || '0');
+  const otherPostTaxDeduction = parseCurrency(document.getElementById('gn-other-post-tax-deduction')?.value || '0');
+
+  const options = {
+    workerType,
+    taxRegime,
+    allowance,
+    allowanceIncluded,
+    unionFee,
+    otherTaxDeduction,
+    otherPostTaxDeduction
+  };
+
+  return { rules, income, insType, insOther, region, dependents, options };
 }
 
 function calcGrossToNet() {
   const v = getFormValues();
   if (!v) return;
-  const data = calcGrossToNetLogic(v.income, v.insType, v.insOther, v.region, v.dependents, v.rules);
-  renderReport(data);
+  const data = calcGrossToNetLogic(v.income, v.insType, v.insOther, v.region, v.dependents, v.rules, v.options);
+  renderReport(data, 'gross_to_net');
 }
 
 function calcNetToGross() {
   const v = getFormValues();
   if (!v) return;
-  const data = calcNetToGrossLogic(v.income, v.insType, v.insOther, v.region, v.dependents, v.rules);
-  renderReport(data);
+  const data = calcNetToGrossLogic(v.income, v.insType, v.insOther, v.region, v.dependents, v.rules, v.options);
+  renderReport(data, 'net_to_gross');
 }
 
 // --- MODAL GIẢI THÍCH VÙNG ---

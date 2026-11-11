@@ -137,6 +137,242 @@
   margin-left: 10px;
 }
 
+/* Chuyển đổi chế độ nhập Thu nhập: VNĐ vs Hệ số lương */
+.income-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mode-toggle-group {
+  display: inline-flex;
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 20px;
+  padding: 2px;
+  gap: 3px;
+}
+
+.mode-toggle-btn {
+  background: transparent;
+  border: none;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--sans);
+}
+
+.mode-toggle-btn.active {
+  background: var(--blue);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(61,142,248,0.35);
+}
+
+.heso-inputs-row {
+  display: flex;
+  gap: 12px;
+}
+
+.heso-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.heso-field label {
+  font-size: 12px;
+  color: var(--text2);
+  font-weight: 600;
+}
+
+.heso-field input {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--border2);
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.heso-field input:focus {
+  border-color: var(--blue);
+}
+
+.heso-calc-preview {
+  margin-top: 8px;
+  font-size: 12.5px;
+  color: var(--text2);
+  background: rgba(61,142,248,0.08);
+  border: 1px dashed var(--blue);
+  border-radius: 6px;
+  padding: 8px 12px;
+  line-height: 1.5;
+}
+
+/* Lương đóng bảo hiểm - Nhóm radio ngang */
+.radio-group-ins {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-top: 8px;
+}
+
+/* Tùy chọn nâng cao (Accordion) */
+.advanced-accordion {
+  background: var(--card2);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 25px;
+  transition: border-color 0.2s;
+}
+
+.advanced-accordion:hover {
+  border-color: var(--blue);
+}
+
+.adv-accordion-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 18px;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--sans);
+}
+
+.adv-header-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.adv-icon {
+  font-size: 15px;
+}
+
+.adv-title-text {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.adv-arrow-icon {
+  font-size: 13px;
+  color: var(--text3);
+  transition: transform 0.25s ease;
+  font-weight: bold;
+}
+
+.advanced-accordion.open .adv-arrow-icon {
+  transform: rotate(180deg);
+}
+
+.adv-accordion-body {
+  display: none;
+  padding: 18px 20px 22px;
+  border-top: 1px solid var(--border2);
+  background: rgba(0,0,0,0.15);
+}
+
+.advanced-accordion.open .adv-accordion-body {
+  display: block;
+}
+
+.adv-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 22px;
+}
+
+.adv-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.adv-span-2 {
+  grid-column: span 2;
+}
+
+.adv-label {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.adv-sublabel {
+  font-size: 12px;
+  color: var(--text2);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.adv-select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border2);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  outline: none;
+  font-family: var(--sans);
+  transition: border-color 0.2s;
+}
+
+.adv-select:focus {
+  border-color: var(--blue);
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--text2);
+  cursor: pointer;
+  user-select: none;
+  line-height: 1.4;
+}
+
+.checkbox-item input[type="checkbox"] {
+  accent-color: var(--blue);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.adv-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.mt-4 { margin-top: 4px; }
+.mt-8 { margin-top: 8px; }
+
 /* Buttons */
 .form-actions {
   display: flex;
@@ -355,6 +591,26 @@ html[data-theme="light"] .read-more-wrapper {
   }
   .gn-conversion-val {
     font-size: 20px;
+  }
+  .radio-group-ins {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .adv-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .adv-span-2 {
+    grid-column: span 1;
+  }
+  .adv-two-col {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .heso-inputs-row {
+    flex-direction: column;
+    gap: 8px;
   }
 }
 

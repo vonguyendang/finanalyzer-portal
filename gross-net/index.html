@@ -85,11 +85,41 @@
 
         <!-- Thu nhập -->
         <div class="form-row mt-20">
-          <div class="form-label">Thu nhập của bạn <span title="Tổng thu nhập hàng tháng của bạn." style="cursor: help;">ⓘ</span></div>
+          <div class="form-label">
+            <span>Thu nhập của bạn <span title="Tổng thu nhập hàng tháng của bạn." style="cursor: help;">ⓘ</span></span>
+          </div>
           <div class="form-input">
-            <div class="input-with-suffix">
-              <input type="text" id="gn-income" class="number-format" placeholder="Nhập thu nhập...">
-              <span class="suffix">VNĐ</span>
+            <div class="income-header-row">
+              <span style="font-size: 12px; color: var(--text3); font-style: italic;">Chế độ nhập:</span>
+              <div class="mode-toggle-group">
+                <button type="button" class="mode-toggle-btn active" id="btn-mode-vnd" onclick="setIncomeMode('vnd')">Nhập theo VNĐ</button>
+                <button type="button" class="mode-toggle-btn" id="btn-mode-heso" onclick="setIncomeMode('heso')">Nhập theo Hệ số lương</button>
+              </div>
+            </div>
+
+            <!-- Chế độ 1: Nhập trực tiếp VNĐ -->
+            <div id="wrapper-mode-vnd">
+              <div class="input-with-suffix">
+                <input type="text" id="gn-income" class="number-format" placeholder="Nhập thu nhập...">
+                <span class="suffix">VNĐ</span>
+              </div>
+            </div>
+
+            <!-- Chế độ 2: Nhập theo Hệ số lương (Khối nhà nước) -->
+            <div id="wrapper-mode-heso" style="display: none;">
+              <div class="heso-inputs-row">
+                <div class="heso-field">
+                  <label for="gn-heso-luong">Hệ số lương:</label>
+                  <input type="number" id="gn-heso-luong" step="0.01" min="0" placeholder="VD: 2.34" value="2.34" oninput="updateHesoPreview()">
+                </div>
+                <div class="heso-field">
+                  <label for="gn-heso-phucap">Hệ số phụ cấp:</label>
+                  <input type="number" id="gn-heso-phucap" step="0.01" min="0" placeholder="VD: 0.2" value="0" oninput="updateHesoPreview()">
+                </div>
+              </div>
+              <div class="heso-calc-preview" id="heso-preview-text">
+                = (2.34 + 0) × 2.530.000đ = <b style="color: var(--green);">5.920.200 VNĐ</b>
+              </div>
             </div>
           </div>
         </div>
@@ -98,7 +128,7 @@
         <div class="form-row mt-20">
           <div class="form-label">Lương đóng bảo hiểm <span title="Mức lương làm căn cứ đóng các loại bảo hiểm bắt buộc." style="cursor: help;">ⓘ</span></div>
           <div class="form-input">
-            <div class="radio-group-vertical">
+            <div class="radio-group-ins">
               <label class="radio-item">
                 <input type="radio" name="ins-type" value="official" checked>
                 <span>Trên lương chính thức</span>
@@ -110,6 +140,10 @@
                   <input type="text" id="gn-insurance" class="number-format" placeholder="Nhập lương bảo hiểm..." disabled>
                   <span class="suffix">VNĐ</span>
                 </div>
+              </label>
+              <label class="radio-item">
+                <input type="radio" name="ins-type" value="none">
+                <span>Không đóng (0%)</span>
               </label>
             </div>
           </div>
@@ -139,6 +173,96 @@
           </div>
         </div>
 
+        <!-- Tùy chọn nâng cao (Mở rộng) -->
+        <div class="advanced-accordion">
+          <button type="button" class="adv-accordion-header" id="adv-accordion-btn" onclick="toggleAdvancedAccordion()" aria-expanded="false">
+            <div class="adv-header-title">
+              <span class="adv-icon">⚙️</span>
+              <span class="adv-title-text">Tùy chọn nâng cao (FDI, Thử việc, Công chức, Phụ cấp &amp; Giảm trừ)</span>
+            </div>
+            <span class="adv-arrow-icon" id="adv-arrow-icon">▾</span>
+          </button>
+          
+          <div class="adv-accordion-body" id="adv-accordion-body">
+            <div class="adv-grid">
+              
+              <!-- 1. Đối tượng lao động -->
+              <div class="adv-field-group">
+                <label class="adv-label" for="gn-worker-type">
+                  1. Đối tượng lao động
+                  <span title="Xác định tỷ lệ đóng BHXH, BHYT, BHTN và chế độ thuế." style="cursor: help;">ⓘ</span>
+                </label>
+                <select id="gn-worker-type" class="adv-select" onchange="onWorkerTypeChange()">
+                  <option value="tu_nhan" selected>Tư nhân / Viên chức (8% BHXH, 1.5% BHYT, 1% BHTN)</option>
+                  <option value="cong_chuc">Cán bộ, công chức nhà nước (8% BHXH, 1.5% BHYT, 0% BHTN)</option>
+                  <option value="nn_cu_tru">Người nước ngoài cư trú &gt;= 183 ngày (8% BHXH, 1.5% BHYT, 0% BHTN)</option>
+                  <option value="nn_khong_cu_tru">Người nước ngoài không cư trú (0% BH, Thuế 20% phẳng)</option>
+                  <option value="nghi_huu">Người hưởng lương hưu đi làm lại (0% BH)</option>
+                </select>
+              </div>
+
+              <!-- 2. Chế độ Thuế TNCN -->
+              <div class="adv-field-group">
+                <label class="adv-label" for="gn-tax-regime">
+                  2. Chế độ Thuế TNCN
+                  <span title="Chế độ tính thuế lũy tiến từng phần hoặc khấu trừ cố định tại nguồn." style="cursor: help;">ⓘ</span>
+                </label>
+                <select id="gn-tax-regime" class="adv-select">
+                  <option value="chinh_thuc" selected>Chính thức (Biểu lũy tiến 5 bậc)</option>
+                  <option value="thu_viec">Thử việc / HĐ dưới 3 tháng (Khấu trừ 10% nếu &gt;= 2 triệu)</option>
+                </select>
+              </div>
+
+              <!-- 3. Phụ cấp miễn thuế TNCN -->
+              <div class="adv-field-group">
+                <label class="adv-label" for="gn-allowance">
+                  3. Phụ cấp miễn thuế TNCN (VNĐ)
+                  <span title="Các khoản phụ cấp ăn trưa, trang phục, làm thêm giờ OT... không chịu thuế và không đóng BH." style="cursor: help;">ⓘ</span>
+                </label>
+                <div class="input-with-suffix">
+                  <input type="text" id="gn-allowance" class="number-format" placeholder="0">
+                  <span class="suffix">VNĐ</span>
+                </div>
+                <label class="checkbox-item mt-8">
+                  <input type="checkbox" id="gn-allowance-included" checked>
+                  <span>Đã bao gồm trong thu nhập ở trên</span>
+                </label>
+              </div>
+
+              <!-- 4. Đoàn phí công đoàn -->
+              <div class="adv-field-group">
+                <label class="adv-label">4. Đoàn phí công đoàn</label>
+                <label class="checkbox-item mt-4">
+                  <input type="checkbox" id="gn-union-fee">
+                  <span>Trừ đoàn phí công đoàn (0.5% lương đóng BHXH, tối đa 10% mức tham chiếu theo QĐ 61/QĐ-TLĐ)</span>
+                </label>
+              </div>
+
+              <!-- 5. Giảm trừ & Khấu trừ khác -->
+              <div class="adv-field-group adv-span-2">
+                <label class="adv-label">5. Giảm trừ thuế &amp; Khấu trừ sau thuế khác</label>
+                <div class="adv-two-col">
+                  <div>
+                    <span class="adv-sublabel">Giảm trừ thuế khác (Hưu trí tự nguyện, từ thiện...):</span>
+                    <div class="input-with-suffix">
+                      <input type="text" id="gn-other-tax-deduction" class="number-format" placeholder="0">
+                      <span class="suffix">VNĐ</span>
+                    </div>
+                  </div>
+                  <div>
+                    <span class="adv-sublabel">Khấu trừ sau thuế khác (Gửi xe, quỹ phòng ban...):</span>
+                    <div class="input-with-suffix">
+                      <input type="text" id="gn-other-post-tax-deduction" class="number-format" placeholder="0">
+                      <span class="suffix">VNĐ</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div> <!-- End adv-grid -->
+          </div> <!-- End adv-accordion-body -->
+        </div> <!-- End advanced-accordion -->
+
         <!-- Buttons -->
         <div class="form-actions mt-30" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; align-items: center;">
           <button type="button" class="btn-reset-large" onclick="clearData()">LÀM MỚI</button>
@@ -165,6 +289,8 @@
           <li>- Áp dụng mức lương tối thiểu vùng mới nhất theo Nghị định số 293/2025/NĐ-CP (Vùng I: 5.310.000đ, Vùng II: 4.730.000đ, Vùng III: 4.140.000đ, Vùng IV: 3.700.000đ)</li>
           <li>- Áp dụng mức giảm trừ gia cảnh mới: Bản thân 15.500.000 đồng/tháng (186 triệu đồng/năm), Phụ thuộc 6.200.000 đồng/tháng (theo Nghị quyết 110/2025/UBTVQH15)</li>
           <li>- Biểu thuế lũy tiến từng phần rút gọn 5 bậc theo Luật Thuế TNCN số 109/2025/QH15</li>
+          <li>- Áp dụng mức đóng đoàn phí công đoàn 0,5% tiền lương làm căn cứ đóng BHXH (tối đa 10% mức tham chiếu) theo Quyết định số 61/QĐ-TLĐ.</li>
+          <li>- Các khoản phụ cấp ăn trưa, trang phục trong định mức, phần lương làm thêm giờ/ban đêm trả cao hơn được miễn thuế TNCN theo quy định hiện hành.</li>
           <li>- <em>Thông tin mới: Chính phủ đã ban hành Nghị định số 399/2026/NĐ-CP ngày 02/11/2026 điều chỉnh mức lương tối thiểu vùng áp dụng từ ngày 01/01/2027.</em></li>
         </ul>
       </div>

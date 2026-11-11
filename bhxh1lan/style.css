@@ -67,7 +67,7 @@
   border-radius: 12px;
   border: 1px solid var(--border);
   margin-bottom: 30px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .form-grid-header {
@@ -91,18 +91,70 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-5px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.col-stt { width: 32px; flex-shrink: 0; text-align: center; font-size: 13px; color: var(--text2); }
-.col-period { width: 335px; flex-shrink: 0; display: flex; align-items: center; gap: 8px; }
-.period-subgroup { display: flex; align-items: center; gap: 4px; flex: 1; min-width: 0; }
-.period-label { font-size: 12px; font-weight: 600; color: var(--text2); min-width: 18px; }
-.period-subgroup select { flex: 1; min-width: 0; padding: 7px 4px; font-size: 12.5px; }
-.col-salary { flex: 1; min-width: 130px; }
-.col-type { flex: 1.1; min-width: 145px; }
-.col-action { width: 32px; flex-shrink: 0; text-align: center; }
+.col-stt {
+  width: 32px;
+  flex-shrink: 0;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text2);
+}
+
+.col-period {
+  width: 335px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.period-subgroup {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.period-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text2);
+  min-width: 18px;
+}
+
+.period-subgroup select {
+  flex: 1;
+  min-width: 0;
+  padding: 7px 4px;
+  font-size: 12.5px;
+}
+
+.col-salary {
+  flex: 1;
+  min-width: 130px;
+}
+
+.col-type {
+  flex: 1.1;
+  min-width: 145px;
+}
+
+.col-action {
+  width: 32px;
+  flex-shrink: 0;
+  text-align: center;
+}
 
 .col-salary input,
 .col-type select {
@@ -158,7 +210,8 @@
 
 .btn-solid {
   padding: 10px 24px;
-  background: #b8860b; /* Golden brown like image */
+  background: #b8860b;
+  /* Golden brown like image */
   border: none;
   color: #fff;
   border-radius: 6px;
@@ -172,9 +225,17 @@
   background: #9b7109;
 }
 
-.mt-10 { margin-top: 10px; }
-.mt-20 { margin-top: 20px; }
-.mt-30 { margin-top: 30px; }
+.mt-10 {
+  margin-top: 10px;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mt-30 {
+  margin-top: 30px;
+}
 
 .note-text {
   font-size: 12px;
@@ -203,7 +264,8 @@
   text-align: center;
 }
 
-.data-table th, .data-table td {
+.data-table th,
+.data-table td {
   padding: 10px;
   border: 1px solid var(--border2);
 }
@@ -215,7 +277,7 @@
 }
 
 .data-table tbody tr:nth-child(even) {
-  background: rgba(0,0,0,0.02);
+  background: rgba(0, 0, 0, 0.02);
 }
 
 /* Sidebar */
@@ -286,7 +348,9 @@
   .bhxh-layout {
     flex-direction: column;
   }
-  .bhxh-main, .bhxh-sidebar {
+
+  .bhxh-main,
+  .bhxh-sidebar {
     width: 100%;
   }
 }
@@ -296,9 +360,11 @@
     padding: 16px 12px;
     border-radius: 10px;
   }
+
   .form-grid-header {
     display: none;
   }
+
   .period-row {
     flex-direction: column;
     align-items: stretch;
@@ -310,6 +376,7 @@
     margin-bottom: 14px;
     position: relative;
   }
+
   .col-stt {
     width: auto;
     text-align: left;
@@ -318,15 +385,18 @@
     color: var(--blue);
     margin-bottom: 2px;
   }
+
   .col-stt::before {
     content: "Giai đoạn ";
   }
+
   .col-action {
     position: absolute;
     top: 10px;
     right: 10px;
     width: auto;
   }
+
   .col-period {
     width: 100%;
     flex: none;
@@ -334,12 +404,14 @@
     gap: 8px;
     margin-bottom: 0;
   }
+
   .period-subgroup {
     width: 100%;
     display: flex;
     align-items: center;
     gap: 8px;
   }
+
   .period-label {
     width: 32px;
     flex-shrink: 0;
@@ -347,24 +419,30 @@
     font-weight: 600;
     color: var(--text2);
   }
+
   .period-subgroup select {
     flex: 1;
     min-width: 0;
     padding: 8px 10px;
     font-size: 13px;
   }
+
   .col-salary {
     width: 100%;
   }
+
   .col-salary input {
     width: 100%;
   }
+
   .col-type {
     width: 100%;
   }
+
   .col-type select {
     width: 100%;
   }
+
   .bhxh-tabs {
     display: flex;
     overflow-x: auto;
@@ -374,26 +452,33 @@
     gap: 4px;
     padding-bottom: 4px;
   }
+
   .bhxh-tabs::-webkit-scrollbar {
     display: none;
   }
+
   .bhxh-tab {
     padding: 10px 14px;
     font-size: 13px;
     flex-shrink: 0;
   }
+
   .form-actions-add {
     flex-direction: column;
     width: 100%;
   }
+
   .form-actions-add button {
     width: 100% !important;
   }
+
   .form-actions-main {
     flex-direction: column;
     width: 100%;
   }
-  .btn-calculate-large, .btn-reset-large {
+
+  .btn-calculate-large,
+  .btn-reset-large {
     width: 100% !important;
   }
 }
@@ -414,7 +499,7 @@
   color: var(--text);
   padding: 16px 20px;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   display: flex;
   align-items: center;
   gap: 12px;
@@ -431,13 +516,27 @@
 }
 
 @keyframes toastSlideIn {
-  from { opacity: 0; transform: translateX(100%); }
-  to { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @keyframes toastSlideOut {
-  from { opacity: 1; transform: translateX(0); }
-  to { opacity: 0; transform: translateX(100%); }
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
 }
 
 /* Print Styles */
@@ -445,9 +544,12 @@
   body * {
     visibility: hidden;
   }
-  #result-container, #result-container * {
+
+  #result-container,
+  #result-container * {
     visibility: visible;
   }
+
   #result-container {
     position: absolute;
     left: 0;
@@ -458,17 +560,24 @@
     background: white !important;
     color: black !important;
   }
-  .toast-container, .float-home-btn, .theme-float {
+
+  .toast-container,
+  .float-home-btn,
+  .theme-float {
     display: none !important;
   }
+
   /* Expand steps for printing */
   #steps-container {
     max-height: none !important;
     overflow: visible !important;
   }
-  #steps-gradient, #btn-toggle-steps {
+
+  #steps-gradient,
+  #btn-toggle-steps {
     display: none !important;
   }
+
   /* Hide download and print buttons in print */
   #result-container a[href^="javascript"] {
     display: none !important;
