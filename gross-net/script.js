@@ -724,11 +724,58 @@ function renderReport(data, conversionType = 'gross_to_net') {
         <div class="b-col-val" style="color: var(--green); font-size: 16px;">${formatCurrency(Math.round(data.net))}</div>
       </div>
     </div>
+
+    <div class="report-actions-row">
+      <button type="button" class="btn-action-report btn-download-img" onclick="downloadReportImage()">
+        <span>📸 Tải ảnh kết quả (PNG)</span>
+      </button>
+      <button type="button" class="btn-action-report btn-print-report" onclick="window.print()">
+        <span>🖨️ In / Lưu PDF</span>
+      </button>
+    </div>
   `;
   container.style.display = 'block';
 
   // Cuộn mượt đến bảng kết quả
   container.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// Tải ảnh kết quả chất lượng cao (PNG)
+function downloadReportImage() {
+  const reportEl = document.getElementById('gn-report-container');
+  if (!reportEl) return;
+
+  if (typeof html2canvas === 'undefined') {
+    alert('Thư viện tạo ảnh chưa sẵn sàng hoặc kết nối mạng bị gián đoạn. Bạn có thể sử dụng nút "In / Lưu PDF" để lưu báo cáo.');
+    return;
+  }
+
+  const actionRow = reportEl.querySelector('.report-actions-row');
+  if (actionRow) actionRow.style.display = 'none';
+
+  const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+  const bgColor = isDark ? '#0b1220' : '#ffffff';
+
+  html2canvas(reportEl, {
+    scale: 2,
+    backgroundColor: bgColor,
+    useCORS: true,
+    logging: false
+  }).then(canvas => {
+    if (actionRow) actionRow.style.display = 'flex';
+    const link = document.createElement('a');
+    const now = new Date();
+    const dateStr = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}`;
+    link.download = `Bang_Tinh_Luong_Gross_Net_${dateStr}.png`;
+    link.href = canvas.toDataURL('image/png');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }).catch(err => {
+    if (actionRow) actionRow.style.display = 'flex';
+    console.error('Lỗi xuất ảnh:', err);
+    alert('Không thể tạo file ảnh. Vui lòng thử lại hoặc sử dụng nút "In / Lưu PDF".');
+  });
 }
 
 function getFormValues() {
